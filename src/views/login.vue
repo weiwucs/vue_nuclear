@@ -9,7 +9,15 @@
 			<img src="../assets/img/earth.png" alt="">
 		</div>
 		<div class="loginIn">
-			
+			<p>三维可视化元数据管理系统</p>
+			<div class="inputBg">
+				<img src="../assets/img/loginBg.png" alt="">
+				<div class="loginInputDiv">
+					<el-input placeholder="请输入用户名"></el-input>
+					<el-input placeholder="请输入密码"></el-input>
+					<el-button size="small" type="primary">登录</el-button>
+				</div>
+			</div>
 		</div>
 	</div>
 </template>
@@ -29,7 +37,6 @@
 
 <style scoped lang="scss">
 	.logo{
-		// border:1px solid red;
 		padding: 20px;
 		img{
 			width:60px;
@@ -50,14 +57,46 @@
 		background-size: 100% 100%;
 	}
 	.loginIn{
-		background-image: url("../assets/img/loginBg.png");
+		width: 660px;
+		height:435px;
+		position: relative;
+		top:10%;
+		left:50%;
+		p{
+			font-size: 48px;
+			font-weight: bold;
+			color:#fff;
+			text-align: center;
+			font-style: italic;
+			background-image:-webkit-linear-gradient(bottom,#5865b9,#22dcfd); 
+			-webkit-background-clip:text;
+			-webkit-text-fill-color:transparent; 
+		}
+		.inputBg{
+			margin-top: 100px;
+			text-align: center;
+			position: relative;
+			img{
+				width:80%;
+				height:80%;
+			}
+			.loginInputDiv{
+				width: 80%;
+				height: 100%;
+				position: absolute;
+				top:0;
+				left: 10%;
+				padding:70px 100px;
+				
+			}
+			
+		}
 	}
 	.earth{
-		// border:1px solid red;
-		width: 40%;
+		width: 35%;
 		position: fixed;
 		top:50%;
-		 transform:translate(10%,-50%);
+		 transform:translate(25%,-50%);
 		img{
 			width: 100%;
 		}
