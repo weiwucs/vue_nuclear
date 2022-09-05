@@ -1,6 +1,10 @@
 <!-- 登录页 -->
 <template>
-	<div></div>
+	<div class="loginCon">
+		<div class="logo">
+			
+		</div>
+	</div>
 </template>
 
 <script>
@@ -17,4 +21,10 @@
 </script>
 
 <style scoped lang="scss">
+	.loginCon{
+		width: 100vw;
+		height: 100vh;
+		background-image: url("../assets/img/bgLogin.jpg");
+		background-size: 100% 100%;
+	}
 </style>

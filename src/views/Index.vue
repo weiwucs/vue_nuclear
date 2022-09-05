@@ -132,16 +132,16 @@
                 // viewer.scene.globe.depthTestAgainstTerrain = true
                 viewer.timeline.container.style.display = "none"
 
-                viewer.scene.imageryLayers.addImageryProvider(
-                    new Cesium.TileMapServiceImageryProvider({
-                        url: this.$store.state.server.ip + 'data/imagery/global',
-                    })
-                )
+                // viewer.scene.imageryLayers.addImageryProvider(
+                //     new Cesium.TileMapServiceImageryProvider({
+                //         url: this.$store.state.server.ip + 'data/imagery/global',
+                //     })
+                // )
 
-                viewer.terrainProvider = new Cesium.CesiumTerrainProvider({
-                    url: this.$store.state.server.ip + 'data/terrain/quanguo_dem_qiepian',
-                    // baseLayerPicker: false,
-                })
+                // viewer.terrainProvider = new Cesium.CesiumTerrainProvider({
+                //     url: this.$store.state.server.ip + 'data/terrain/quanguo_dem_qiepian',
+                //     // baseLayerPicker: false,
+                // })
 
                 this.showLongLatHeight()
                 this.navigation()
