@@ -1,12 +1,18 @@
 <!-- 人员管理-->
 <template>
-	<div class="mainCon">
-		<p>人员管理</p>
+	<div>
+		<topMenu></topMenu>
+		<div class="mainCon">
+			<p>人员管理</p>
+		</div>
 	</div>
+	
 </template>
 
 <script>
+	import topMenu from '../components/topMenu.vue'
 	export default {
+		components: { topMenu},
 		data(){
 			return{
 				

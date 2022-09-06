@@ -14,23 +14,23 @@ const routes = [
 			name: 'home',
 			component: () => import('../views/home.vue')
 		},{
-			path: 'dataManage',
-			name: 'dataManage',
-			component: () => import('../views/dataManage.vue')
-		},{
 			path: 'dataSearch',
 			name: 'dataSearch',
 			component: () => import('../views/dataSearch.vue')
-		},{
-			path: 'userManage',
-			name: 'userManage',
-			component: () => import('../views/userManage.vue')
 		}]
     },
     {
 		path: '/login',
 		name: 'login',
 		component: () => import( '../views/login.vue')
+	},{
+		path: '/dataManage',
+		name: 'dataManage',
+		component: () => import('../views/dataManage.vue')
+	},{
+		path: '/userManage',
+		name: 'userManage',
+		component: () => import('../views/userManage.vue')
 	}
 ]
 

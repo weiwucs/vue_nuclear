@@ -12,8 +12,8 @@
 			</div>
 		</div>
 		<div class="ksh-top-user">
-				<el-dropdown>
-					<span class="el-dropdown-link">
+			<el-dropdown>
+				<span class="el-dropdown-link">
 						<i class="el-icon-user-solid"></i>
 						用户名
 						<i class="el-icon-arrow-down el-icon--right"></i>
@@ -29,8 +29,62 @@
 							<el-dropdown-item>退出</el-dropdown-item>
 						</div>
 					</el-dropdown-menu>
-				</el-dropdown>
+			</el-dropdown>
 		</div>
+		<!-- 详情弹窗 -->
+		<el-dialog title="详情" :visible.sync="dialogVisibleDetail" append-to-body>
+			<el-descriptions  :column="2" border v-model="user">
+			    <el-descriptions-item label="姓名">{{user.name}}</el-descriptions-item>
+			    <el-descriptions-item label="性别">{{user.sex}}</el-descriptions-item>
+			    <el-descriptions-item label="年龄">{{user.age}}</el-descriptions-item>
+			    <el-descriptions-item label="手机号">{{user.phone}}</el-descriptions-item>
+			    <el-descriptions-item label="地址">{{user.address}}</el-descriptions-item>
+			    <el-descriptions-item label="邮箱">{{user.email}}</el-descriptions-item>
+			    <el-descriptions-item label="工作单位">{{user.unit}}</el-descriptions-item>
+			    <el-descriptions-item label="角色">
+					  <el-tag size="small">{{user.role}}</el-tag>
+					</el-descriptions-item>
+			    <el-descriptions-item label="个人简介">{{user.des}}</el-descriptions-item>
+			</el-descriptions>
+			<div class="btnRight">
+				<el-button size="small" type="primary" @click="userEdit">编辑</el-button>
+				<el-button size="small" type="primary">确认</el-button>
+			</div>
+		</el-dialog>
+		<!-- 编辑弹窗 -->
+		<el-dialog title="编辑" :visible.sync="dialogVisibleEdit" append-to-body width="30%">
+			<el-form :model="userform"  label-width="100px">
+			    <el-form-item label="姓名"> <el-input v-model="userform.name"></el-input></el-form-item>
+			     <el-form-item label="性别">
+			        <el-radio-group v-model="userform.sex">
+			          <el-radio label="男"></el-radio>
+			          <el-radio label="女"></el-radio>
+			        </el-radio-group>
+			      </el-form-item>
+				  <el-form-item label="年龄"><el-input v-model="userform.age" clearable></el-input></el-form-item>
+				  <el-form-item label="手机号"><el-input v-model="userform.phone" clearable></el-input></el-form-item>
+				  <el-form-item label="地址"><el-input v-model="userform.address" clearable></el-input></el-form-item>
+				  <el-form-item label="邮箱"><el-input v-model="userform.email" clearable></el-input></el-form-item>
+				  <el-form-item label="工作单位"><el-input v-model="userform.unit" clearable></el-input></el-form-item>
+				  <el-form-item label="个人简介"><el-input v-model="userform.des" type="textarea"></el-input></el-form-item>
+			  </el-form>
+			  <div class="btnRight">
+			  	<el-button size="small" type="primary" @click="dialogVisibleEdit = false">取消</el-button>
+			  	<el-button size="small" type="primary">确认</el-button>
+			  </div>
+		</el-dialog>
+		<!-- 修改密码 -->
+		<el-dialog title="修改密码" :visible.sync="dialogVisibleChangePassword" append-to-body width="30%">
+			<el-form :model="password"  label-width="100px">
+			    <el-form-item label="旧密码"> <el-input v-model="password.old"></el-input></el-form-item>
+			    <el-form-item label="新密码"> <el-input v-model="password.new"></el-input></el-form-item>
+			    <el-form-item label="确认密码"> <el-input v-model="password.again"></el-input></el-form-item>
+			</el-form>
+			<div class="btnRight">
+				<el-button size="small" type="primary" @click="dialogVisibleChangePassword = false">取消</el-button>
+				<el-button size="small" type="primary">确认</el-button>
+			</div>
+		</el-dialog>
 	</div>
 </template>
 
@@ -54,12 +108,53 @@
 					icon:'el-icon-s-custom',
 					menu:'人员管理',
 					path:'userManage'
-				}]
+				}],
+				user:{
+					name:'krooe',
+					sex:'男',age:'24',phone:'18812341234',address:'北京市朝阳区红军营南路',
+					email:'123456@ld.com',
+					unit:'草原所',
+					role:'管理员',
+					des:'这里是个人简介'
+				},
+				dialogVisibleDetail:false,
+				dialogVisibleEdit:false,
+				userform:{},
+				dialogVisibleChangePassword:false,
+				password:{},
 			}
 		},
 		methods:{
 			activeMenu(index) {
 			    this.$router.push(this.menus[index].path)
+			},
+			personalCenter(){
+				this.dialogVisibleDetail = true
+			},
+			changePassword(){
+				this.dialogVisibleChangePassword = true
+			},
+			userEdit(){
+				this.dialogVisibleEdit = true
+			},
+			quit() {
+				this.$confirm('是否退出当前系统?', '提示', {
+					confirmButtonText: '确定',
+					cancelButtonText: '取消',
+					type: 'warning'
+				}).then(() => {
+					this.$message({
+						type: 'success',
+						message: '退出成功!'
+					});
+					this.$router.replace('/login')
+				}).catch(() => {
+					this.$message({
+						type: 'info',
+						message: '已取消'
+					});
+				});
+			
 			}
 		}
 	}
@@ -119,5 +214,7 @@
 				color: #fff;
 			}
 		}
+		
 	}
+	
 </style>
