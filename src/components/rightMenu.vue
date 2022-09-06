@@ -55,7 +55,8 @@
 			border-radius: 3px;
 			margin-bottom: 5px;
 			cursor: pointer;
-			background-color: rgba($color: #0bd3fb, $alpha: 0.5);
+			background-color: rgba($color: #173147b3, $alpha:0.8);
+			border:1px solid #444;
 			transition: all 0.5s;
 			text-align: center;
 			span{
@@ -66,7 +67,7 @@
 			
 		}
 		.tool-manage-item:hover{
-			background-color: rgba($color: #0bd3fb, $alpha: 1);
+			background-color: rgba($color: #0680e8, $alpha: 1);
 		}
 	}
 </style>

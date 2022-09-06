@@ -46,7 +46,7 @@
 		},
 		methods:{
 			loginBtn(){
-				this.$router.push('/')
+				this.$router.push('/home')
 			}
 		}
 	}

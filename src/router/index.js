@@ -8,12 +8,24 @@ const routes = [
         path: '/',
         name: 'index',
 		component: () => import('../views/index.vue'),
-		// redirect: '/login',
-		// children: [{
-		// 	path: 'home',
-		// 	name: 'home',
-		// 	component: () => import('../views/index.vue')
-		// }]
+		redirect: '/login',
+		children: [{
+			path: 'home',
+			name: 'home',
+			component: () => import('../views/home.vue')
+		},{
+			path: 'dataManage',
+			name: 'dataManage',
+			component: () => import('../views/dataManage.vue')
+		},{
+			path: 'dataSearch',
+			name: 'dataSearch',
+			component: () => import('../views/dataSearch.vue')
+		},{
+			path: 'userManage',
+			name: 'userManage',
+			component: () => import('../views/userManage.vue')
+		}]
     },
     {
 		path: '/login',

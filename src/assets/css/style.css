@@ -137,4 +137,10 @@ ul li {
 	 text-shadow: 1px 1px 3px #000;
 }
 
+/* 内容部分 */
+.mainCon{
+	position: absolute;
+	top:60px;
+	left:0;
+}
 

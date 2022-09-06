@@ -1,9 +1,12 @@
 <template>
     <div id="container" class="box">
         <div id="cesiumContainer"></div>
-        
+        <topMenu></topMenu>
+		<keep-alive>
+		  <router-view></router-view>
+		</keep-alive>
+		
         <rightMenu @flyToHome="flyToHome" @zoomIn="zoomIn" @zoomOut="zoomOut" @convertDim="convertDim"></rightMenu>
-       
         <div class="footer">
             <div class="footerLeft">
                 <div class="scale-container">
@@ -26,9 +29,10 @@
 
 <script>
     import rightMenu from '../components/rightMenu.vue'
+    import topMenu from '../components/topMenu.vue'
 
     export default {
-        components: { rightMenu},
+        components: { rightMenu,topMenu},
         data() {
             return {
                 longitude: '',
