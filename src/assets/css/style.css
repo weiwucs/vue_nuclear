@@ -142,10 +142,19 @@ ul li {
 	position: absolute;
 	top:60px;
 	left:0;
+	padding: 20px;
+	background-color: #f3f6fb;
+	width: 100vw;
+	height: calc(100vh - 60px);
 }
 
 /* 公用部分 */
 .btnRight{
 	text-align: right;
+	margin-top: 20px;
+}
+/* 分页 */
+.fenye{
+	text-align: center;
 	margin-top: 20px;
 }
