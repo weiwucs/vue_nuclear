@@ -70,8 +70,9 @@
 					</el-descriptions-item>
 				</el-descriptions>
 				<div class="btnRight">
-					<el-button size="small" type="primary" @click="dialogVisibleAdd = false">取消</el-button>
 					<el-button size="small" type="primary">确认</el-button>
+					<el-button size="small" @click="dialogVisibleAdd = false">取消</el-button>
+					
 				</div>
 			</el-dialog>
 			<!-- 详情弹窗 -->
@@ -89,8 +90,9 @@
 					</el-descriptions-item>
 				</el-descriptions>
 				<div class="btnRight">
-					<el-button size="small" type="primary" @click="dialogVisibleDetail = false">取消</el-button>
 					<el-button size="small" type="primary">确认</el-button>
+					<el-button size="small" @click="dialogVisibleDetail = false">取消</el-button>
+					
 				</div>
 			</el-dialog>
 			<!-- 编辑弹窗 -->
@@ -122,8 +124,9 @@
 					</el-descriptions-item>
 				</el-descriptions>
 				<div class="btnRight">
-					<el-button size="small" type="primary" @click="dialogVisibleEdit = false">取消</el-button>
 					<el-button size="small" type="primary">确认</el-button>
+					<el-button size="small" @click="dialogVisibleEdit = false">取消</el-button>
+					
 				</div>
 			</el-dialog>
 		</div>

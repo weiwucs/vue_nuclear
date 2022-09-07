@@ -34,43 +34,54 @@
 		<!-- 详情弹窗 -->
 		<el-dialog title="详情" :visible.sync="dialogVisibleDetail" append-to-body>
 			<el-descriptions  :column="2" border v-model="user">
-			    <el-descriptions-item label="姓名">{{user.name}}</el-descriptions-item>
-			    <el-descriptions-item label="性别">{{user.sex}}</el-descriptions-item>
-			    <el-descriptions-item label="年龄">{{user.age}}</el-descriptions-item>
-			    <el-descriptions-item label="手机号">{{user.phone}}</el-descriptions-item>
-			    <el-descriptions-item label="地址">{{user.address}}</el-descriptions-item>
-			    <el-descriptions-item label="邮箱">{{user.email}}</el-descriptions-item>
-			    <el-descriptions-item label="工作单位">{{user.unit}}</el-descriptions-item>
-			    <el-descriptions-item label="角色">
-					  <el-tag size="small">{{user.role}}</el-tag>
-					</el-descriptions-item>
-			    <el-descriptions-item label="个人简介">{{user.des}}</el-descriptions-item>
+			   <el-descriptions-item label="账号">{{user.ID}}</el-descriptions-item>
+			   <el-descriptions-item label="姓名">{{user.name}}</el-descriptions-item>
+			   <el-descriptions-item label="性别">{{user.sex}}</el-descriptions-item>
+			   <el-descriptions-item label="年龄">{{user.age}}</el-descriptions-item>
+			   <el-descriptions-item label="手机号">{{user.phone}}</el-descriptions-item>
+			   <el-descriptions-item label="地址">{{user.address}}</el-descriptions-item>
+			   <el-descriptions-item label="邮箱">{{user.email}}</el-descriptions-item>
+			   <el-descriptions-item label="角色">
+			   	<el-tag size="small">{{user.role}}</el-tag>
+			   </el-descriptions-item>
 			</el-descriptions>
 			<div class="btnRight">
 				<el-button size="small" type="primary" @click="userEdit">编辑</el-button>
-				<el-button size="small" type="primary">确认</el-button>
+				<el-button size="small" @click="dialogVisibleDetail = false">取消</el-button>
 			</div>
 		</el-dialog>
 		<!-- 编辑弹窗 -->
-		<el-dialog title="编辑" :visible.sync="dialogVisibleEdit" append-to-body width="30%">
-			<el-form :model="userform"  label-width="100px">
-			    <el-form-item label="姓名"> <el-input v-model="userform.name"></el-input></el-form-item>
-			     <el-form-item label="性别">
-			        <el-radio-group v-model="userform.sex">
-			          <el-radio label="男"></el-radio>
-			          <el-radio label="女"></el-radio>
-			        </el-radio-group>
-			      </el-form-item>
-				  <el-form-item label="年龄"><el-input v-model="userform.age" clearable></el-input></el-form-item>
-				  <el-form-item label="手机号"><el-input v-model="userform.phone" clearable></el-input></el-form-item>
-				  <el-form-item label="地址"><el-input v-model="userform.address" clearable></el-input></el-form-item>
-				  <el-form-item label="邮箱"><el-input v-model="userform.email" clearable></el-input></el-form-item>
-				  <el-form-item label="工作单位"><el-input v-model="userform.unit" clearable></el-input></el-form-item>
-				  <el-form-item label="个人简介"><el-input v-model="userform.des" type="textarea"></el-input></el-form-item>
-			  </el-form>
+		<el-dialog title="编辑" :visible.sync="dialogVisibleEdit" append-to-body>
+			<el-descriptions :column="2" border v-model="userform">
+			  <el-descriptions-item label="账号">
+			  		<el-input v-model="userform.ID"></el-input>
+			  	</el-descriptions-item>
+			  	<el-descriptions-item label="姓名">
+			  		<el-input v-model="userform.name"></el-input>
+			  	</el-descriptions-item>
+			  	<el-descriptions-item label="性别">
+			  		<el-radio-group v-model="userform.sex">
+			  			<el-radio label="男"></el-radio>
+			  			<el-radio label="女"></el-radio>
+			  		</el-radio-group>
+			  	</el-descriptions-item>
+			  	<el-descriptions-item label="年龄">
+			  		<el-input v-model="userform.age" clearable></el-input>
+			  	</el-descriptions-item>
+			  	<el-descriptions-item label="手机号">
+			  		<el-input v-model="userform.phone" clearable></el-input>
+			  	</el-descriptions-item>
+			   <el-descriptions-item label="地址">
+			  		<el-input v-model="userform.address" clearable></el-input>
+			  	</el-descriptions-item>
+			  	<el-descriptions-item label="邮箱">
+			  		<el-input v-model="userform.email" clearable></el-input>
+			  	</el-descriptions-item>
+			  </el-descriptions>
 			  <div class="btnRight">
-			  	<el-button size="small" type="primary" @click="dialogVisibleEdit = false">取消</el-button>
+			  	
 			  	<el-button size="small" type="primary">确认</el-button>
+				<el-button size="small" @click="dialogVisibleEdit = false">取消</el-button>
 			  </div>
 		</el-dialog>
 		<!-- 修改密码 -->
@@ -81,8 +92,9 @@
 			    <el-form-item label="确认密码"> <el-input v-model="password.again"></el-input></el-form-item>
 			</el-form>
 			<div class="btnRight">
-				<el-button size="small" type="primary" @click="dialogVisibleChangePassword = false">取消</el-button>
 				<el-button size="small" type="primary">确认</el-button>
+				<el-button size="small" @click="dialogVisibleChangePassword = false">取消</el-button>
+				
 			</div>
 		</el-dialog>
 	</div>
@@ -110,12 +122,11 @@
 					path:'userManage'
 				}],
 				user:{
+					ID:'12345678',
 					name:'krooe',
 					sex:'男',age:'24',phone:'18812341234',address:'北京市朝阳区红军营南路',
 					email:'123456@ld.com',
-					unit:'草原所',
 					role:'管理员',
-					des:'这里是个人简介'
 				},
 				dialogVisibleDetail:false,
 				dialogVisibleEdit:false,
@@ -126,6 +137,7 @@
 		},
 		methods:{
 			activeMenu(index) {
+				
 			    this.$router.push(this.menus[index].path)
 			},
 			personalCenter(){

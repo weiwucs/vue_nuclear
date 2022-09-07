@@ -1,6 +1,6 @@
 <!-- 数据检索 -->
 <template>
-	<div class="mainCon">
+	<div >
 		<p>数据查询</p>
 	</div>
 </template>

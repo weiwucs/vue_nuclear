@@ -1,6 +1,6 @@
 <!-- 首页 -->
 <template>
-	<div class="mainCon">
+	<div >
 		<!-- <p style="background-color: aliceblue;">home</p> -->
 	</div>
 </template>
