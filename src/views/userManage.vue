@@ -215,7 +215,5 @@
 		box-shadow: 0 0px 5px rgb(0 0 0 / 20%);
 	}
 
-	.botanyTable {
-		margin-top: 20px;
-	}
+	
 </style>

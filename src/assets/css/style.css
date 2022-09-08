@@ -160,8 +160,7 @@ ul li {
 }
 /* 数据管理 */
 .data-left-list ul{
-	padding: 0px!important;
-	
+	padding: 0px!important;	
 }
 .data-left-list ul.el-menu{
 	background-color: transparent;
@@ -169,7 +168,6 @@ ul li {
 }
 .data-left-list .el-menu-item,.data-left-list .el-submenu__title{
 	color: #fff;
-	
 }
 /* 修改鼠标悬停及点击菜单样式 */
 .data-left-list .el-menu-item:hover{
@@ -181,5 +179,29 @@ ul li {
 .data-left-list .el-submenu__title:focus,.data-left-list .el-submenu__title:hover{
 	background-color: #105676!important;
 }
+.botanyTable {
+		margin-top: 20px;
+	}
+/* 数据管理共有样式 */
+.dataManagementCon{
+	margin-top: 20px;
+	background-color: #fff;
+	padding: 20px;
+	border-radius: 5px;
+	box-shadow: 0 0px 5px rgb(0 0 0 / 20%);
+}
+.data-list{
+	text-align: right;
+	position: relative;
+}
+.data-search{
+	width: 350px;
+	position: absolute;
+	top:0;left:0;
+}
+
+
+
+
 
 
