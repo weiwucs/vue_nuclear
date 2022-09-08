@@ -4,10 +4,12 @@
 		<topMenu></topMenu>
 		<div class="dataMenagement">
 			<div class="data-left-list">
-				
+				<dataManageLeftMenu></dataManageLeftMenu>
 			</div>
 			<div class="data-left-con">
-				<h3><span class="el-icon-coin"></span>数据管理</h3>
+				<keep-alive>
+				  <router-view></router-view>
+				</keep-alive>
 			</div>
 		</div>
 	</div>
@@ -15,9 +17,11 @@
 </template>
 
 <script>
-	 import topMenu from '../components/topMenu.vue'
+	import topMenu from '../components/topMenu.vue'
+	import dataManageLeftMenu from '../components/dataManageLeftMenu.vue'
+	
 	export default {
-		components: { topMenu},
+		components: { topMenu,dataManageLeftMenu},
 		data(){
 			return{
 				
@@ -35,7 +39,6 @@
 	}
 	.data-left-list{
 		width:200px;
-		padding:20px;
 		height: calc(100vh - 60px);
 		margin-top: 60px;
 		background-color: rgba(23, 49, 71, 1);

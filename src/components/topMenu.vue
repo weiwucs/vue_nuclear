@@ -15,7 +15,7 @@
 			<el-dropdown>
 				<span class="el-dropdown-link">
 						<i class="el-icon-user-solid"></i>
-						用户名
+						{{username}}
 						<i class="el-icon-arrow-down el-icon--right"></i>
 					</span>
 					<el-dropdown-menu slot="dropdown">
@@ -94,7 +94,6 @@
 			<div class="btnRight">
 				<el-button size="small" type="primary">确认</el-button>
 				<el-button size="small" @click="dialogVisibleChangePassword = false">取消</el-button>
-				
 			</div>
 		</el-dialog>
 	</div>
@@ -104,22 +103,23 @@
 	export default {
 		data(){
 			return{
+				username:'张三',
 				menus:[{
 					icon:'el-icon-s-home',
 					menu:'首页',
-					path:'home'
+					path:'/home'
 				},{
 					icon:'el-icon-search',
 					menu:'数据检索',
-					path:'dataSearch'
+					path:'/dataSearch'
 				},{
 					icon:'el-icon-coin',
 					menu:'数据管理',
-					path:'dataManage'
+					path:'/dataManage'
 				},{
 					icon:'el-icon-s-custom',
 					menu:'人员管理',
-					path:'userManage'
+					path:'/userManage'
 				}],
 				user:{
 					ID:'12345678',
@@ -137,7 +137,6 @@
 		},
 		methods:{
 			activeMenu(index) {
-				
 			    this.$router.push(this.menus[index].path)
 			},
 			personalCenter(){

@@ -158,3 +158,28 @@ ul li {
 	text-align: center;
 	margin-top: 20px;
 }
+/* 数据管理 */
+.data-left-list ul{
+	padding: 0px!important;
+	
+}
+.data-left-list ul.el-menu{
+	background-color: transparent;
+	border:0px;
+}
+.data-left-list .el-menu-item,.data-left-list .el-submenu__title{
+	color: #fff;
+	
+}
+/* 修改鼠标悬停及点击菜单样式 */
+.data-left-list .el-menu-item:hover{
+	background-color: #105676;
+}
+.data-left-list .el-menu-item.is-active{
+	background-color: #105676!important;
+}
+.data-left-list .el-submenu__title:focus,.data-left-list .el-submenu__title:hover{
+	background-color: #105676!important;
+}
+
+

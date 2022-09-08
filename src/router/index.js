@@ -9,7 +9,7 @@ const routes = [
         name: 'index',
 		component: () => import('../views/index.vue'),
 		redirect: '/login',
-		children: [{
+		children: [{//这两个公用一个球
 			path: 'home',
 			name: 'home',
 			component: () => import('../views/home.vue')
@@ -26,7 +26,24 @@ const routes = [
 	},{
 		path: '/dataManage',
 		name: 'dataManage',
-		component: () => import('../views/dataManage.vue')
+		component: () => import('../views/dataManage.vue'),
+		children:[{
+			path: 'GF',
+			name: 'dataGF',
+			component: () => import('../components/dataGF.vue')
+		},{
+			path: 'ZY',
+			name: 'dataZY',
+			component: () => import('../components/dataZY.vue')
+		},{
+			path: 'GF3',
+			name: 'dataGF3',
+			component: () => import('../components/dataGF3.vue')
+		},{
+			path: 'other',
+			name: 'dataOther',
+			component: () => import('../components/dataOther.vue')
+		}]
 	},{
 		path: '/userManage',
 		name: 'userManage',
