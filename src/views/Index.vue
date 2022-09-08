@@ -5,7 +5,6 @@
 		<keep-alive>
 		  <router-view></router-view>
 		</keep-alive>
-		
         <rightMenu @flyToHome="flyToHome" @zoomIn="zoomIn" @zoomOut="zoomOut" @convertDim="convertDim"></rightMenu>
         <div class="footer">
             <div class="footerLeft">

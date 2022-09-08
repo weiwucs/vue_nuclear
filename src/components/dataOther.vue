@@ -10,7 +10,7 @@
 					</el-input>
 				</div>
 				<el-button type="primary" size="small" >新建</el-button>
-				<el-button type="primary" size="small">筛选重复数据</el-button>
+				<el-button type="primary" size="small">去重</el-button>
 				<el-button type="primary" size="small">更新数据</el-button>
 				<el-button type="primary" size="small" @click="deleteList">删除</el-button>
 			</div>

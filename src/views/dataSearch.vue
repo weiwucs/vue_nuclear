@@ -1,7 +1,8 @@
 <!-- 数据检索 -->
 <template>
 	<div >
-		<p>数据查询</p>
+		<p>hfh</p>
+		
 	</div>
 </template>
 
