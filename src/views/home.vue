@@ -7,12 +7,16 @@
 				<div class="xiaoxian zuoshang"></div>
 				<div class="xiaoxian zuoxia"></div>
 				<div class="xiaoxian youxia"></div>
-				<div class="topTitle"></div>
+				<div class="topTitle">
+					<p>年度卫星影像总数</p>
+				</div>
 			</div>
 			<div class="homeLeftEchart homeLeftEchart2">
 				<div class="xiaoxian zuoxia"></div>
 				<div class="xiaoxian youxia"></div>
-				<div class="topTitle"></div>
+				<div class="topTitle">
+					<p>年度卫星影像数据量</p>
+				</div>
 			</div>
 		</div>
 		<div class="homecon homeRight">
@@ -21,12 +25,16 @@
 				<div class="xiaoxian zuoshang"></div>
 				<div class="xiaoxian zuoxia"></div>
 				<div class="xiaoxian youxia"></div>
-				<div class="topTitle"></div>
+				<div class="topTitle">
+					<p>各类卫星影像总数</p>
+				</div>
 			</div>
 			<div class="homeLeftEchart homeRightEchart2">
 				<div class="xiaoxian zuoxia"></div>
 				<div class="xiaoxian youxia"></div>
-				<div class="topTitle"></div>
+				<div class="topTitle">
+					<p>各类卫星影像数据量</p>
+				</div>
 			</div>
 		</div>
 		<div class="homebottom">
@@ -121,6 +129,12 @@
 			top:0px;
 			left:50%;
 			margin-left: -100px;
+			p{
+				text-align: center;
+				color: #fff;
+				font-weight: bold;
+				line-height: 35px;
+			}
 		}
 	}
 	.homeRight{
