@@ -7,8 +7,9 @@
 		<div class="tool-manage-item" title="复位" @click="flyToHome">
 			<span class="iconfont icon-shouye"></span>
 		</div>
-		<div class="tool-manage-item" title="二三维切换" @click="convertDim">
-			<span class="iconfont icon-ersanweiqiehuan"></span>
+		<div class="tool-manage-item" :title="name" @click="convertDim" >
+			<span class="iconfont " :class='ditu'></span>
+			<!-- <span class="iconfont icon-ditu1 icon-ersanweiqiehuan"></span> -->
 		</div>
 		<div class="tool-manage-item" title="放大" @click="zoomIn">
 			<span class="iconfont icon-jiahao"></span>
@@ -23,6 +24,7 @@
 	export default {
 		data() {
 			return {
+				ditu:"icon-ersanweiqiehuan",
 				flag: true
 			}
 		},
@@ -39,6 +41,13 @@
 			convertDim(){
 				this.$emit('convertDim', this.flag)
 				this.flag = !this.flag
+				if(this.flag){
+					this.ditu = 'icon-ersanweiqiehuan'
+					this.name='三维'
+				}else{
+					this.ditu = 'icon-ditu1'
+					this.name='二维'
+				}
 			}
 		}
 	}
