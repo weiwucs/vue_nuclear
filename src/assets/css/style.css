@@ -200,7 +200,10 @@ ul li {
 	top:0;left:0;
 }
 
-
+.dialogDetail{
+		max-height: 500px;
+		overflow: auto;
+	}
 
 
 
