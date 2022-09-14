@@ -18,11 +18,37 @@
 					</el-submenu>
 					<el-submenu index="1-3">
 						<template slot="title">绘制范围</template>
-						
+						<div class="timeSearch huizhi">
+							<div class="icons" title="正方形">
+								<i class="iconfont icon-24gl-square"></i>
+							</div>
+							<div class="icons" title="多边形">
+								<i class="iconfont icon-duobianxing"></i>
+							</div>
+							<div class="icons" title="圆形">
+								<i class="iconfont icon-xingzhuang-tuoyuanxing"></i>
+							</div>
+							<div class="icons" title="线段">
+								<i class="iconfont icon-icon-line-graph"></i>
+							</div>
+							<div class="icons" title="点">
+								<i class="iconfont icon-dian"></i>
+							</div>
+						</div>
 					</el-submenu>
 					<el-submenu index="1-4">
 						<template slot="title">导入范围</template>
-						
+						<div class="timeSearch">
+							<el-upload class="upload-demo" multiple>
+								选择路径：
+								<el-button size="small" type="primary">上传文件</el-button>
+								<p style="margin-bottom: 0;line-height: 20px;">支持.zip文件(包括.dbf、.shp、.prj三类文件)</p>
+							</el-upload>
+							<div style="text-align: right;margin-top: 10px;">
+								<el-button type="primary" size="mini">重置</el-button>
+								<el-button type="primary" size="mini">确定</el-button>
+							</div>
+						</div>
 					</el-submenu>
 				</el-submenu>
 				<el-submenu index="2">
@@ -128,10 +154,10 @@
 						</el-checkbox-group>
 					</el-form-item>
 					<el-form-item label="选择下载路径">
-				<el-upload class="upload-demo" multiple>
-					<el-button size="small" type="primary">点击上传</el-button>
-					<p style="margin-bottom: 0;line-height: 20px;">{{form.path}}</p>
-			</el-upload>
+						<el-upload class="upload-demo" multiple>
+							<el-button size="small" type="primary">点击上传</el-button>
+							<p style="margin-bottom: 0;line-height: 20px;">{{form.path}}</p>
+						</el-upload>
 					</el-form-item>
 				</el-form>
 				<div class="btn">
@@ -409,7 +435,22 @@
 		top: 60px;
 		left: 0px;
 	}
-
+	.huizhi{
+		display: flex;
+		.icons{
+			width:40px;
+			height: 40px;
+			margin: 0 5px;
+			border-radius: 50%;
+			background:linear-gradient(315deg,#6772FF 0,#00F9E5 100%);
+			text-align: center;line-height: 40px;
+			cursor: pointer;
+			i{
+				font-size: 24px;
+				font-weight: bold;
+			}
+		}
+	}
 	.rightIcon {
 		position: absolute;
 		right: 30px;
