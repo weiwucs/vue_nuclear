@@ -3,22 +3,74 @@
 	<div>
 		<div class="dataSearchMenu">
 			<el-menu :default-active="activeIndex2" class="el-menu-demo" mode="horizontal" @select="handleSelect"
-				background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
-				<el-menu-item index="1">处理中心</el-menu-item>
-				<el-submenu index="2">
-					<template slot="title">我的工作台</template>
-					<el-menu-item index="2-1">选项1</el-menu-item>
-					<el-menu-item index="2-2">选项2</el-menu-item>
-					<el-menu-item index="2-3">选项3</el-menu-item>
-					<el-submenu index="2-4">
-						<template slot="title">选项4</template>
-						<el-menu-item index="2-4-1">选项1</el-menu-item>
-			  	<el-menu-item index="2-4-2">选项2</el-menu-item>
-						<el-menu-item index="2-4-3">选项3</el-menu-item>
+				background-color="#152c40" 
+				menu-trigger="click"
+				text-color="#fff" active-text-color="#409EFF">
+				<el-submenu index="1">
+					<template slot="title">空间筛选</template>
+					<el-submenu index="1-1">
+						<template slot="title">行政区</template>
+						
+					</el-submenu>
+					<el-submenu index="1-2">
+						<template slot="title">经纬度</template>
+						
+					</el-submenu>
+					<el-submenu index="1-3">
+						<template slot="title">绘制范围</template>
+						
+					</el-submenu>
+					<el-submenu index="1-4">
+						<template slot="title">导入范围</template>
+						
 					</el-submenu>
 				</el-submenu>
-				<el-menu-item index="3" disabled>消息中心</el-menu-item>
-				<el-menu-item index="4"><a href="https://www.ele.me" target="_blank">订单管理</a></el-menu-item>
+				<el-submenu index="2">
+					<template slot="title">数据筛选</template>
+					<el-submenu index="2-1">
+						<template slot="title">数据类型</template>
+						<el-menu-item index="2-1-1">光学卫星影像</el-menu-item>
+						<el-menu-item index="2-1-2">雷达卫星影像</el-menu-item>
+					</el-submenu>
+					<el-submenu index="2-2">
+						<template slot="title">卫星/传感器</template>
+						<div class="timeSearch">
+							<el-tree
+							  :data="satelliteData"
+							  show-checkbox
+							  node-key="id"
+							  :props="defaultProps">
+							</el-tree>
+						</div>
+					</el-submenu>
+					<el-submenu index="2-3">
+						<template slot="title">级别</template>
+						<div class="timeSearch">
+							<el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
+							  <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
+							    <el-checkbox v-for="city in cities" :label="city" :key="city">{{city}}</el-checkbox>
+							  </el-checkbox-group>
+						</div>
+					</el-submenu>
+				</el-submenu>
+				<el-submenu index="3">
+					<template slot="title">时间筛选</template>
+					<div class="timeSearch">
+						<p>采集时间</p>
+						<el-date-picker
+						      v-model="timeValue1"
+						      type="date"
+							  size="small"
+						      placeholder="选择日期">
+						</el-date-picker>至
+						<el-date-picker
+						      v-model="timeValue2"
+						      type="date"
+							   size="small"
+						      placeholder="选择日期">
+						</el-date-picker>
+					</div>
+				</el-submenu>
 			</el-menu>
 		</div>
 		<div class="rightIcon">
@@ -163,9 +215,52 @@
 </template>
 
 <script>
+	const Options = ['level1', 'level2', 'level3', 'level4'];
 	export default {
 		data() {
 			return {
+				checkAll: false,
+				checkedCities: [],
+				cities: Options,
+				isIndeterminate: true,
+				satelliteData:[{
+					id:1,
+					label:'高分系列',
+					children:[{
+						id:1-1,
+						label:'高分3号',
+						children:[{
+							id:1-1-1,
+							label:'SL'
+						},{
+							id:1-1-2,
+							label:'UFS'
+						},{
+							id:1-1-3,
+							label:'FSI'
+						}]
+					}]
+				},{
+					id:2,
+					label:'资源系列',
+					children:[{
+						id:2-1,
+						label:'资源1号',
+						children:[{
+							id:2-1-1,
+							label:'ZY1-1'
+						},{
+							id:2-1-2,
+							label:'ZY1-2'
+						},{
+							id:2-1-3,
+							label:'ZY1-3'
+						}]
+					}]
+				}],
+				
+				timeValue1:'',
+				timeValue2:'',
 				dialogDataDetail:false,
 				dataList:[
 					{property:'SatelliteID',name:'卫星ID'},
@@ -235,6 +330,16 @@
 			}
 		},
 		methods: {
+			handleCheckAllChange(val) {
+			    this.checkedCities = val ? Options : [];
+			    this.isIndeterminate = false;
+			},
+			handleCheckedCitiesChange(value) {
+			    let checkedCount = value.length;
+			    this.checkAll = checkedCount === this.cities.length;
+			    this.isIndeterminate = checkedCount > 0 && checkedCount < this.cities.length;
+			},
+			
 			showNotDownload() {
 				this.notDownload = true
 				if (this.download = true) {
@@ -313,7 +418,13 @@
 			margin-left: 20px;
 		}
 	}
-
+	.timeSearch{
+		padding: 10px;
+		color:#fff;
+		p{
+			margin-bottom: 10px;
+		}
+	}
 	.downloadList {
 		position: absolute;
 		background-color: rgba(23, 49, 71, 0.9);
