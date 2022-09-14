@@ -204,7 +204,21 @@ ul li {
 		max-height: 500px;
 		overflow: auto;
 	}
-
-
-
-
+/* 数据检索下载列表 */
+.tableMain .el-table th.el-table__cell>.cell,.tableMain .el-table .cell{
+	padding: 0!important;
+	
+}
+.tableMain .el-table th.el-table__cell,.tableMain .el-table tr{
+	background-color: rgba(23, 49, 71, 1)!important;
+	color:#fff!important;
+}
+.tableMain .el-table .el-table__cell{padding: 0!important;}
+.tableMain .el-table--striped .el-table__body tr.el-table__row--striped td.el-table__cell{
+	
+	background:rgba(23, 49, 71, 1)!important ;
+}
+/* 去掉默认的table hover效果 */
+.tableMain .el-table__body .el-table__row.hover-row td {
+    background-color: rgba(0, 0, 0,0.3) !important;
+  }
