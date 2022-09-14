@@ -5,7 +5,7 @@
 			<span class="iconfont icon-zhibeizhen"></span>
 		</div>
 		<div class="tool-manage-item" title="复位" @click="flyToHome">
-			<span class="iconfont icon-shouye"></span>
+			<span class="iconfont icon-home"></span>
 		</div>
 		<div class="tool-manage-item" :title="name" @click="convertDim" >
 			<span class="iconfont " :class='ditu'></span>
@@ -24,7 +24,7 @@
 	export default {
 		data() {
 			return {
-				ditu:"icon-ersanweiqiehuan",
+				ditu:"icon-ditu",
 				flag: true
 			}
 		},
@@ -42,7 +42,7 @@
 				this.$emit('convertDim', this.flag)
 				this.flag = !this.flag
 				if(this.flag){
-					this.ditu = 'icon-ersanweiqiehuan'
+					this.ditu = 'icon-ditu'
 					this.name='三维'
 				}else{
 					this.ditu = 'icon-ditu1'

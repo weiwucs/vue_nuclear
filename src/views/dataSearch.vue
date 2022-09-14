@@ -205,7 +205,7 @@
 		<!-- 未下载、已下载详情弹框 -->
 		<el-dialog title="详情" :visible.sync="dialogDataDetail" append-to-body>
 			<el-descriptions  :column="2" border v-model="dataList" class="dialogDetail">
-			   <el-descriptions-item :label="item.name" v-for="(item,i) in dataList">后台获取数据</el-descriptions-item>
+			   <el-descriptions-item :label="item.name" v-for="item in dataList">后台获取数据</el-descriptions-item>
 			</el-descriptions>
 			<div class="btnRight">
 				<el-button size="small" @click="dialogDataDetail = false">关闭</el-button>
@@ -258,6 +258,10 @@
 						}]
 					}]
 				}],
+				defaultProps: {
+				    children: 'children',
+				    label: 'label'
+				},
 				
 				timeValue1:'',
 				timeValue2:'',
