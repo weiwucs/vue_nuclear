@@ -93,6 +93,9 @@ ul li {
 	text-align: right;
 	margin-top: 20px;
 }
+.juzhong{
+	text-align: center;
+}
 /* 分页 */
 .fenye{
 	text-align: center;
@@ -191,6 +194,30 @@ ul li {
 
 .timeSearch .el-upload{
 	text-align: left;
+}
+/* 修改树形结构的hover效果 */
+.timeSearch .el-tree-node:focus > .el-tree-node__content {    background-color: rgba(0, 0, 0,0.2)!important;  }  
+.timeSearch .el-tree-node__content:hover {    background-color:   rgba(0, 0, 0,0.2);  }  
+.timeSearch .el-tree--highlight-current .el-tree-node.is-current>.el-tree-node__content {    
+	background-color:   rgba(0, 0, 0,0.2);  
+}
+/* 修改tabs原始样式 */
+.timeSearch .el-tabs__item{
+	color:#fff;
+}
+/* change form */
+.timeSearch  .el-form-item{
+	margin-bottom: 5px;
+}
+.timeSearch  .el-form-item__label{
+	color:#fff;
+}
+.jingweidu .el-input__inner{
+	color:#fff;
+	background-color: transparent;
+}
+.jingweidu .el-input--suffix .el-input__inner{
+	padding-right: 10px;
 }
 
 

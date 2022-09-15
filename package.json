@@ -12,6 +12,7 @@
     "axios": "^0.21.4",
     "core-js": "^3.6.5",
     "echarts": "^5.3.3",
+    "element-china-area-data": "^5.0.2",
     "element-ui": "^2.15.9",
     "jquery": "^3.6.0",
     "leaflet": "^1.7.1",

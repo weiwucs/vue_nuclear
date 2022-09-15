@@ -10,11 +10,7 @@
             <div class="footerLeft">
                 <div class="scale-container">
                     <div class="scale-label">{{ distanceLabel || "暂无数据" }}</div>
-                    <div
-                            v-if="barWidth"
-                            class="scale-bar"
-                            :style="{ width: barWidth + 'px' }"
-                    ></div>
+                    <div v-if="barWidth"  class="scale-bar" :style="{ width: barWidth + 'px' }"></div>
                 </div>
             </div>
             <div class="footerRight">

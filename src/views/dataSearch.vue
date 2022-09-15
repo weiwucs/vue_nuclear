@@ -11,12 +11,109 @@
 					<el-submenu index="1-1">
 						<template slot="title">行政区</template>
 						<div class="timeSearch">
-							
+							<el-tabs v-model="activeName1" @tab-click="handleClick1">
+							    <el-tab-pane label="国内" name="1">
+									<el-form>
+									            <el-form-item label="地区" :label-width="formLabelWidth">
+									                <el-select
+									                  v-model="selectProvince"
+									                  placeholder="请选择省"
+									                  
+									                  style="width: 145px"
+									                >
+									                  <el-option
+									                    v-for="item in provinces"
+									                    size="small"
+									                    :key="item.value"
+									                    :label="item.label"
+									                    :value="item.value"
+									                    @click.native="changeProvince()"
+									                  >
+									                  </el-option>
+									                </el-select>
+									                <el-select
+									                  v-model="selectCity"
+									                  placeholder="请选择市"
+									                  style="width: 145px"
+									                >
+									                  <el-option
+									                    v-for="item in cities"
+									                    size="small"
+									                    :key="item.value"
+									                    :label="item.label"
+									                    :value="item.value"
+									                    @click.native="changeCity"
+									                  >
+									                  </el-option>
+									                </el-select>
+									                <el-select
+									                  v-model="selectArea"
+									                  placeholder="请选择区"
+									                  style="width: 145px"
+									                >
+									                  <el-option
+									                    v-for="item in area"
+									                    size="small"
+									                    :key="item.value"
+									                    :label="item.label"
+									                    :value="item.value"
+									                  >
+									                  </el-option>
+									                </el-select>
+									              </el-form-item>
+									
+									</el-form>
+								</el-tab-pane>
+							    <el-tab-pane label="国外" name="2"></el-tab-pane>
+							</el-tabs>
 						</div>
 					</el-submenu>
 					<el-submenu index="1-2">
 						<template slot="title">经纬度</template>
-						<div class="timeSearch"></div>
+						<div class="timeSearch jingweidu">
+							<el-tabs v-model="activeName2" @tab-click="handleClick2">
+							    <el-tab-pane label="左上右下" name="1">
+									<el-form ref="form" :model="jingweiduform" label-width="80px">
+										<el-form-item label="左上经度:">
+										     <el-input clearable v-model="jingweiduform.leftLong" placeholder="例如123.45"></el-input>
+										</el-form-item>
+										<el-form-item label="左上纬度:">
+										     <el-input clearable v-model="jingweiduform.leftLat" placeholder="例如74.355"></el-input>
+										</el-form-item>
+										<el-form-item label="右下经度:">
+										     <el-input clearable v-model="jingweiduform.rightLong" placeholder="例如123.45"></el-input>
+										</el-form-item>
+										<el-form-item label="右下纬度:">
+										     <el-input clearable v-model="jingweiduform.rightLat" placeholder="例如74.355"></el-input>
+										</el-form-item>
+									</el-form>
+									<div class="juzhong">
+										<el-button type="primary" size="mini">确定</el-button>
+										<el-button size="mini">清空</el-button>
+									</div>
+								</el-tab-pane>
+							    <el-tab-pane label="中心点输入" name="2">
+									<el-form ref="form" :model="jingweiduCenterForm" label-width="90px">
+										<el-form-item label="中心点经度:">
+										     <el-input clearable v-model="jingweiduCenterForm.centerLong" placeholder="例如123.45"></el-input>
+										</el-form-item>
+										<el-form-item label="中心点纬度:">
+										     <el-input clearable v-model="jingweiduCenterForm.centerLat" placeholder="例如74.355"></el-input>
+										</el-form-item>
+										<el-form-item label="长度(km):">
+										     <el-input clearable v-model="jingweiduCenterForm.length"></el-input>
+										</el-form-item>
+										<el-form-item label="宽度(km):">
+										     <el-input clearable v-model="jingweiduCenterForm.width" ></el-input>
+										</el-form-item>
+									</el-form>
+									<div class="juzhong">
+										<el-button type="primary" size="mini">确定</el-button>
+										<el-button size="mini">清空</el-button>
+									</div>
+								</el-tab-pane>
+							</el-tabs>
+						</div>
 					</el-submenu>
 					<el-submenu index="1-3">
 						<template slot="title">绘制范围</template>
@@ -75,8 +172,8 @@
 						<template slot="title">级别</template>
 						<div class="timeSearch">
 							<el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
-							  <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
-							    <el-checkbox v-for="city in cities" :label="city" :key="city">{{city}}</el-checkbox>
+							  <el-checkbox-group v-model="checkedLists" @change="handleCheckedListsChange">
+							    <el-checkbox v-for="list in lists" :label="list" :key="list">{{list}}</el-checkbox>
 							  </el-checkbox-group>
 						</div>
 					</el-submenu>
@@ -243,13 +340,37 @@
 </template>
 
 <script>
+	import { regionData } from "../../node_modules/element-china-area-data";
 	const Options = ['level1', 'level2', 'level3', 'level4'];
 	export default {
 		data() {
 			return {
+				activeName1:'1',
+				activeName2:'1',
+				jingweiduform:{
+					leftLong:'',
+					leftLat:'',
+					rightLong:'',
+					rightLat:'',
+				},
+				jingweiduCenterForm:{
+					centerLong:'',
+					centerLat:'',
+					length:'',
+					width:'',
+				},
+				//省市区联动下拉框
+				provinces: regionData,
+				cities: [],
+				area: [],
+				selectProvince: "",
+				selectCity: "",
+				selectArea: "",
+
+				
 				checkAll: false,
-				checkedCities: [],
-				cities: Options,
+				checkedLists: [],
+				lists: Options,
 				isIndeterminate: true,
 				satelliteData:[{
 					id:1,
@@ -362,16 +483,46 @@
 			}
 		},
 		methods: {
+			handleClick1(){
+				
+			},
+			handleClick2(){
+				
+			},
+			changeProvince() {
+			      this.cities = [];
+			      this.area = [];
+			      this.selectCity = "";
+			      this.selectArea = "";
+			      let cityItem = this.provinces.filter(
+			        (item) => item.value === this.selectProvince
+			      );
+			      if (cityItem[0]) {
+			        this.cities = cityItem[0].children;
+			      }
+			},
+			changeCity() {
+			      console.log("城市选择")
+			      console.log(this.selectCity)
+			      this.area = [];
+			      this.selectArea = "";
+			      let areaItem = this.cities.filter(
+			        (item) => item.value === this.selectCity
+			      );
+			      if (areaItem[0]) {
+			        this.area = areaItem[0].children;
+			      }
+			},
+			
 			handleCheckAllChange(val) {
 			    this.checkedCities = val ? Options : [];
 			    this.isIndeterminate = false;
 			},
-			handleCheckedCitiesChange(value) {
+			handleCheckedListsChange(value) {
 			    let checkedCount = value.length;
-			    this.checkAll = checkedCount === this.cities.length;
-			    this.isIndeterminate = checkedCount > 0 && checkedCount < this.cities.length;
+			    this.checkAll = checkedCount === this.lists.length;
+			    this.isIndeterminate = checkedCount > 0 && checkedCount < this.lists.length;
 			},
-			
 			showNotDownload() {
 				this.notDownload = true
 				if (this.download = true) {
