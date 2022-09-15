@@ -219,7 +219,10 @@ ul li {
 .jingweidu .el-input--suffix .el-input__inner{
 	padding-right: 10px;
 }
-
+.guoneiwai  .el-input__inner{
+	background-color: transparent!important;
+	color:#fff!important;
+}
 
 
 

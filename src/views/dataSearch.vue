@@ -10,61 +10,55 @@
 					<template slot="title">空间筛选</template>
 					<el-submenu index="1-1">
 						<template slot="title">行政区</template>
-						<div class="timeSearch">
+						<div class="timeSearch guoneiwai">
 							<el-tabs v-model="activeName1" @tab-click="handleClick1">
 							    <el-tab-pane label="国内" name="1">
 									<el-form>
-									            <el-form-item label="地区" :label-width="formLabelWidth">
-									                <el-select
-									                  v-model="selectProvince"
-									                  placeholder="请选择省"
-									                  
-									                  style="width: 145px"
-									                >
-									                  <el-option
-									                    v-for="item in provinces"
-									                    size="small"
+									    <el-form-item label="地区" :label-width="formLabelWidth">
+									        <el-select  v-model="selectProvince" placeholder="请选择省" style="width: 145px">
+									            <el-option v-for="item in provinces"  size="small" :key="item.value"
+									                    :label="item.label"
+									                    :value="item.value"
+									                    @click.native="changeProvince()" >
+									            </el-option>
+									        </el-select>
+									        <el-select  v-model="selectCity"  placeholder="请选择市"  style="width: 145px">
+									            <el-option v-for="item in cities"  size="small"
 									                    :key="item.value"
 									                    :label="item.label"
 									                    :value="item.value"
-									                    @click.native="changeProvince()"
-									                  >
-									                  </el-option>
-									                </el-select>
-									                <el-select
-									                  v-model="selectCity"
-									                  placeholder="请选择市"
-									                  style="width: 145px"
-									                >
-									                  <el-option
-									                    v-for="item in cities"
-									                    size="small"
+									                    @click.native="changeCity" >
+									            </el-option>
+									        </el-select>
+									        <el-select v-model="selectArea"  placeholder="请选择区" style="width: 145px" >
+									            <el-option v-for="item in area"  size="small"
 									                    :key="item.value"
 									                    :label="item.label"
-									                    :value="item.value"
-									                    @click.native="changeCity"
-									                  >
-									                  </el-option>
-									                </el-select>
-									                <el-select
-									                  v-model="selectArea"
-									                  placeholder="请选择区"
-									                  style="width: 145px"
-									                >
-									                  <el-option
-									                    v-for="item in area"
-									                    size="small"
-									                    :key="item.value"
-									                    :label="item.label"
-									                    :value="item.value"
-									                  >
-									                  </el-option>
-									                </el-select>
-									              </el-form-item>
-									
+									                    :value="item.value" >
+									            </el-option>
+									        </el-select>
+									    </el-form-item>
+										<el-form-item label="搜索" :label-width="formLabelWidth">
+											<el-input  placeholder="请输入搜索的地区名" clearable v-model="searchArea">
+												<i slot="suffix" class="el-input__icon el-icon-search"></i>
+											</el-input>
+										</el-form-item>
 									</el-form>
+									<div class="juzhong">										<el-button type="primary" size="mini">确定</el-button>										<el-button size="mini">清空</el-button>									</div>
 								</el-tab-pane>
-							    <el-tab-pane label="国外" name="2"></el-tab-pane>
+							    <el-tab-pane label="国外" name="2">
+									<el-form>
+									    <el-form-item label="搜索" :label-width="formLabelWidth">
+											<el-input  placeholder="请输入搜索的地区名" clearable v-model="searchForeign">
+												<i slot="suffix" class="el-input__icon el-icon-search"></i>
+											</el-input>
+										</el-form-item>
+									</el-form>
+									<div class="juzhong">
+										<el-button type="primary" size="mini">确定</el-button>
+										<el-button size="mini">清空</el-button>
+									</div>
+								</el-tab-pane>
 							</el-tabs>
 						</div>
 					</el-submenu>
@@ -345,6 +339,7 @@
 	export default {
 		data() {
 			return {
+				formLabelWidth:'60px',
 				activeName1:'1',
 				activeName2:'1',
 				jingweiduform:{
@@ -367,6 +362,8 @@
 				selectCity: "",
 				selectArea: "",
 
+				searchArea:'',
+				searchForeign:'',
 				
 				checkAll: false,
 				checkedLists: [],
