@@ -25,6 +25,7 @@
 		data() {
 			return {
 				ditu:"icon-ditu",
+				name:'三维',
 				flag: true
 			}
 		},

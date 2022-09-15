@@ -25,7 +25,6 @@
 <script>
     import rightMenu from '../components/rightMenu.vue'
     import topMenu from '../components/topMenu.vue'
-
     export default {
         components: { rightMenu,topMenu},
         data() {
@@ -34,39 +33,8 @@
                 latitude: '',
                 height: '',
                 eyeHeight: '',
-                countryBoundaryGeoJsonData: undefined,
-                chinaBoundaryGeoJsonData: undefined,
-                poiGeoJsonData: undefined,
-                provinceGeoJsonData: undefined,
-                riverGeoJsonData: undefined,
-                beijingRailWayGeoJsonData: undefined,
-                beijingRoadGeoJsonData: undefined,
-                buildingsGeoJsonData: undefined,
-
-                daliLayer: undefined,
-                villageLayer: undefined,
-                xionganLayer: undefined,
-                changjiangLayer: undefined,
-
-                dayanta3DTiles: undefined,
-                village3DTiles: undefined,
-                geermu3DTiles: undefined,
-                masai3DTiles: undefined,
-                factory3DTiles: undefined,
-
-                tdtImgLayer: undefined,
-                tdtCiaLayer: undefined,
-
-                hunanPointCloud: undefined,
-
-                buildingBIM: undefined,
-                airCzmlData: undefined,
-                manCzmlData: undefined,
-                carCzmlData: undefined,
-
                 distanceLabel: undefined,
                 barWidth: undefined,
-
                 currentScreenSpaceEvent: 0,
                 eventType: {
                     NONE: 0,
@@ -77,34 +45,6 @@
                     POLYLINE_PATH_EDIT: 5,
                     BIM_3DTILES_PICK: 6
                 },
-                elementDiv: undefined,
-                title: undefined,
-                frameDiv: undefined,
-
-                showDetail: false,
-                contentForm: {
-                    id: undefined,
-                    sid: undefined,
-                    name: undefined,
-                    length: undefined,
-                    area: undefined,
-                    height: undefined
-                },
-
-                isMap: false,
-
-                tracker: undefined,
-                layerId: 'globeGeometryLayer',
-                shapeDic: {},
-                optFlag: 1, //1 edit, 2 delete
-                showPoint: {},
-                showPolyline: {},
-                showPolygon: {},
-                showCircle: {},
-                showRectangle: {},
-                showDistanceMeasure: {},
-                showAreaMeasure: {},
-                showTriangleMeasure: {}
             }
         },
         created() {
@@ -127,20 +67,7 @@
                 viewer.camera.setView({
                     destination: Cesium.Cartesian3.fromDegrees(114.295314, 13.03, 20000000.0),
                 })
-
-                // viewer.scene.globe.depthTestAgainstTerrain = true
                 viewer.timeline.container.style.display = "none"
-
-                // viewer.scene.imageryLayers.addImageryProvider(
-                //     new Cesium.TileMapServiceImageryProvider({
-                //         url: this.$store.state.server.ip + 'data/imagery/global',
-                //     })
-                // )
-
-                // viewer.terrainProvider = new Cesium.CesiumTerrainProvider({
-                //     url: this.$store.state.server.ip + 'data/terrain/quanguo_dem_qiepian',
-                //     // baseLayerPicker: false,
-                // })
 
                 this.showLongLatHeight()
                 this.navigation()
@@ -155,7 +82,6 @@
                 let centerLon = parseFloat(Cesium.Math.toDegrees(cartographic.longitude).toFixed(8))
                 let centerLat = parseFloat(Cesium.Math.toDegrees(cartographic.latitude).toFixed(8))
                 let height = cartographic.height
-                // viewer.camera.zoomIn(height / 3);
                 viewer.camera.flyTo({
                     destination: Cesium.Cartesian3.fromDegrees(centerLon, centerLat, height / 1.8),
                     duration: 1.0
@@ -170,7 +96,6 @@
                 let centerLon = parseFloat(Cesium.Math.toDegrees(cartographic.longitude).toFixed(8))
                 let centerLat = parseFloat(Cesium.Math.toDegrees(cartographic.latitude).toFixed(8))
                 let height = cartographic.height
-                // viewer.camera.zoomOut(height * 1.2);
                 viewer.camera.flyTo({
                     destination: Cesium.Cartesian3.fromDegrees(centerLon, centerLat, height * 1.8),
                     duration: 1.0
@@ -202,7 +127,6 @@
                     if (!Cesium.defined(position)) {
                         return
                     }
-                    // let cartesian = viewer.camera.pickEllipsoid(position, ellipsoid)
                     let cartesian = viewer.scene.pickPosition(position)
                     if (!Cesium.defined(cartesian)) {
                         return
@@ -284,7 +208,6 @@
                             distance = distances[i]
                         }
                     }
-
                     if (Cesium.defined(distance)) {
                         let label = distance >= 1000 ? (distance / 1000).toString() + "km" : distance.toString() + "m"
                         this.barWidth = (distance / pixelDistance) | 0
@@ -295,12 +218,9 @@
                     }
                 })
             },
-            
-           
         }
     }
 </script>
-
 <style lang="scss" scoped>
     #cesiumContainer {
         width: 100vw;
@@ -317,20 +237,17 @@
         bottom: 0;
         left: 0;
         color: #fff;
-
         .scale-label {
             position: absolute;
             top: 10px;
             left: 20px;
         }
-
         .footerRight {
             display: flex;
             justify-content: flex-end; //对下面盒子模型按各种规则排列展示
             position: absolute;
             bottom: 8px;
             right: 0px;
-
             div {
                 margin-right: 20px;
             }

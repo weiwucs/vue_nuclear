@@ -9,7 +9,7 @@ const routes = [
         name: 'index',
 		component: () => import('../views/index.vue'),
 		redirect: '/login',
-		children: [{//这两个公用一个球
+		children: [{//这两个共用一个球
 			path: 'home',
 			name: 'home',
 			component: () => import('../views/home.vue')
