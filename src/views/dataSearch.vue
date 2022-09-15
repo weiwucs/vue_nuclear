@@ -215,8 +215,9 @@
 					<el-table-column prop="smallPic" label="缩略图">
 						<template slot-scope="scope">
 							<el-image :src="scope.row.smallPic" :preview-src-list="scope.row.srcList"
-								style="width:50px; height:50px;">
+								style="width:30px; height:30px;">
 							</el-image>
+							<i class="iconfont icon-yanjing" :class="changeColor" @click="clickEye"></i>
 						</template>
 					</el-table-column>
 					<el-table-column prop="satellite" sortable label="卫星"></el-table-column>
@@ -247,7 +248,8 @@
 						</el-checkbox-group>
 					</el-form-item>
 					<el-form-item label="选择下载路径">
-						<el-upload class="upload-demo" multiple>
+						<el-upload class="upload-demo"  action="https://jsonplaceholder.typicode.com/posts/"
+						 multiple>
 							<el-button size="small" type="primary">点击上传</el-button>
 							<p style="margin-bottom: 0;line-height: 20px;">{{form.path}}</p>
 						</el-upload>
@@ -277,8 +279,9 @@
 					<el-table-column prop="smallPic" label="缩略图">
 						<template slot-scope="scope">
 							<el-image :src="scope.row.smallPic" :preview-src-list="scope.row.srcList"
-								style="width:50px; height:50px;">
+								style="width:30px; height:30px;">
 							</el-image>
+							<i class="iconfont icon-yanjing" :class="changeColor" @click="clickEye"></i>
 						</template>
 					</el-table-column>
 					<el-table-column prop="satellite" sortable label="卫星"></el-table-column>
@@ -309,7 +312,7 @@
 						</el-checkbox-group>
 					</el-form-item>
 					<el-form-item label="选择下载路径">
-						<el-upload class="upload-demo" multiple>
+						<el-upload class="upload-demo" action="https://jsonplaceholder.typicode.com/posts/" multiple>
 							<el-button size="small" type="primary">点击上传</el-button>
 							<p style="margin-bottom: 0;line-height: 20px;">{{form.path}}</p>
 						</el-upload>
@@ -443,6 +446,7 @@
 					type: [],
 					path: "E:/aaa2022vega/codeHeGongye"
 				},
+				changeColor:'icon-gray',
 				tableData: [{
 					smallPic: 'suoluetu1.png',
 					srcList: ['suoluetu1.png'],
@@ -480,6 +484,9 @@
 			}
 		},
 		methods: {
+			clickEye(index){
+				alert("切换颜色。默认class是icon-gray,点击class变成icon-blue")
+			},
 			handleClick1(){
 				
 			},
@@ -608,7 +615,6 @@
 		color: #fff;
 		font-size: 32px;
 		cursor: pointer;
-
 		i {
 			margin-left: 20px;
 		}
@@ -629,7 +635,6 @@
 		right: 10px;
 		border: 1px solid #008aff70;
 		z-index: 2222;
-
 		i.el-icon-close {
 			color: #fff;
 			font-size: 20px;
@@ -638,7 +643,6 @@
 			top: 10px;
 			cursor: pointer;
 		}
-
 		p.title {
 			color: #fff;
 			background: url("../assets/img/msg-title.png");
@@ -646,56 +650,62 @@
 			line-height: 40px;
 			padding-left: 20px;
 		}
-
 		.btns {
 			position: relative;
 			padding-left: 20px;
 			padding-right: 20px;
-
 			span {
 				color: #fff;
 				padding-top: 5px;
 				display: inline-block;
 			}
-
 			.btn {
 				position: absolute;
 				right: 20px;
 				top: 0;
 			}
 		}
-
 		.footerBtns {
 			position: absolute;
 			bottom: 20px;
 			padding-left: 20px;
 			padding-right: 20px;
 			width: 100%;
-
 			.btn {
 				text-align: center;
 				border-top: 1px solid #008aff70;
 				padding-top: 10px;
 				margin-top: 5px;
 			}
-
 			.el-form-item::v-deep {
 				margin-bottom: 0px;
 				color: #fff;
-
 				.el-form-item__label,
 				.el-checkbox__label {
 					color: #fff;
 				}
-
 				.el-upload {
 					text-align: left;
 				}
 			}
 		}
 	}
-
+	.el-table .cell::v-deep{
+		position: relative;
+	}
 	.tableMain {
 		margin-top: 10px;
 	}
+i.icon-yanjing{
+	position: absolute;
+	right:7px;
+	top:5px;
+	cursor: pointer;
+}
+i.icon-gray{
+	color:#7d7d7d;
+}
+i.icon-blue{
+	color:#409eff;
+}
 </style>

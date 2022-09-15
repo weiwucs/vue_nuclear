@@ -20,7 +20,7 @@ ul li {
 /* add icon */
 @font-face {
   font-family: "iconfont"; /* Project id  */
-  src: url('iconfont.ttf?t=1663149144882') format('truetype');
+  src: url('iconfont.ttf?t=1663232785136') format('truetype');
 }
 .iconfont {
   font-family: "iconfont" !important;
@@ -55,6 +55,9 @@ ul li {
 }
 .icon-24gl-square:before {
   content: "\ea98";
+}
+.icon-yanjing:before {
+  content: "\e8c7";
 }
 .icon-duobianxing:before {
   content: "\ed98";
@@ -223,7 +226,6 @@ ul li {
 	background-color: transparent!important;
 	color:#fff!important;
 }
-
 
 
 

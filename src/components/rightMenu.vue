@@ -9,7 +9,6 @@
 		</div>
 		<div class="tool-manage-item" :title="name" @click="convertDim" >
 			<span class="iconfont " :class='ditu'></span>
-			<!-- <span class="iconfont icon-ditu1 icon-ersanweiqiehuan"></span> -->
 		</div>
 		<div class="tool-manage-item" title="放大" @click="zoomIn">
 			<span class="iconfont icon-jiahao"></span>
