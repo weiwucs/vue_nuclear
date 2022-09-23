@@ -18,7 +18,7 @@
 
 <script>
 	import topMenu from '../components/topMenu.vue'
-	import dataManageLeftMenu from '../components/dataManageLeftMenu.vue'
+	import dataManageLeftMenu from '../components/dataManage/dataManageLeftMenu.vue'
 	
 	export default {
 		components: { topMenu,dataManageLeftMenu},

@@ -115,7 +115,7 @@
 				},{
 					icon:'el-icon-coin',
 					menu:'数据管理',
-					path:'/dataManage/GF'
+					path:'/dataManage/dataContent?data=GF'
 				},{
 					icon:'el-icon-s-custom',
 					menu:'人员管理',

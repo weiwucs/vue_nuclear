@@ -38,12 +38,12 @@
 				    children: [{
 						name: 'GF',
 						title: '高分系列（GF）',
-						path: '/dataManage/GF',
+						path: '/dataManage/dataContent?data=GF',
 						children: []
 					},{
 						name: 'ZY',
 						title: '资源系列（ZY）',
-						path: '/dataManage/ZY',
+						path: '/dataManage/dataContent?data=ZY',
 						children: []
 					}],
 				  },
@@ -55,7 +55,7 @@
 				      {
 				        name: 'GF3',
 				        title: '高分三号',
-				        path: '/dataManage/GF3',
+				        path: '/dataManage/dataContent?data=GF3',
 				        children: []
 				      }
 				    ]
@@ -63,7 +63,7 @@
 				  {
 				    name: 'otherData',//对应index
 				    title: '其他数据',
-				    path: '/dataManage/other',//router-link跳转路由
+				    path: '/dataManage/dataContent?data=other',//router-link跳转路由
 				    children: [
 				      
 				    ]

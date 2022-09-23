@@ -28,22 +28,28 @@ const routes = [
 		name: 'dataManage',
 		component: () => import('../views/dataManage.vue'),
 		children:[{
-			path: 'GF',
-			name: 'dataGF',
-			component: () => import('../components/dataGF.vue')
-		},{
-			path: 'ZY',
-			name: 'dataZY',
-			component: () => import('../components/dataZY.vue')
-		},{
-			path: 'GF3',
-			name: 'dataGF3',
-			component: () => import('../components/dataGF3.vue')
-		},{
-			path: 'other',
-			name: 'dataOther',
-			component: () => import('../components/dataOther.vue')
-		}]
+				path: 'dataContent',
+				name: 'dataContent',
+				component: () => import('../components/dataManage/dataContent.vue')
+			}
+			// ,{
+			// 	path: 'GF',
+			// 	name: 'dataGF',
+			// 	component: () => import('../components/dataGF.vue')
+			// },{
+			// 	path: 'ZY',
+			// 	name: 'dataZY',
+			// 	component: () => import('../components/dataZY.vue')
+			// },{
+			// 	path: 'GF3',
+			// 	name: 'dataGF3',
+			// 	component: () => import('../components/dataGF3.vue')
+			// },{
+			// 	path: 'other',
+			// 	name: 'dataOther',
+			// 	component: () => import('../components/dataOther.vue')
+			// }
+		]
 	},{
 		path: '/userManage',
 		name: 'userManage',
