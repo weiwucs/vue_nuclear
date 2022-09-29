@@ -76,7 +76,6 @@
 		</el-dialog>
 	</div>
 </template>
-
 <script>
 	import {GF_header,ZY_header,GF3_header,other_header} from './dataContent.js'
 	export default {
@@ -122,7 +121,6 @@
 			this.init()
 		},
 		methods: {
-
 			//初始化
 			init(){
 				let GF = GF_header
