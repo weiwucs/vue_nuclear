@@ -78,7 +78,6 @@
         </el-dialog>
     </div>
 </template>
-
 <script>
     import {GF_header, ZY_header, GF3_header, other_header} from './dataContent.js'
     import loader from "../../api/utils/loader";

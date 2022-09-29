@@ -19,11 +19,12 @@ network.getAsync = function (url) {
   });
 };
 
-network.postAsync = function (url, data) {
+network.postAsync = function (url, data, params) {
   let requestConfig = {
     method: "post",
     url: url,
     data: data,
+    params: params
   };
   return new Promise((resolve, reject) => {
     axios(requestConfig)
@@ -37,11 +38,12 @@ network.postAsync = function (url, data) {
   });
 };
 
-network.patchAsync = function (url, data) {
+network.patchAsync = function (url, data, params) {
   let requestConfig = {
     method: "patch",
     url: url,
     data: data,
+    params: params
   };
   return new Promise((resolve, reject) => {
     axios(requestConfig)
