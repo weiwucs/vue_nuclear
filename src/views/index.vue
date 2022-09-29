@@ -63,6 +63,7 @@
                 this.$store.state.viewer = viewer
 
                 viewer.scene.debugShowFramesPerSecond = false
+                viewer.scene.globe.depthTestAgainstTerrain = false
 
                 viewer.camera.setView({
                     destination: Cesium.Cartesian3.fromDegrees(114.295314, 13.03, 20000000.0),
@@ -71,7 +72,6 @@
 
                 this.showLongLatHeight()
                 this.navigation()
-
             },
             zoomIn() {
                 const Cesium = HXWEarth
