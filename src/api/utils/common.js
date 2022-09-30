@@ -102,4 +102,26 @@ common.copyObjectToAnther = function (object, anther) {
   }
 };
 
+common.ifDate = function (date) {
+  if(this.defined(date) && date instanceof Date){
+    return true;
+  }
+  return false;
+};
+
+common.compareDate = function (a, b) {
+  if(!this.ifDate(a) || !this.ifDate(b)){
+    return;
+  }
+  return a.getTime() - b.getTime() > 0;
+};
+
+common.ifInterval = function (period, date) {
+  let begin = period[0], end = period[1];
+  if(this.compareDate(date, begin) && this.compareDate(end, date)){
+    return true;
+  }
+  return false;
+};
+
 export default common;

@@ -12,7 +12,7 @@
                 <el-button type="primary" size="small" @click="showNewData">新建</el-button>
                 <el-button type="primary" size="small">去重</el-button>
                 <el-button type="primary" size="small">更新数据</el-button>
-                <el-button type="primary" size="small" @click="deleteList">删除</el-button>
+                <el-button type="primary" size="small" @click="deleteItems">删除</el-button>
             </div>
             <div class="botanyTable">
                 <el-table ref="multipleTable" :data="tableData.slice((currentPage-1)*pageSize,currentPage*pageSize)"
@@ -21,11 +21,11 @@
                     <el-table-column type="selection" width="55">
                     </el-table-column>
                     <el-table-column width="150" sortable :prop="item.property" :label="item.name"
-                                     v-for="item in dataList"></el-table-column>
+                                     v-for="item in header"></el-table-column>
                     <el-table-column label="操作" width="150" fixed="right">
                         <template slot-scope="scope">
-                            <el-button type="text" size="small" @click="showDetail">详情</el-button>
-                            <el-button type="text" size="small" @click="deleteList">删除</el-button>
+                            <el-button type="text" size="small" @click="showDetail(scope.row)">详情</el-button>
+                            <el-button type="text" size="small" @click="deleteItem(scope.row)">删除</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -45,7 +45,7 @@
         <!-- 新建 -->
         <el-dialog title="新建" :visible.sync="dialogDataNew" append-to-body>
             <el-descriptions :column="2" border class="dialogDetail">
-                <el-descriptions-item :label="item.name" v-for="item in dataList">
+                <el-descriptions-item :label="item.name" v-for="item in header">
                     <el-input v-model="item.value"></el-input>
                 </el-descriptions-item>
             </el-descriptions>
@@ -56,8 +56,8 @@
         </el-dialog>
         <!-- 详情 -->
         <el-dialog title="详情" :visible.sync="dialogDataDetail" append-to-body>
-            <el-descriptions :column="2" border v-model="dataList" class="dialogDetail">
-                <el-descriptions-item :label="item.name" v-for="(item,i) in dataList">后台获取数据</el-descriptions-item>
+            <el-descriptions :column="2" border v-model="detailData" class="dialogDetail">
+                <el-descriptions-item :prop="item.property" :label="item.name" v-for="item in detailData">{{ item.value }}</el-descriptions-item>
             </el-descriptions>
             <div class="btnRight">
                 <el-button size="small" type="primary" @click="detailEdit">编辑</el-button>
@@ -67,7 +67,7 @@
         <!-- 编辑 -->
         <el-dialog title="编辑" :visible.sync="dialogDataEdit" append-to-body>
             <el-descriptions :column="2" border class="dialogDetail">
-                <el-descriptions-item :label="item.name" v-for="item in dataList">
+                <el-descriptions-item :label="item.name" v-for="item in header">
                     <el-input v-model="item.value"></el-input>
                 </el-descriptions-item>
             </el-descriptions>
@@ -81,6 +81,9 @@
 <script>
     import {GF_header, ZY_header, GF3_header, other_header} from './dataContent.js'
     import loader from "../../api/utils/loader";
+    import network from "../../api/utils/network";
+    import common from "../../api/utils/common";
+    import config from "../../api/utils/config";
 
     export default {
         components: {},
@@ -101,7 +104,9 @@
                     {SatelliteID: '123'},
                     {SatelliteID: '23'}
                 ],
-                dataList: []
+                detailData: [],
+                header: [],
+                clazz: ''
             }
         },
         updated() {
@@ -131,18 +136,18 @@
                 let ZY = ZY_header
                 let GF3 = GF3_header
                 let other = other_header
-                let data = {}, clazz = ''
+                let data = {}
                 this.$nextTick(() => {
                     data = eval(this.$route.query.data)
                     this.title = data.title
-                    this.dataList = data.data
+                    this.header = data.data
 					if(['GF3'].includes(this.$route.query.data)){
-						clazz = 'radar_satellite'
+						_.clazz = 'radar_satellite'
 					}
 					if(['GF','ZY'].includes(this.$route.query.data)){
-						clazz = 'optical_satellite'
+						_.clazz = 'optical_satellite'
 					}
-					loader.load({class: clazz}, function (data) {
+					loader.load({class: _.clazz}, function (data) {
 						_.tableData = data
 					})
                 })
@@ -153,16 +158,23 @@
                 this.currentPage = currentPage;
             },
 
-            deleteList() {
+            deleteItem(row) {
+                const _ = this;
                 this.$confirm('是否删除?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    this.$message({
-                        type: 'success',
-                        message: '删除成功!'
-                    });
+                    let object = common.getObjectFromArray(config.classRouteMapper, 'class', this.clazz);
+                    let url = object.url + '/' + row.id;
+                    network.deleteAsync(url).then(function (response) {
+                        _.$store.state[_.clazz + 's'] = response.data;
+                        _.tableData = response.data;
+                        _.$message({
+                            type: 'success',
+                            message: '删除成功!'
+                        });
+                    })
                 }).catch(() => {
                     this.$message({
                         type: 'info',
@@ -170,9 +182,18 @@
                     });
                 });
             },
+            deleteItems(){
+
+            },
             handleSelectionChange() {
             },
-            showDetail() {//显示详情弹框
+            showDetail(row) {//显示详情弹框
+                this.detailData = [];
+                for(let object of this.header){
+                    let no = common.deepCopy(object);
+                    no.value = row[object['property']];
+                    this.detailData.push(no);
+                }
                 this.dialogDataDetail = true
             },
             showNewData() {//显示新建弹框

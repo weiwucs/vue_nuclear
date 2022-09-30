@@ -141,7 +141,7 @@
                     <el-submenu index="1-4">
                         <template slot="title">导入范围</template>
                         <div class="timeSearch">
-                            <el-upload class="upload-demo" multiple>
+                            <el-upload class="upload-demo" action="#" multiple>
                                 选择路径：
                                 <el-button size="small" type="primary">上传文件</el-button>
                                 <p style="margin-bottom: 0;line-height: 20px;">支持.zip文件(包括.dbf、.shp、.prj三类文件)</p>
@@ -157,31 +157,31 @@
                     <template slot="title">数据筛选</template>
                     <el-submenu index="2-1">
                         <template slot="title">数据类型</template>
-                        <el-menu-item index="2-1-1">光学卫星影像</el-menu-item>
-                        <el-menu-item index="2-1-2">雷达卫星影像</el-menu-item>
+                        <el-menu-item index="2-1-1" >光学卫星影像</el-menu-item>
+                        <el-menu-item index="2-1-2" >雷达卫星影像</el-menu-item>
                     </el-submenu>
-                    <el-submenu index="2-2">
-                        <template slot="title">卫星/传感器</template>
-                        <div class="timeSearch">
-                            <el-tree
-                                    :data="satelliteData"
-                                    show-checkbox
-                                    node-key="id"
-                                    :props="defaultProps">
-                            </el-tree>
-                        </div>
-                    </el-submenu>
-                    <el-submenu index="2-3">
-                        <template slot="title">级别</template>
-                        <div class="timeSearch">
-                            <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll"
-                                         @change="handleCheckAllChange">全选
-                            </el-checkbox>
-                            <el-checkbox-group v-model="checkedLists" @change="handleCheckedListsChange">
-                                <el-checkbox v-for="list in lists" :label="list" :key="list">{{list}}</el-checkbox>
-                            </el-checkbox-group>
-                        </div>
-                    </el-submenu>
+<!--                    <el-submenu index="2-2">-->
+<!--                        <template slot="title">卫星/传感器</template>-->
+<!--                        <div class="timeSearch">-->
+<!--                            <el-tree-->
+<!--                                    :data="satelliteData"-->
+<!--                                    show-checkbox-->
+<!--                                    node-key="id"-->
+<!--                                    :props="defaultProps">-->
+<!--                            </el-tree>-->
+<!--                        </div>-->
+<!--                    </el-submenu>-->
+<!--                    <el-submenu index="2-3">-->
+<!--                        <template slot="title">级别</template>-->
+<!--                        <div class="timeSearch">-->
+<!--                            <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll"-->
+<!--                                         @change="handleCheckAllChange">全选-->
+<!--                            </el-checkbox>-->
+<!--                            <el-checkbox-group v-model="checkedLists" @change="handleCheckedListsChange">-->
+<!--                                <el-checkbox v-for="list in lists" :label="list" :key="list">{{list}}</el-checkbox>-->
+<!--                            </el-checkbox-group>-->
+<!--                        </div>-->
+<!--                    </el-submenu>-->
                 </el-submenu>
                 <el-submenu index="3">
                     <template slot="title">时间筛选</template>
@@ -205,15 +205,17 @@
             </el-menu>
         </div>
         <div class="rightIcon">
+            <i class="el-icon-search" title="查询" @click="queryByDate([timeValue1, timeValue2])"></i>
+            <i class="el-icon-refresh-right" title="重置" @click="reset"></i>
             <i class="el-icon-shopping-cart-2" title="待下载" @click="showNotDownload"></i>
             <i class="el-icon-download" title="已下载" @click="showDownload"></i>
         </div>
         <!-- 未下载弹框 -->
         <div class="downloadList" v-if="notDownload">
-            <i class="el-icon-close" title="关闭" @click="notDownload = false"></i>
+            <i class="el-icon-close" title="关闭" @click="closeUnDownload"></i>
             <p class="title">待下载</p>
             <div class="btns">
-                <span>共{{total}}景</span>
+                <span>共{{unDownloadedData.length}}景</span>
                 <div class="btn">
                     <el-button type="primary" size="mini">删除</el-button>
                     <el-button type="primary" size="mini">清空选择</el-button>
@@ -223,6 +225,8 @@
                 <el-table :data="unDownloadedData" border
                           :header-cell-style="{ 'text-align': 'center' }"
                           :cell-style="{ 'text-align': 'center' }"
+                          @cell-mouse-enter="handleMouseEnter"
+                          @cell-mouse-leave="handleMouseOut"
                           style="width: 100%;max-height:calc(100vh - 500px) ;overflow: auto;">
                     <el-table-column type="selection"></el-table-column>
                     <el-table-column prop="smallPic" label="缩略图">
@@ -261,7 +265,7 @@
                         </el-checkbox-group>
                     </el-form-item>
                     <el-form-item label="选择下载路径">
-                        <el-upload class="upload-demo" action="https://jsonplaceholder.typicode.com/posts/"
+                        <el-upload class="upload-demo" action="name"
                                    multiple>
                             <el-button size="small" type="primary">点击上传</el-button>
                             <p style="margin-bottom: 0;line-height: 20px;">{{form.path}}</p>
@@ -354,7 +358,8 @@
     import loader from "../api/utils/loader";
     import config from "../api/utils/config";
     import drawer from "../api/utils/drawer";
-	import {GF_header, ZY_header, GF3_header, other_header} from '../components/dataManage/dataContent';
+	import dataContent, {GF_header, ZY_header, GF3_header, other_header} from '../components/dataManage/dataContent';
+    import common from "../api/utils/common";
 
     const Options = ['level1', 'level2', 'level3', 'level4'];
     export default {
@@ -465,41 +470,10 @@
                     path: "E:/aaa2022vega/codeHeGongye"
                 },
                 changeColor: 'icon-gray',
-                unDownloadedData: [{
-                    smallPic: 'suoluetu1.png',
-                    srcList: ['suoluetu1.png'],
-                    satellite: 'GF',
-                    sensor: '传感器',
-                    GSD: '分辨率',
-                    acquisitionTime: '2022-1-20',
-                    cloudCover: '10'
-                }, {
-                    smallPic: 'suoluetu1.png',
-                    srcList: ['suoluetu1.png'],
-                    satellite: 'GF',
-                    sensor: '传感器',
-                    GSD: '分辨率',
-                    acquisitionTime: '2022-1-20',
-                    cloudCover: '10'
-                }, {
-                    smallPic: 'suoluetu1.png',
-                    srcList: ['suoluetu1.png'],
-                    satellite: 'GF',
-                    sensor: '传感器',
-                    GSD: '分辨率',
-                    acquisitionTime: '2022-1-20',
-                    cloudCover: '10'
-                },],
-                downloadedData: [{
-                    smallPic: 'suoluetu1.png',
-                    srcList: ['suoluetu1.png'],
-                    satellite: 'GF',
-                    sensor: '传感器',
-                    GSD: '分辨率',
-                    downloadPeople: 'nasa',
-                    downloadTime: '2022-1-20'
-                }],
+                unDownloadedData: [],
+                downloadedData: [],
                 imagesIP: config.imagesIP,
+                clazz: 'optical_satellite'
             }
         },
         methods: {
@@ -534,6 +508,29 @@
                 }
             },
 
+            queryByDate(dates){
+                const _ = this;
+                loader.load({class: _.clazz}, function (data) {
+                    _.unDownloadedData = data.filter(function (object) {
+                        if(object['receiveTime'] !== null && object['receiveTime'] !== 'NULL'){
+                            let date = new Date(object['receiveTime']);
+                            return common.ifInterval(dates, date);
+                        }
+                        return false;
+                    });
+                    if(_.clazz === 'radar_satellite'){
+                        _.unDownloadedData = data;
+                    }
+                    _.showNotDownload();
+                })
+            },
+
+            reset(){
+                this.clazz = 'optical_satellite';
+                this.timeValue1 = '';
+                this.timeValue2 = '';
+            },
+
             handleCheckAllChange(val) {
                 this.checkedCities = val ? Options : [];
                 this.isIndeterminate = false;
@@ -542,6 +539,18 @@
                 let checkedCount = value.length;
                 this.checkAll = checkedCount === this.lists.length;
                 this.isIndeterminate = checkedCount > 0 && checkedCount < this.lists.length;
+            },
+            handleMouseEnter(row, column, cell, event){
+                const Cesium = HXWEarth;
+                const viewer = this.$store.state.viewer;
+                let entity = drawer.findEntityByObjId(viewer, row.id);
+                entity.rectangle.outlineColor.setValue(Cesium.Color.RED);
+            },
+            handleMouseOut(row, column, cell, event){
+                const Cesium = HXWEarth;
+                const viewer = this.$store.state.viewer;
+                let entity = drawer.findEntityByObjId(viewer, row.id);
+                entity.rectangle.outlineColor.setValue(Cesium.Color.BLUE);
             },
 			changeMode(viewer, row){
 				let entity = drawer.findEntityByObjId(viewer, row.id);
@@ -553,11 +562,14 @@
                 if (this.download = true) {
                     this.download = false
                 }
-                loader.load({class: 'optical_satellite'}, function (data) {
-                    _.unDownloadedData = data;
-                    for (let object of _.unDownloadedData) {
-                        object['satellite'] = object['satelliteID'];
-                        object['resolution'] = object['imageGSD'];
+                function drawRectangle(array) {
+                    for (let object of array) {
+                        if(_.clazz === 'optical_satellite'){
+                            object['satellite'] = object['satelliteID'];
+                            object['resolution'] = object['imageGSD'];
+                        } else {
+                            object['resolution'] = object['nominalResolution'];
+                        }
                         let topLeftLon = parseFloat(object.topLeftLongitude);
                         let bottomRightLat = parseFloat(object.bottomRightLatitude);
                         let bottomRightLon = parseFloat(object.bottomRightLongitude);
@@ -565,14 +577,22 @@
                         if (isNaN(topLeftLon) || isNaN(bottomRightLat) || isNaN(bottomRightLon) || isNaN(topLeftLat)) {
                             continue;
                         }
-                        if(object.imageUrl === null){
-                        	continue;
-						}
+                        // if(object.imageUrl === null){
+                        //     continue;
+                        // }
                         let imageUrl = _.imagesIP + '/' + object.directory + '/' + object.imageUrl;
                         let positions = [topLeftLon, bottomRightLat, bottomRightLon, topLeftLat];
-                        drawer.rectangle(_.$store.state.viewer,object.id, imageUrl, positions);
+                        drawer.rectangle(_.$store.state.viewer, object.id, imageUrl, positions);
                     }
-                })
+                }
+                if(!common.arrayIsEmpty(_.unDownloadedData)){
+                    drawer.clearEntityByLayerId('rectangle');
+                    drawRectangle(_.unDownloadedData);
+                }
+            },
+            closeUnDownload(){
+                this.notDownload = false;
+                drawer.clearEntityByLayerId('rectangle');
             },
             showDownload() {
                 this.download = true
@@ -581,12 +601,16 @@
                 }
             },
             handleSelect(key, keyPath) {
-                console.log(key, keyPath);
+                if(key === '2-1-1'){
+                    this.clazz = 'optical_satellite';
+                }
+                if(key === '2-1-2'){
+                    this.clazz = 'radar_satellite';
+                }
             },
             notDownloadDetail(row) {
                 this.detailData = [];
                 for(let object of GF_header.data){
-                	console.log(object['property'], row[object['property']]);
                 	object.value = row[object['property']];
                 	this.detailData.push(object);
 				}

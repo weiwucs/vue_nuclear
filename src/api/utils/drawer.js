@@ -1,4 +1,5 @@
 import common from "./common";
+import store from "../../store";
 
 const earth = HXWEarth
 
@@ -14,6 +15,36 @@ const drawer = {
         }
     },
 
+    clearEntityByLayerId(layerId){
+        const viewer = store.state['viewer'];
+        let entities = viewer.entities.values
+        if (entities === null || entities.length < 1) {
+            return
+        }
+        for (let i = 0; i < entities.length; i++) {
+            let entity = entities[i]
+            if (entity.layerId === layerId) {
+                viewer.entities.remove(entity)
+                i--
+            }
+        }
+    },
+
+    clearEntityById(layerId, objId) {
+        const viewer = store.state['viewer'];
+        let entities = viewer.entities.values
+        if (entities === null || entities.length < 1) {
+            return
+        }
+        for (let i = 0; i < entities.length; i++) {
+            let entity = entities[i]
+            if (entity.layerId === layerId && entity.objectId === objId) {
+                viewer.entities.remove(entity)
+                i--
+            }
+        }
+    },
+
     lonlatToCartesian(longitude, latitude){
         return earth.Cartesian3.fromDegrees(parseFloat(longitude), parseFloat(latitude), 0);
     },
@@ -22,6 +53,7 @@ const drawer = {
         let material = new earth.ImageMaterialProperty({ image: imageUrl })
         let rect = earth.Rectangle.fromDegrees(positions[0], positions[1], positions[2], positions[3])
         let bData = {
+            layerId: 'rectangle',
             objectId: objectId,
             shapeType: "Rectangle",
             rectangle: {
@@ -31,7 +63,7 @@ const drawer = {
                 material: material,
                 fill: true,
                 outline: true,
-                outlineColor: earth.Color.RED,
+                outlineColor: earth.Color.BLUE,
                 outlineWidth: 30.0,
             },
         };
