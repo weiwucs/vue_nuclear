@@ -71,6 +71,7 @@
 </template>
 
 <script>
+import loader from "../api/utils/loader"
 	export default {
 		data() {
 			return {
@@ -82,354 +83,347 @@
 		},
 		methods: {
 			drawLine() {
-				this.$nextTick(() => {
-					let myChart1 = this.$echarts.init(document.getElementById('homeEcharts1'));
-					myChart1.setOption({
-						// title: {
-						// 	text: '年度卫星影像总数',
-						// 	textStyle:{
-						// 		color:'#ffffff',
-						// 	}
-						// },
-						tooltip: {
-							trigger: 'axis',
-							axisPointer: {
-								type: 'cross',
-								crossStyle: {
-									color: '#999'
+				let _ = this
+				let satellite = []
+				let radar_satellite = []
+				let optical_satellite = []
+				let pieTotal = {}
+				let pieSize = {}
+				let satelliteTime = []
+				let satelliteNum = []
+				let satelliteSize = []
+				let classNum = []
+				let classSize = []
+				loader.load({class: 'radar_satellite'}, function (data) {
+					radar_satellite = data
+					loader.load({class: 'optical_satellite'}, function (data) {
+						optical_satellite = data
+						satellite = radar_satellite.concat(optical_satellite)
+						satellite.forEach((item)=>{
+							if(pieTotal[item.satellite]){
+								pieTotal[item.satellite].num++
+								pieTotal[item.satellite].dataSize += item.dataSize
+							}else if(pieTotal[item.satelliteID]){
+								pieTotal[item.satelliteID].num++
+								pieTotal[item.satelliteID].dataSize += item.dataSize
+							}else{
+								if(item.satellite){
+									pieTotal[item.satellite] = {}
+									pieTotal[item.satellite].num = 1
+									pieTotal[item.satellite].dataSize = item.dataSize
+								}else if(item.satelliteID){
+									pieTotal[item.satelliteID] = {}
+									pieTotal[item.satelliteID].num = 1
+									pieTotal[item.satelliteID].dataSize = item.dataSize
 								}
 							}
-						},
-						toolbox: {
-							feature: {
-								saveAsImage: {
-									title: '保存图片',
-									backgroundColor: '#0f2247',
-									pixelRatio: 2,
+							if(item.centerTime){
+								if(pieSize[item.centerTime.split('-')[0]]){
+									pieSize[item.centerTime.split('-')[0]].num++
+									pieSize[item.centerTime.split('-')[0]].dataSize += item.dataSize
+								}else{
+									pieSize[item.centerTime.split('-')[0]] = {}
+									pieSize[item.centerTime.split('-')[0]].num = 1
+									pieSize[item.centerTime.split('-')[0]].dataSize = item.dataSize
 								}
 							}
-						},
-						legend: {
-							orient: 'horizontal',
-							x: 'center',
-							y: '0',
-							textStyle: {
-								color: '#ffffff'
-							},
-						},
-						xAxis: {
-							type: 'category',
-							data: ['2017', '2018', '2019', '2020', '2021', '2022'],
-							axisLabel: {
-								show: true,
-								interval: 0,
-								rotate: 40,
-								textStyle: {
-									color: '#ffffff'
-								}
-							},
-						},
-						yAxis: [{
-							type: 'value',
-							axisLabel: {
-								formatter: '{value}'
-							},
-							axisLabel: {
-								show: true,
-								textStyle: {
-									color: '#ffffff'
-								}
-							},
-						}],
-						series: [{
-							name: '数据景数(景)',
-							tooltip: {
-								valueFormatter: function(value) {
-									return value;
-								}
-							},
-							data: [12900, 15870, 12850, 14820, 21800, 17750],
-							type: 'bar',
-							// barWidth: '50',
-							itemStyle: {
-								normal: {
-									color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-										offset: 0,
-										color: 'rgba(0, 226, 255, 0.8)'
-									}, {
-										offset: 1,
-										color: 'rgba(0, 99, 191, 0.3)'
-									}])
-								},
-							},
-							label: {
-								show: true,
-								position: 'top',
-								textStyle: {
-									color: "#fff",
-									fontSize: 14
-								}
-							}
-						}]
-					});
-					let myChart2 = this.$echarts.init(document.getElementById('homeEcharts2'));
-					myChart2.setOption({
-						// title: {
-						// 	text: '年度卫星影像数据量',
-						// 	textStyle:{
-						// 		color:'#ffffff'
-						// 	}
-						// },
-						tooltip: {},
-						toolbox: {
-							feature: {
-								saveAsImage: {
-									title: '保存图片',
-									backgroundColor: '#0f2247',
-									pixelRatio: 2,
-								}
-							}
-						},
-						legend: {
-							orient: 'horizontal',
-							x: 'center',
-							y: '0',
-							textStyle: {
-								color: '#ffffff'
-							},
-						},
-						xAxis: {
-							type: 'category',
-							data: ['2017', '2018', '2019', '2020', '2021', '2022'],
-							axisLabel: {
-								interval: 0,
-								rotate: 40,
-								show: true,
-								textStyle: {
-									color: '#ffffff'
-								}
-							},
-							axisLine: {
-								show: true, //是否显示刻度线
-								lineStyle: {
-									color: '#fff;' //刻度线颜色
-								}
-							}
-						},
-						yAxis: {
-							type: 'value',
-							axisLabel: {
-								show: true,
-								textStyle: {
-									color: '#ffffff'
-								}
-							},
-						},
-						series: [{
-							name: '数据量(G)',
-							data: [5000, 4100, 3000, 2200, 1500, 2800, 6050, 3026, 5099, 7895],
-							type: 'bar',
-							itemStyle: {
-								normal: {
-									color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-										offset: 0,
-										color: 'rgba(0, 226, 255, 0.8)'
-									}, {
-										offset: 1,
-										color: 'rgba(0, 99, 191, 0.3)'
-									}])
-								},
-							},
-							label: {
-								show: true,
-								position: 'top',
-								textStyle: {
-									color: "#fff",
-									fontSize: 14
-								}
-							}
-						}]
-					});
-					let myChart3 = this.$echarts.init(document.getElementById('homeEcharts3'));
-					myChart3.setOption({
-						// title: {
-						// 	text:'性别分布情况',
-						//     x: 'left',
-						// 	textStyle: {
-						// 		color: '#ffffff'
-						// 	}
-						//   },
-						tooltip: {
-							trigger: 'item',
-						},
-						toolbox: {
-							feature: {
-								saveAsImage: {
-									title: '保存图片',
-									backgroundColor: '#0f2247',
-								}
-							}
-						},
-						legend: {
-						 orient: 'horizontal',
-							x: 'center',
-							y: 'bottom',
-							textStyle: {
-								color: '#ffffff'
-							}
-						},
-						series: [{
-							name: '',
-							type: 'pie',
-							radius: '50%',
-							center: ['50%', '40%'], //设置饼图的上下左右位置
-							label: {
-								normal: {
-									show: true,
-									formatter: '{b}: {c}景({d}%)', //自定义显示格式（b:name,c:value,d:%）
-									textStyle: {
-										color: "#fff",
-										fontSize: 12
+							
+
+						})
+
+						for(let key in pieSize){
+							satelliteTime.push(key)
+							satelliteNum.push(pieSize[key].num)
+							satelliteSize.push(pieSize[key].dataSize)
+						}
+						for(let key in pieTotal){
+							classNum.push({
+								name: key,
+								value: pieTotal[key].num
+							})
+							classSize.push({
+								name: key,
+								value: pieTotal[key].dataSize
+							})
+						}
+
+
+						_.$nextTick(() => {
+							let myChart1 = _.$echarts.init(document.getElementById('homeEcharts1'));
+							myChart1.setOption({
+								// title: {
+								// 	text: '年度卫星影像总数',
+								// 	textStyle:{
+								// 		color:'#ffffff',
+								// 	}
+								// },
+								tooltip: {
+									trigger: 'axis',
+									axisPointer: {
+										type: 'cross',
+										crossStyle: {
+											color: '#999'
+										}
 									}
 								},
-							},
-							data: [{
-									value: 1048,
-									name: '高分1号'
-								},
-								{
-									value: 735,
-									name: '高分2号'
-								},
-								{
-									value: 1735,
-									name: '高分3号'
-								},
-								{
-									value: 2735,
-									name: '高分4号'
-								},
-								{
-									value: 1735,
-									name: '高分5号'
-								},
-								{
-									value: 2735,
-									name: '高分6号'
-								},
-								{
-									value: 1735,
-									name: '高分7号'
-								},
-								{
-									value: 1200,
-									name: '资源1号'
-								},
-								{
-									value: 1300,
-									name: '资源2号'
-								},
-								{
-									value: 1300,
-									name: '资源3号'
-								},
-							],
-						 emphasis: {
-								itemStyle: {
-									shadowBlur: 10,
-									shadowOffsetX: 0,
-									shadowColor: 'rgba(0, 0, 0, 0.5)'
-								}
-							}
-						}],
-					});
-					let myChart4 = this.$echarts.init(document.getElementById('homeEcharts4'));
-					myChart4.setOption({
-						tooltip: {
-							trigger: 'item',
-						},
-						toolbox: {
-							feature: {
-								saveAsImage: {
-									title: '保存图片',
-									backgroundColor: '#0f2247',
-								}
-							}
-						},
-						legend: {
-							orient: 'horizontal',
-							x: 'center',
-							y: 'bottom',
-							textStyle: {
-								color: '#ffffff'
-							}
-						},
-						series: [{
-							name: '',
-							type: 'pie',
-							radius: '50%',
-							center: ['50%', '40%'], //设置饼图的上下左右位置
-							label: {
-								normal: {
-									show: true,
-									formatter: '{b}: {c}G({d}%)', //自定义显示格式（b:name,c:value,d:%）
-									textStyle: {
-										color: "#fff",
-										fontSize: 12
+								toolbox: {
+									feature: {
+										saveAsImage: {
+											title: '保存图片',
+											backgroundColor: '#0f2247',
+											pixelRatio: 2,
+										}
 									}
 								},
-							},
-							data: [{
-									value: 128,
-									name: '高分1号'
+								legend: {
+									orient: 'horizontal',
+									x: 'center',
+									y: '0',
+									textStyle: {
+										color: '#ffffff'
+									},
 								},
-								{
-									value: 735,
-									name: '高分2号'
+								xAxis: {
+									type: 'category',
+									data: satelliteTime,
+									axisLabel: {
+										show: true,
+										interval: 0,
+										rotate: 40,
+										textStyle: {
+											color: '#ffffff'
+										}
+									},
 								},
-								{
-									value: 135,
-									name: '高分3号'
+								yAxis: [{
+									type: 'value',
+									axisLabel: {
+										formatter: '{value}'
+									},
+									axisLabel: {
+										show: true,
+										textStyle: {
+											color: '#ffffff'
+										}
+									},
+								}],
+								series: [{
+									name: '数据景数(景)',
+									tooltip: {
+										valueFormatter: function(value) {
+											return value;
+										}
+									},
+									data: satelliteNum,
+									type: 'bar',
+									// barWidth: '50',
+									itemStyle: {
+										normal: {
+											color: new _.$echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+												offset: 0,
+												color: 'rgba(0, 226, 255, 0.8)'
+											}, {
+												offset: 1,
+												color: 'rgba(0, 99, 191, 0.3)'
+											}])
+										},
+									},
+									label: {
+										show: true,
+										position: 'top',
+										textStyle: {
+											color: "#fff",
+											fontSize: 14
+										}
+									}
+								}]
+							});
+							let myChart2 = _.$echarts.init(document.getElementById('homeEcharts2'));
+							myChart2.setOption({
+								// title: {
+								// 	text: '年度卫星影像数据量',
+								// 	textStyle:{
+								// 		color:'#ffffff'
+								// 	}
+								// },
+								tooltip: {},
+								toolbox: {
+									feature: {
+										saveAsImage: {
+											title: '保存图片',
+											backgroundColor: '#0f2247',
+											pixelRatio: 2,
+										}
+									}
 								},
-								{
-									value: 225,
-									name: '高分4号'
+								legend: {
+									orient: 'horizontal',
+									x: 'center',
+									y: '0',
+									textStyle: {
+										color: '#ffffff'
+									},
 								},
-								{
-									value: 335,
-									name: '高分5号'
+								xAxis: {
+									type: 'category',
+									data: satelliteTime,
+									axisLabel: {
+										interval: 0,
+										rotate: 40,
+										show: true,
+										textStyle: {
+											color: '#ffffff'
+										}
+									},
+									axisLine: {
+										show: true, //是否显示刻度线
+										lineStyle: {
+											color: '#fff;' //刻度线颜色
+										}
+									}
 								},
-								{
-									value: 425,
-									name: '高分6号'
+								yAxis: {
+									type: 'value',
+									axisLabel: {
+										show: true,
+										textStyle: {
+											color: '#ffffff'
+										}
+									},
 								},
-								{
-									value: 635,
-									name: '高分7号'
+								series: [{
+									name: '数据量(G)',
+									data: satelliteSize,
+									type: 'bar',
+									itemStyle: {
+										normal: {
+											color: new _.$echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+												offset: 0,
+												color: 'rgba(0, 226, 255, 0.8)'
+											}, {
+												offset: 1,
+												color: 'rgba(0, 99, 191, 0.3)'
+											}])
+										},
+									},
+									label: {
+										show: true,
+										position: 'top',
+										textStyle: {
+											color: "#fff",
+											fontSize: 14
+										}
+									}
+								}]
+							});
+							let myChart3 = _.$echarts.init(document.getElementById('homeEcharts3'));
+							myChart3.setOption({
+								// title: {
+								// 	text:'性别分布情况',
+								//     x: 'left',
+								// 	textStyle: {
+								// 		color: '#ffffff'
+								// 	}
+								//   },
+								tooltip: {
+									trigger: 'item',
 								},
-								{
-									value: 180,
-									name: '资源1号'
+								toolbox: {
+									feature: {
+										saveAsImage: {
+											title: '保存图片',
+											backgroundColor: '#0f2247',
+										}
+									}
 								},
-								{
-									value: 130,
-									name: '资源2号'
+								legend: {
+								orient: 'horizontal',
+									x: 'center',
+									y: 'bottom',
+									textStyle: {
+										color: '#ffffff'
+									}
 								},
-								{
-									value: 170,
-									name: '资源3号'
+								series: [{
+									name: '',
+									type: 'pie',
+									radius: '50%',
+									center: ['50%', '40%'], //设置饼图的上下左右位置
+									label: {
+										normal: {
+											show: true,
+											formatter: '{b}: {c}景({d}%)', //自定义显示格式（b:name,c:value,d:%）
+											textStyle: {
+												color: "#fff",
+												fontSize: 12
+											}
+										},
+									},
+									data: classNum,
+								emphasis: {
+										itemStyle: {
+											shadowBlur: 10,
+											shadowOffsetX: 0,
+											shadowColor: 'rgba(0, 0, 0, 0.5)'
+										}
+									}
+								}],
+							});
+							let myChart4 = _.$echarts.init(document.getElementById('homeEcharts4'));
+							myChart4.setOption({
+								tooltip: {
+									trigger: 'item',
 								},
-							],
-							emphasis: {
-								itemStyle: {
-									shadowBlur: 10,
-									shadowOffsetX: 0,
-									shadowColor: 'rgba(0, 0, 0, 0.5)'
-								}
-							}
-						}],
+								toolbox: {
+									feature: {
+										saveAsImage: {
+											title: '保存图片',
+											backgroundColor: '#0f2247',
+										}
+									}
+								},
+								legend: {
+									orient: 'horizontal',
+									x: 'center',
+									y: 'bottom',
+									textStyle: {
+										color: '#ffffff'
+									}
+								},
+								series: [{
+									name: '',
+									type: 'pie',
+									radius: '50%',
+									center: ['50%', '40%'], //设置饼图的上下左右位置
+									label: {
+										normal: {
+											show: true,
+											formatter: '{b}: {c}G({d}%)', //自定义显示格式（b:name,c:value,d:%）
+											textStyle: {
+												color: "#fff",
+												fontSize: 12
+											}
+										},
+									},
+									data: classSize,
+									emphasis: {
+										itemStyle: {
+											shadowBlur: 10,
+											shadowOffsetX: 0,
+											shadowColor: 'rgba(0, 0, 0, 0.5)'
+										}
+									}
+								}],
+							})
+						})
+
+
 					})
 				})
+				
+				
+				
+				
 			}
 
 		}
