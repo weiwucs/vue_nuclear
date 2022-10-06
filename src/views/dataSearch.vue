@@ -203,13 +203,66 @@
                     </div>
                 </el-submenu>
             </el-menu>
+			<div class="searchBtn">
+				<el-button >设置完成</el-button>
+				<el-button @click="showSearchList">查询</el-button>
+			</div>
         </div>
+		
         <div class="rightIcon">
             <i class="el-icon-search" title="查询" @click="queryByDate([timeValue1, timeValue2])"></i>
             <i class="el-icon-refresh-right" title="重置" @click="reset"></i>
             <i class="el-icon-shopping-cart-2" title="待下载" @click="showNotDownload"></i>
             <i class="el-icon-download" title="已下载" @click="showDownload"></i>
         </div>
+		<!-- 查询弹框 -->
+		<div class="downloadList" v-if="searchList">
+		    <i class="el-icon-close" title="关闭" @click="searchList=false"></i>
+		    <p class="title">查询结果</p>
+		    <div class="btns">
+		        <span>查询结果{{searchTotal1}}景，已选择{{searchTotal2}}景</span>
+		        <div class="btn">
+		            <el-button type="primary" size="mini">清空选择</el-button>
+		        </div>
+		    </div>
+		    <div class="tableMain">
+		        <el-table :data="unDownloadedData" border
+		                  :header-cell-style="{ 'text-align': 'center' }"
+		                  :cell-style="{ 'text-align': 'center' }"
+		                  @cell-mouse-enter="handleMouseEnter"
+		                  @cell-mouse-leave="handleMouseOut"
+		                  style="width: 100%;max-height:calc(100vh - 500px) ;overflow: auto;">
+		            <el-table-column type="selection"></el-table-column>
+		            <el-table-column prop="smallPic" label="缩略图">
+		                <template slot-scope="scope">
+		                    <el-image :src="imagesIP + '/' + scope.row.directory + '/' + scope.row.thumbUrl"
+		                              style="width:30px; height:30px;">
+		                    </el-image>
+		                    <i class="iconfont icon-yanjing" :class="changeColor" @click="changeMode($store.state.viewer, scope.row)"></i>
+		                </template>
+		            </el-table-column>
+		            <el-table-column prop="satellite" sortable label="卫星"></el-table-column>
+		            <el-table-column prop="sensorID" sortable label="传感器"></el-table-column>
+		            <el-table-column prop="resolution" sortable label="分辨率"></el-table-column>
+		            <el-table-column prop="receiveTime" sortable label="采集时间"></el-table-column>
+		            <el-table-column prop="cloudPercent" sortable label="云量"></el-table-column>
+		            <el-table-column fixed="right" label="操作">
+		                <template slot-scope="scope">
+		                    <el-button type="text" size="small" @click="notDownloadDetail(scope.row)">详情</el-button>
+		                    <el-button type="text" size="small" >下载</el-button>
+		                </template>
+		            </el-table-column>
+		        </el-table>
+		        <div style="text-align: center;margin-top: 10px;">
+		            <el-pagination background small layout="prev, pager, next" :total="1000">
+		            </el-pagination>
+		        </div>
+		    </div>
+		    <div class="footerIcon">
+				<i class="icon el-icon-shopping-cart-2 gouwuche" title="加入待下载"></i>
+			</div>
+		</div>
+		
         <!-- 未下载弹框 -->
         <div class="downloadList" v-if="notDownload">
             <i class="el-icon-close" title="关闭" @click="closeUnDownload"></i>
@@ -267,7 +320,7 @@
                     <el-form-item label="选择下载路径">
                         <el-upload class="upload-demo" action="name"
                                    multiple>
-                            <el-button size="small" type="primary">点击上传</el-button>
+                            <el-button size="small" type="primary">点击选择</el-button>
                             <p style="margin-bottom: 0;line-height: 20px;">{{form.path}}</p>
                         </el-upload>
                     </el-form-item>
@@ -330,7 +383,7 @@
                     </el-form-item>
                     <el-form-item label="选择下载路径">
                         <el-upload class="upload-demo" action="https://jsonplaceholder.typicode.com/posts/" multiple>
-                            <el-button size="small" type="primary">点击上传</el-button>
+                            <el-button size="small" type="primary">点击选择</el-button>
                             <p style="margin-bottom: 0;line-height: 20px;">{{form.path}}</p>
                         </el-upload>
                     </el-form-item>
@@ -365,6 +418,8 @@
     export default {
         data() {
             return {
+				searchTotal1:'10',
+				searchTotal2:'20',
                 formLabelWidth: '60px',
                 activeName1: '1',
                 activeName2: '1',
@@ -460,7 +515,8 @@
                     {property: 'ScenePath', name: '景Path'},
                     {property: 'SceneRow', name: '景Row'},
                 ],
-                notDownload: false,
+                searchList:false,
+				notDownload: false,
                 download: false,
                 activeIndex2: '1',
                 total: '12',
@@ -594,6 +650,9 @@
                 this.notDownload = false;
                 drawer.clearEntityByLayerId('rectangle');
             },
+			showSearchList(){
+				this.searchList = true
+			},
             showDownload() {
                 this.download = true
                 if (this.notDownload = true) {
@@ -667,7 +726,12 @@
         top: 60px;
         left: 0px;
     }
-
+	.searchBtn{
+		position: absolute;
+		top:10px;
+		width:200px;
+		left:420px;
+	}
     .huizhi {
         display: flex;
 
@@ -784,7 +848,14 @@
             }
         }
     }
-
+	.footerIcon{
+		position: absolute;
+		bottom: 20px;
+		padding-left: 20px;
+		padding-right: 20px;
+		width: 100%;
+		text-align: right;
+	}
     .el-table .cell::v-deep {
         position: relative;
     }
@@ -807,4 +878,10 @@
     i.icon-blue {
         color: #409eff;
     }
+	.gouwuche{
+		font-size:20px;
+		// font-weight: bold;
+		color:#fff;
+		cursor: pointer;
+	}
 </style>
