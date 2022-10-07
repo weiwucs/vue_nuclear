@@ -8,150 +8,150 @@
                      text-color="#fff" active-text-color="#409EFF">
                 <el-submenu index="1">
                     <template slot="title">空间筛选</template>
-                    <el-submenu index="1-1">
-                        <template slot="title">行政区</template>
-                        <div class="timeSearch guoneiwai">
-                            <el-tabs v-model="activeName1" @tab-click="handleClick1">
-                                <el-tab-pane label="国内" name="1">
-                                    <el-form>
-                                        <el-form-item label="地区" :label-width="formLabelWidth">
-                                            <el-select v-model="selectProvince" placeholder="请选择省" style="width: 145px">
-                                                <el-option v-for="item in provinces" size="small" :key="item.value"
-                                                           :label="item.label"
-                                                           :value="item.value"
-                                                           @click.native="changeProvince()">
-                                                </el-option>
-                                            </el-select>
-                                            <el-select v-model="selectCity" placeholder="请选择市" style="width: 145px">
-                                                <el-option v-for="item in cities" size="small"
-                                                           :key="item.value"
-                                                           :label="item.label"
-                                                           :value="item.value"
-                                                           @click.native="changeCity">
-                                                </el-option>
-                                            </el-select>
-                                            <el-select v-model="selectArea" placeholder="请选择区" style="width: 145px">
-                                                <el-option v-for="item in area" size="small"
-                                                           :key="item.value"
-                                                           :label="item.label"
-                                                           :value="item.value">
-                                                </el-option>
-                                            </el-select>
-                                        </el-form-item>
-                                        <el-form-item label="搜索" :label-width="formLabelWidth">
-                                            <el-input placeholder="请输入搜索的地区名" clearable v-model="searchArea">
-                                                <i slot="suffix" class="el-input__icon el-icon-search"></i>
-                                            </el-input>
-                                        </el-form-item>
-                                    </el-form>
-                                    <div class="juzhong">
-                                        <el-button type="primary" size="mini">确定</el-button>
-                                        <el-button size="mini">清空</el-button>
-                                    </div>
-                                </el-tab-pane>
-                                <el-tab-pane label="国外" name="2">
-                                    <el-form>
-                                        <el-form-item label="搜索" :label-width="formLabelWidth">
-                                            <el-input placeholder="请输入搜索的地区名" clearable v-model="searchForeign">
-                                                <i slot="suffix" class="el-input__icon el-icon-search"></i>
-                                            </el-input>
-                                        </el-form-item>
-                                    </el-form>
-                                    <div class="juzhong">
-                                        <el-button type="primary" size="mini">确定</el-button>
-                                        <el-button size="mini">清空</el-button>
-                                    </div>
-                                </el-tab-pane>
-                            </el-tabs>
-                        </div>
-                    </el-submenu>
-                    <el-submenu index="1-2">
-                        <template slot="title">经纬度</template>
-                        <div class="timeSearch jingweidu">
-                            <el-tabs v-model="activeName2" @tab-click="handleClick2">
-                                <el-tab-pane label="左上右下" name="1">
-                                    <el-form ref="form" :model="jingweiduform" label-width="80px">
-                                        <el-form-item label="左上经度:">
-                                            <el-input clearable v-model="jingweiduform.leftLong"
-                                                      placeholder="例如123.45"></el-input>
-                                        </el-form-item>
-                                        <el-form-item label="左上纬度:">
-                                            <el-input clearable v-model="jingweiduform.leftLat"
-                                                      placeholder="例如74.355"></el-input>
-                                        </el-form-item>
-                                        <el-form-item label="右下经度:">
-                                            <el-input clearable v-model="jingweiduform.rightLong"
-                                                      placeholder="例如123.45"></el-input>
-                                        </el-form-item>
-                                        <el-form-item label="右下纬度:">
-                                            <el-input clearable v-model="jingweiduform.rightLat"
-                                                      placeholder="例如74.355"></el-input>
-                                        </el-form-item>
-                                    </el-form>
-                                    <div class="juzhong">
-                                        <el-button type="primary" size="mini">确定</el-button>
-                                        <el-button size="mini">清空</el-button>
-                                    </div>
-                                </el-tab-pane>
-                                <el-tab-pane label="中心点输入" name="2">
-                                    <el-form ref="form" :model="jingweiduCenterForm" label-width="90px">
-                                        <el-form-item label="中心点经度:">
-                                            <el-input clearable v-model="jingweiduCenterForm.centerLong"
-                                                      placeholder="例如123.45"></el-input>
-                                        </el-form-item>
-                                        <el-form-item label="中心点纬度:">
-                                            <el-input clearable v-model="jingweiduCenterForm.centerLat"
-                                                      placeholder="例如74.355"></el-input>
-                                        </el-form-item>
-                                        <el-form-item label="长度(km):">
-                                            <el-input clearable v-model="jingweiduCenterForm.length"></el-input>
-                                        </el-form-item>
-                                        <el-form-item label="宽度(km):">
-                                            <el-input clearable v-model="jingweiduCenterForm.width"></el-input>
-                                        </el-form-item>
-                                    </el-form>
-                                    <div class="juzhong">
-                                        <el-button type="primary" size="mini">确定</el-button>
-                                        <el-button size="mini">清空</el-button>
-                                    </div>
-                                </el-tab-pane>
-                            </el-tabs>
-                        </div>
-                    </el-submenu>
+<!--                    <el-submenu index="1-1">-->
+<!--                        <template slot="title">行政区</template>-->
+<!--                        <div class="timeSearch guoneiwai">-->
+<!--                            <el-tabs v-model="activeName1" @tab-click="handleClick1">-->
+<!--                                <el-tab-pane label="国内" name="1">-->
+<!--                                    <el-form>-->
+<!--                                        <el-form-item label="地区" :label-width="formLabelWidth">-->
+<!--                                            <el-select v-model="selectProvince" placeholder="请选择省" style="width: 145px">-->
+<!--                                                <el-option v-for="item in provinces" size="small" :key="item.value"-->
+<!--                                                           :label="item.label"-->
+<!--                                                           :value="item.value"-->
+<!--                                                           @click.native="changeProvince()">-->
+<!--                                                </el-option>-->
+<!--                                            </el-select>-->
+<!--                                            <el-select v-model="selectCity" placeholder="请选择市" style="width: 145px">-->
+<!--                                                <el-option v-for="item in cities" size="small"-->
+<!--                                                           :key="item.value"-->
+<!--                                                           :label="item.label"-->
+<!--                                                           :value="item.value"-->
+<!--                                                           @click.native="changeCity">-->
+<!--                                                </el-option>-->
+<!--                                            </el-select>-->
+<!--                                            <el-select v-model="selectArea" placeholder="请选择区" style="width: 145px">-->
+<!--                                                <el-option v-for="item in area" size="small"-->
+<!--                                                           :key="item.value"-->
+<!--                                                           :label="item.label"-->
+<!--                                                           :value="item.value">-->
+<!--                                                </el-option>-->
+<!--                                            </el-select>-->
+<!--                                        </el-form-item>-->
+<!--                                        <el-form-item label="搜索" :label-width="formLabelWidth">-->
+<!--                                            <el-input placeholder="请输入搜索的地区名" clearable v-model="searchArea">-->
+<!--                                                <i slot="suffix" class="el-input__icon el-icon-search"></i>-->
+<!--                                            </el-input>-->
+<!--                                        </el-form-item>-->
+<!--                                    </el-form>-->
+<!--                                    <div class="juzhong">-->
+<!--                                        <el-button type="primary" size="mini">确定</el-button>-->
+<!--                                        <el-button size="mini">清空</el-button>-->
+<!--                                    </div>-->
+<!--                                </el-tab-pane>-->
+<!--                                <el-tab-pane label="国外" name="2">-->
+<!--                                    <el-form>-->
+<!--                                        <el-form-item label="搜索" :label-width="formLabelWidth">-->
+<!--                                            <el-input placeholder="请输入搜索的地区名" clearable v-model="searchForeign">-->
+<!--                                                <i slot="suffix" class="el-input__icon el-icon-search"></i>-->
+<!--                                            </el-input>-->
+<!--                                        </el-form-item>-->
+<!--                                    </el-form>-->
+<!--                                    <div class="juzhong">-->
+<!--                                        <el-button type="primary" size="mini">确定</el-button>-->
+<!--                                        <el-button size="mini">清空</el-button>-->
+<!--                                    </div>-->
+<!--                                </el-tab-pane>-->
+<!--                            </el-tabs>-->
+<!--                        </div>-->
+<!--                    </el-submenu>-->
+<!--                    <el-submenu index="1-2">-->
+<!--                        <template slot="title">经纬度</template>-->
+<!--                        <div class="timeSearch jingweidu">-->
+<!--                            <el-tabs v-model="activeName2" @tab-click="handleClick2">-->
+<!--                                <el-tab-pane label="左上右下" name="1">-->
+<!--                                    <el-form ref="form" :model="jingweiduform" label-width="80px">-->
+<!--                                        <el-form-item label="左上经度:">-->
+<!--                                            <el-input clearable v-model="jingweiduform.leftLong"-->
+<!--                                                      placeholder="例如123.45"></el-input>-->
+<!--                                        </el-form-item>-->
+<!--                                        <el-form-item label="左上纬度:">-->
+<!--                                            <el-input clearable v-model="jingweiduform.leftLat"-->
+<!--                                                      placeholder="例如74.355"></el-input>-->
+<!--                                        </el-form-item>-->
+<!--                                        <el-form-item label="右下经度:">-->
+<!--                                            <el-input clearable v-model="jingweiduform.rightLong"-->
+<!--                                                      placeholder="例如123.45"></el-input>-->
+<!--                                        </el-form-item>-->
+<!--                                        <el-form-item label="右下纬度:">-->
+<!--                                            <el-input clearable v-model="jingweiduform.rightLat"-->
+<!--                                                      placeholder="例如74.355"></el-input>-->
+<!--                                        </el-form-item>-->
+<!--                                    </el-form>-->
+<!--                                    <div class="juzhong">-->
+<!--                                        <el-button type="primary" size="mini">确定</el-button>-->
+<!--                                        <el-button size="mini">清空</el-button>-->
+<!--                                    </div>-->
+<!--                                </el-tab-pane>-->
+<!--                                <el-tab-pane label="中心点输入" name="2">-->
+<!--                                    <el-form ref="form" :model="jingweiduCenterForm" label-width="90px">-->
+<!--                                        <el-form-item label="中心点经度:">-->
+<!--                                            <el-input clearable v-model="jingweiduCenterForm.centerLong"-->
+<!--                                                      placeholder="例如123.45"></el-input>-->
+<!--                                        </el-form-item>-->
+<!--                                        <el-form-item label="中心点纬度:">-->
+<!--                                            <el-input clearable v-model="jingweiduCenterForm.centerLat"-->
+<!--                                                      placeholder="例如74.355"></el-input>-->
+<!--                                        </el-form-item>-->
+<!--                                        <el-form-item label="长度(km):">-->
+<!--                                            <el-input clearable v-model="jingweiduCenterForm.length"></el-input>-->
+<!--                                        </el-form-item>-->
+<!--                                        <el-form-item label="宽度(km):">-->
+<!--                                            <el-input clearable v-model="jingweiduCenterForm.width"></el-input>-->
+<!--                                        </el-form-item>-->
+<!--                                    </el-form>-->
+<!--                                    <div class="juzhong">-->
+<!--                                        <el-button type="primary" size="mini">确定</el-button>-->
+<!--                                        <el-button size="mini">清空</el-button>-->
+<!--                                    </div>-->
+<!--                                </el-tab-pane>-->
+<!--                            </el-tabs>-->
+<!--                        </div>-->
+<!--                    </el-submenu>-->
                     <el-submenu index="1-3">
                         <template slot="title">绘制范围</template>
                         <div class="timeSearch huizhi">
-                            <div class="icons" title="正方形">
-                                <i class="iconfont icon-24gl-square"></i>
+                            <div class="icons" title="矩形">
+                                <i class="iconfont icon-24gl-square" @click="drawEntity('Rectangle')"></i>
                             </div>
-                            <div class="icons" title="多边形">
-                                <i class="iconfont icon-duobianxing"></i>
-                            </div>
-                            <div class="icons" title="圆形">
-                                <i class="iconfont icon-xingzhuang-tuoyuanxing"></i>
-                            </div>
-                            <div class="icons" title="线段">
-                                <i class="iconfont icon-icon-line-graph"></i>
-                            </div>
-                            <div class="icons" title="点">
-                                <i class="iconfont icon-dian"></i>
-                            </div>
+<!--                            <div class="icons" title="多边形">-->
+<!--                                <i class="iconfont icon-duobianxing"></i>-->
+<!--                            </div>-->
+<!--                            <div class="icons" title="圆形">-->
+<!--                                <i class="iconfont icon-xingzhuang-tuoyuanxing"></i>-->
+<!--                            </div>-->
+<!--                            <div class="icons" title="线段">-->
+<!--                                <i class="iconfont icon-icon-line-graph"></i>-->
+<!--                            </div>-->
+<!--                            <div class="icons" title="点">-->
+<!--                                <i class="iconfont icon-dian"></i>-->
+<!--                            </div>-->
                         </div>
                     </el-submenu>
-                    <el-submenu index="1-4">
-                        <template slot="title">导入范围</template>
-                        <div class="timeSearch">
-                            <el-upload class="upload-demo" action="#" multiple>
-                                选择路径：
-                                <el-button size="small" type="primary">上传文件</el-button>
-                                <p style="margin-bottom: 0;line-height: 20px;">支持.zip文件(包括.dbf、.shp、.prj三类文件)</p>
-                            </el-upload>
-                            <div style="text-align: right;margin-top: 10px;">
-                                <el-button type="primary" size="mini">重置</el-button>
-                                <el-button type="primary" size="mini">确定</el-button>
-                            </div>
-                        </div>
-                    </el-submenu>
+<!--                    <el-submenu index="1-4">-->
+<!--                        <template slot="title">导入范围</template>-->
+<!--                        <div class="timeSearch">-->
+<!--                            <el-upload class="upload-demo" action="#" multiple>-->
+<!--                                选择路径：-->
+<!--                                <el-button size="small" type="primary">上传文件</el-button>-->
+<!--                                <p style="margin-bottom: 0;line-height: 20px;">支持.zip文件(包括.dbf、.shp、.prj三类文件)</p>-->
+<!--                            </el-upload>-->
+<!--                            <div style="text-align: right;margin-top: 10px;">-->
+<!--                                <el-button type="primary" size="mini">重置</el-button>-->
+<!--                                <el-button type="primary" size="mini">确定</el-button>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </el-submenu>-->
                 </el-submenu>
                 <el-submenu index="2">
                     <template slot="title">数据筛选</template>
@@ -413,6 +413,7 @@
     import drawer from "../api/utils/drawer";
 	import dataContent, {GF_header, ZY_header, GF3_header, other_header} from '../components/dataManage/dataContent';
     import common from "../api/utils/common";
+    import entity from "../api/utils/entity";
 
     const Options = ['level1', 'level2', 'level3', 'level4'];
     export default {
@@ -529,7 +530,8 @@
                 unDownloadedData: [],
                 downloadedData: [],
                 imagesIP: config.imagesIP,
-                clazz: 'optical_satellite'
+                clazz: 'optical_satellite',
+                shapeDic: {}
             }
         },
         methods: {
@@ -585,6 +587,40 @@
                 this.clazz = 'optical_satellite';
                 this.timeValue1 = '';
                 this.timeValue2 = '';
+            },
+
+            drawEntity(geometryType){
+                const Cesium = HXWEarth;
+                const _ = this;
+                let callback = function (positions) {
+                    let objId = geometryType + new Date().getTime();
+                    _.shapeDic[objId] = positions;
+                    // entity.showRectangle('drawGeometry', objId, positions);
+                    let lonLat0 = entity.cartesianToLonLat(positions[0]);
+                    let lonLat1 = entity.cartesianToLonLat(positions[1]);
+                    let rectA = new Cesium.Rectangle(lonLat0[0], lonLat1[1], lonLat1[0], lonLat0[1]);
+                    // let rectA = [lonLat0[0], lonLat1[1], lonLat1[0], lonLat0[1]];
+                    loader.load({ class:_.clazz }, function (data) {
+                        _.unDownloadedData = data.filter(function (object) {
+                            let topLeftLon = parseFloat(object.topLeftLongitude);
+                            let bottomRightLat = parseFloat(object.bottomRightLatitude);
+                            let bottomRightLon = parseFloat(object.bottomRightLongitude);
+                            let topLeftLat = parseFloat(object.topLeftLatitude);
+                            if (isNaN(topLeftLon) || isNaN(bottomRightLat) || isNaN(bottomRightLon) || isNaN(topLeftLat)) {
+                                return false;
+                            }
+                            let rectB = new Cesium.Rectangle(topLeftLon, bottomRightLat, bottomRightLon, topLeftLat);
+                            // let rectB = [topLeftLon, bottomRightLat, bottomRightLon, topLeftLat];
+                            // let intersection = entity.checkIntersection(rectA, rectB);
+                            let intersection = entity.intersection(rectA, rectB);
+                            if(common.defined(intersection)){
+                                return true;
+                            }
+                        })
+                        _.showNotDownload();
+                    })
+                };
+                entity.draw(geometryType, callback);
             },
 
             handleCheckAllChange(val) {

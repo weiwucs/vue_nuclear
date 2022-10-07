@@ -45,10 +45,6 @@ const drawer = {
         }
     },
 
-    lonlatToCartesian(longitude, latitude){
-        return earth.Cartesian3.fromDegrees(parseFloat(longitude), parseFloat(latitude), 0);
-    },
-
     rectangle(viewer, objectId, imageUrl, positions){
         let material = new earth.ImageMaterialProperty({ image: imageUrl })
         let rect = earth.Rectangle.fromDegrees(positions[0], positions[1], positions[2], positions[3])
