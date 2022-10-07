@@ -55,7 +55,7 @@
 				<img src="../assets/img/line.png" alt="" class="line2">
 			</div>
 			<div class="tongji">
-				<p>100106景</p>
+				<p>{{satelliteSize}}景</p>
 				<p>景数统计</p>
 				<img src="../assets/img/line.png" alt="" class="line">
 				<img src="../assets/img/line.png" alt="" class="line2">
@@ -75,10 +75,11 @@ import loader from "../api/utils/loader"
 	export default {
 		data() {
 			return {
-
+				satelliteSize:null,
 			}
 		},
 		mounted() {
+			console.log(Number(undefined))
 			this.drawLine()
 		},
 		methods: {
@@ -99,32 +100,63 @@ import loader from "../api/utils/loader"
 					loader.load({class: 'optical_satellite'}, function (data) {
 						optical_satellite = data
 						satellite = radar_satellite.concat(optical_satellite)
+						_.satelliteSize = satellite.length
 						satellite.forEach((item)=>{
 							if(pieTotal[item.satellite]){
 								pieTotal[item.satellite].num++
-								pieTotal[item.satellite].dataSize += item.dataSize
+								if(item.dataSize){
+									pieTotal[item.satellite].dataSize += Number(item.dataSize) 
+								}else{
+										pieTotal[item.satellite].dataSize += 0
+								}
+								
 							}else if(pieTotal[item.satelliteID]){
 								pieTotal[item.satelliteID].num++
-								pieTotal[item.satelliteID].dataSize += item.dataSize
+								if(item.dataSize){
+									pieTotal[item.satelliteID].dataSize += Number(item.dataSize)
+								}else{
+									pieTotal[item.satelliteID].dataSize += 0
+								}
+								
 							}else{
 								if(item.satellite){
 									pieTotal[item.satellite] = {}
 									pieTotal[item.satellite].num = 1
-									pieTotal[item.satellite].dataSize = item.dataSize
+									if(item.dataSize){
+										pieTotal[item.satellite].dataSize = Number(item.dataSize)
+									}else{
+										pieTotal[item.satellite].dataSize = 0
+									}
+									
 								}else if(item.satelliteID){
 									pieTotal[item.satelliteID] = {}
 									pieTotal[item.satelliteID].num = 1
-									pieTotal[item.satelliteID].dataSize = item.dataSize
+									if(item.dataSize){
+										pieTotal[item.satelliteID].dataSize = Number(item.dataSize)
+									}else{
+										pieTotal[item.satelliteID].dataSize = 0
+									}
+									
 								}
 							}
 							if(item.centerTime){
 								if(pieSize[item.centerTime.split('-')[0]]){
 									pieSize[item.centerTime.split('-')[0]].num++
-									pieSize[item.centerTime.split('-')[0]].dataSize += item.dataSize
+									if(item.dataSize){
+										pieSize[item.centerTime.split('-')[0]].dataSize += Number(item.dataSize)
+									}else{
+										pieSize[item.centerTime.split('-')[0]].dataSize += 0
+									}
+									
 								}else{
 									pieSize[item.centerTime.split('-')[0]] = {}
 									pieSize[item.centerTime.split('-')[0]].num = 1
-									pieSize[item.centerTime.split('-')[0]].dataSize = item.dataSize
+									if(item.dataSize){
+										pieSize[item.centerTime.split('-')[0]].dataSize = Number(item.dataSize)
+									}else{
+										pieSize[item.centerTime.split('-')[0]].dataSize = 0
+									}
+									
 								}
 							}
 							
