@@ -8,180 +8,180 @@
                      text-color="#fff" active-text-color="#409EFF">
                 <el-submenu index="1">
                     <template slot="title">空间筛选</template>
-<!--                    <el-submenu index="1-1">-->
-<!--                        <template slot="title">行政区</template>-->
-<!--                        <div class="timeSearch guoneiwai">-->
-<!--                            <el-tabs v-model="activeName1" @tab-click="handleClick1">-->
-<!--                                <el-tab-pane label="国内" name="1">-->
-<!--                                    <el-form>-->
-<!--                                        <el-form-item label="地区" :label-width="formLabelWidth">-->
-<!--                                            <el-select v-model="selectProvince" placeholder="请选择省" style="width: 145px">-->
-<!--                                                <el-option v-for="item in provinces" size="small" :key="item.value"-->
-<!--                                                           :label="item.label"-->
-<!--                                                           :value="item.value"-->
-<!--                                                           @click.native="changeProvince()">-->
-<!--                                                </el-option>-->
-<!--                                            </el-select>-->
-<!--                                            <el-select v-model="selectCity" placeholder="请选择市" style="width: 145px">-->
-<!--                                                <el-option v-for="item in cities" size="small"-->
-<!--                                                           :key="item.value"-->
-<!--                                                           :label="item.label"-->
-<!--                                                           :value="item.value"-->
-<!--                                                           @click.native="changeCity">-->
-<!--                                                </el-option>-->
-<!--                                            </el-select>-->
-<!--                                            <el-select v-model="selectArea" placeholder="请选择区" style="width: 145px">-->
-<!--                                                <el-option v-for="item in area" size="small"-->
-<!--                                                           :key="item.value"-->
-<!--                                                           :label="item.label"-->
-<!--                                                           :value="item.value">-->
-<!--                                                </el-option>-->
-<!--                                            </el-select>-->
-<!--                                        </el-form-item>-->
-<!--                                        <el-form-item label="搜索" :label-width="formLabelWidth">-->
-<!--                                            <el-input placeholder="请输入搜索的地区名" clearable v-model="searchArea">-->
-<!--                                                <i slot="suffix" class="el-input__icon el-icon-search"></i>-->
-<!--                                            </el-input>-->
-<!--                                        </el-form-item>-->
-<!--                                    </el-form>-->
-<!--                                    <div class="juzhong">-->
-<!--                                        <el-button type="primary" size="mini">确定</el-button>-->
-<!--                                        <el-button size="mini">清空</el-button>-->
-<!--                                    </div>-->
-<!--                                </el-tab-pane>-->
-<!--                                <el-tab-pane label="国外" name="2">-->
-<!--                                    <el-form>-->
-<!--                                        <el-form-item label="搜索" :label-width="formLabelWidth">-->
-<!--                                            <el-input placeholder="请输入搜索的地区名" clearable v-model="searchForeign">-->
-<!--                                                <i slot="suffix" class="el-input__icon el-icon-search"></i>-->
-<!--                                            </el-input>-->
-<!--                                        </el-form-item>-->
-<!--                                    </el-form>-->
-<!--                                    <div class="juzhong">-->
-<!--                                        <el-button type="primary" size="mini">确定</el-button>-->
-<!--                                        <el-button size="mini">清空</el-button>-->
-<!--                                    </div>-->
-<!--                                </el-tab-pane>-->
-<!--                            </el-tabs>-->
-<!--                        </div>-->
-<!--                    </el-submenu>-->
-<!--                    <el-submenu index="1-2">-->
-<!--                        <template slot="title">经纬度</template>-->
-<!--                        <div class="timeSearch jingweidu">-->
-<!--                            <el-tabs v-model="activeName2" @tab-click="handleClick2">-->
-<!--                                <el-tab-pane label="左上右下" name="1">-->
-<!--                                    <el-form ref="form" :model="jingweiduform" label-width="80px">-->
-<!--                                        <el-form-item label="左上经度:">-->
-<!--                                            <el-input clearable v-model="jingweiduform.leftLong"-->
-<!--                                                      placeholder="例如123.45"></el-input>-->
-<!--                                        </el-form-item>-->
-<!--                                        <el-form-item label="左上纬度:">-->
-<!--                                            <el-input clearable v-model="jingweiduform.leftLat"-->
-<!--                                                      placeholder="例如74.355"></el-input>-->
-<!--                                        </el-form-item>-->
-<!--                                        <el-form-item label="右下经度:">-->
-<!--                                            <el-input clearable v-model="jingweiduform.rightLong"-->
-<!--                                                      placeholder="例如123.45"></el-input>-->
-<!--                                        </el-form-item>-->
-<!--                                        <el-form-item label="右下纬度:">-->
-<!--                                            <el-input clearable v-model="jingweiduform.rightLat"-->
-<!--                                                      placeholder="例如74.355"></el-input>-->
-<!--                                        </el-form-item>-->
-<!--                                    </el-form>-->
-<!--                                    <div class="juzhong">-->
-<!--                                        <el-button type="primary" size="mini">确定</el-button>-->
-<!--                                        <el-button size="mini">清空</el-button>-->
-<!--                                    </div>-->
-<!--                                </el-tab-pane>-->
-<!--                                <el-tab-pane label="中心点输入" name="2">-->
-<!--                                    <el-form ref="form" :model="jingweiduCenterForm" label-width="90px">-->
-<!--                                        <el-form-item label="中心点经度:">-->
-<!--                                            <el-input clearable v-model="jingweiduCenterForm.centerLong"-->
-<!--                                                      placeholder="例如123.45"></el-input>-->
-<!--                                        </el-form-item>-->
-<!--                                        <el-form-item label="中心点纬度:">-->
-<!--                                            <el-input clearable v-model="jingweiduCenterForm.centerLat"-->
-<!--                                                      placeholder="例如74.355"></el-input>-->
-<!--                                        </el-form-item>-->
-<!--                                        <el-form-item label="长度(km):">-->
-<!--                                            <el-input clearable v-model="jingweiduCenterForm.length"></el-input>-->
-<!--                                        </el-form-item>-->
-<!--                                        <el-form-item label="宽度(km):">-->
-<!--                                            <el-input clearable v-model="jingweiduCenterForm.width"></el-input>-->
-<!--                                        </el-form-item>-->
-<!--                                    </el-form>-->
-<!--                                    <div class="juzhong">-->
-<!--                                        <el-button type="primary" size="mini">确定</el-button>-->
-<!--                                        <el-button size="mini">清空</el-button>-->
-<!--                                    </div>-->
-<!--                                </el-tab-pane>-->
-<!--                            </el-tabs>-->
-<!--                        </div>-->
-<!--                    </el-submenu>-->
+                    <el-submenu index="1-1">
+                        <template slot="title">行政区</template>
+                        <div class="timeSearch guoneiwai">
+                            <el-tabs v-model="activeName1" @tab-click="handleClick1">
+                                <el-tab-pane label="国内" name="1">
+                                    <el-form>
+                                        <el-form-item label="地区" :label-width="formLabelWidth">
+                                            <el-select v-model="selectProvince" placeholder="请选择省" style="width: 145px">
+                                                <el-option v-for="item in provinces" size="small" :key="item.value"
+                                                           :label="item.label"
+                                                           :value="item.value"
+                                                           @click.native="changeProvince()">
+                                                </el-option>
+                                            </el-select>
+                                            <el-select v-model="selectCity" placeholder="请选择市" style="width: 145px">
+                                                <el-option v-for="item in cities" size="small"
+                                                           :key="item.value"
+                                                           :label="item.label"
+                                                           :value="item.value"
+                                                           @click.native="changeCity">
+                                                </el-option>
+                                            </el-select>
+                                            <el-select v-model="selectArea" placeholder="请选择区" style="width: 145px">
+                                                <el-option v-for="item in area" size="small"
+                                                           :key="item.value"
+                                                           :label="item.label"
+                                                           :value="item.value">
+                                                </el-option>
+                                            </el-select>
+                                        </el-form-item>
+                                        <el-form-item label="搜索" :label-width="formLabelWidth">
+                                            <el-input placeholder="请输入搜索的地区名" clearable v-model="searchArea">
+                                                <i slot="suffix" class="el-input__icon el-icon-search"></i>
+                                            </el-input>
+                                        </el-form-item>
+                                    </el-form>
+                                    <div class="juzhong">
+                                        <el-button type="primary" size="mini">确定</el-button>
+                                        <el-button size="mini">清空</el-button>
+                                    </div>
+                                </el-tab-pane>
+                                <el-tab-pane label="国外" name="2">
+                                    <el-form>
+                                        <el-form-item label="搜索" :label-width="formLabelWidth">
+                                            <el-input placeholder="请输入搜索的地区名" clearable v-model="searchForeign">
+                                                <i slot="suffix" class="el-input__icon el-icon-search"></i>
+                                            </el-input>
+                                        </el-form-item>
+                                    </el-form>
+                                    <div class="juzhong">
+                                        <el-button type="primary" size="mini">确定</el-button>
+                                        <el-button size="mini">清空</el-button>
+                                    </div>
+                                </el-tab-pane>
+                            </el-tabs>
+                        </div>
+                    </el-submenu>
+                    <el-submenu index="1-2">
+                        <template slot="title">经纬度</template>
+                        <div class="timeSearch jingweidu">
+                            <el-tabs v-model="activeName2" @tab-click="handleClick2">
+                                <el-tab-pane label="左上右下" name="1">
+                                    <el-form ref="form" :model="jingweiduform" label-width="80px">
+                                        <el-form-item label="左上经度:">
+                                            <el-input clearable v-model="jingweiduform.leftLong"
+                                                      placeholder="例如123.45"></el-input>
+                                        </el-form-item>
+                                        <el-form-item label="左上纬度:">
+                                            <el-input clearable v-model="jingweiduform.leftLat"
+                                                      placeholder="例如74.355"></el-input>
+                                        </el-form-item>
+                                        <el-form-item label="右下经度:">
+                                            <el-input clearable v-model="jingweiduform.rightLong"
+                                                      placeholder="例如123.45"></el-input>
+                                        </el-form-item>
+                                        <el-form-item label="右下纬度:">
+                                            <el-input clearable v-model="jingweiduform.rightLat"
+                                                      placeholder="例如74.355"></el-input>
+                                        </el-form-item>
+                                    </el-form>
+                                    <div class="juzhong">
+                                        <el-button type="primary" size="mini">确定</el-button>
+                                        <el-button size="mini">清空</el-button>
+                                    </div>
+                                </el-tab-pane>
+                                <el-tab-pane label="中心点输入" name="2">
+                                    <el-form ref="form" :model="jingweiduCenterForm" label-width="90px">
+                                        <el-form-item label="中心点经度:">
+                                            <el-input clearable v-model="jingweiduCenterForm.centerLong"
+                                                      placeholder="例如123.45"></el-input>
+                                        </el-form-item>
+                                        <el-form-item label="中心点纬度:">
+                                            <el-input clearable v-model="jingweiduCenterForm.centerLat"
+                                                      placeholder="例如74.355"></el-input>
+                                        </el-form-item>
+                                        <el-form-item label="长度(km):">
+                                            <el-input clearable v-model="jingweiduCenterForm.length"></el-input>
+                                        </el-form-item>
+                                        <el-form-item label="宽度(km):">
+                                            <el-input clearable v-model="jingweiduCenterForm.width"></el-input>
+                                        </el-form-item>
+                                    </el-form>
+                                    <div class="juzhong">
+                                        <el-button type="primary" size="mini">确定</el-button>
+                                        <el-button size="mini">清空</el-button>
+                                    </div>
+                                </el-tab-pane>
+                            </el-tabs>
+                        </div>
+                    </el-submenu>
                     <el-submenu index="1-3">
                         <template slot="title">绘制范围</template>
                         <div class="timeSearch huizhi">
                             <div class="icons" title="矩形">
                                 <i class="iconfont icon-24gl-square" @click="drawEntity('Rectangle')"></i>
                             </div>
-<!--                            <div class="icons" title="多边形">-->
-<!--                                <i class="iconfont icon-duobianxing"></i>-->
-<!--                            </div>-->
-<!--                            <div class="icons" title="圆形">-->
-<!--                                <i class="iconfont icon-xingzhuang-tuoyuanxing"></i>-->
-<!--                            </div>-->
-<!--                            <div class="icons" title="线段">-->
-<!--                                <i class="iconfont icon-icon-line-graph"></i>-->
-<!--                            </div>-->
-<!--                            <div class="icons" title="点">-->
-<!--                                <i class="iconfont icon-dian"></i>-->
-<!--                            </div>-->
+                            <div class="icons" title="多边形">
+                                <i class="iconfont icon-duobianxing"></i>
+                            </div>
+                            <div class="icons" title="圆形">
+                                <i class="iconfont icon-xingzhuang-tuoyuanxing"></i>
+                            </div>
+                            <div class="icons" title="线段">
+                                <i class="iconfont icon-icon-line-graph"></i>
+                            </div>
+                            <div class="icons" title="点">
+                                <i class="iconfont icon-dian"></i>
+                            </div>
                         </div>
                     </el-submenu>
-<!--                    <el-submenu index="1-4">-->
-<!--                        <template slot="title">导入范围</template>-->
-<!--                        <div class="timeSearch">-->
-<!--                            <el-upload class="upload-demo" action="#" multiple>-->
-<!--                                选择路径：-->
-<!--                                <el-button size="small" type="primary">上传文件</el-button>-->
-<!--                                <p style="margin-bottom: 0;line-height: 20px;">支持.zip文件(包括.dbf、.shp、.prj三类文件)</p>-->
-<!--                            </el-upload>-->
-<!--                            <div style="text-align: right;margin-top: 10px;">-->
-<!--                                <el-button type="primary" size="mini">重置</el-button>-->
-<!--                                <el-button type="primary" size="mini">确定</el-button>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </el-submenu>-->
+                    <el-submenu index="1-4">
+                        <template slot="title">导入范围</template>
+                        <div class="timeSearch">
+                            <el-upload class="upload-demo" action="#" multiple>
+                                选择路径：
+                                <el-button size="small" type="primary">上传文件</el-button>
+                                <p style="margin-bottom: 0;line-height: 20px;">支持.zip文件(包括.dbf、.shp、.prj三类文件)</p>
+                            </el-upload>
+                            <div style="text-align: right;margin-top: 10px;">
+                                <el-button type="primary" size="mini">重置</el-button>
+                                <el-button type="primary" size="mini">确定</el-button>
+                            </div>
+                        </div>
+                    </el-submenu>
                 </el-submenu>
                 <el-submenu index="2">
                     <template slot="title">数据筛选</template>
                     <el-submenu index="2-1">
                         <template slot="title">数据类型</template>
-                        <el-menu-item index="2-1-1" >光学卫星影像</el-menu-item>
-                        <el-menu-item index="2-1-2" >雷达卫星影像</el-menu-item>
+                        <el-menu-item index="2-1-1">光学卫星影像</el-menu-item>
+                        <el-menu-item index="2-1-2">雷达卫星影像</el-menu-item>
                     </el-submenu>
-<!--                    <el-submenu index="2-2">-->
-<!--                        <template slot="title">卫星/传感器</template>-->
-<!--                        <div class="timeSearch">-->
-<!--                            <el-tree-->
-<!--                                    :data="satelliteData"-->
-<!--                                    show-checkbox-->
-<!--                                    node-key="id"-->
-<!--                                    :props="defaultProps">-->
-<!--                            </el-tree>-->
-<!--                        </div>-->
-<!--                    </el-submenu>-->
-<!--                    <el-submenu index="2-3">-->
-<!--                        <template slot="title">级别</template>-->
-<!--                        <div class="timeSearch">-->
-<!--                            <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll"-->
-<!--                                         @change="handleCheckAllChange">全选-->
-<!--                            </el-checkbox>-->
-<!--                            <el-checkbox-group v-model="checkedLists" @change="handleCheckedListsChange">-->
-<!--                                <el-checkbox v-for="list in lists" :label="list" :key="list">{{list}}</el-checkbox>-->
-<!--                            </el-checkbox-group>-->
-<!--                        </div>-->
-<!--                    </el-submenu>-->
+                    <!--                    <el-submenu index="2-2">-->
+                    <!--                        <template slot="title">卫星/传感器</template>-->
+                    <!--                        <div class="timeSearch">-->
+                    <!--                            <el-tree-->
+                    <!--                                    :data="satelliteData"-->
+                    <!--                                    show-checkbox-->
+                    <!--                                    node-key="id"-->
+                    <!--                                    :props="defaultProps">-->
+                    <!--                            </el-tree>-->
+                    <!--                        </div>-->
+                    <!--                    </el-submenu>-->
+                    <!--                    <el-submenu index="2-3">-->
+                    <!--                        <template slot="title">级别</template>-->
+                    <!--                        <div class="timeSearch">-->
+                    <!--                            <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll"-->
+                    <!--                                         @change="handleCheckAllChange">全选-->
+                    <!--                            </el-checkbox>-->
+                    <!--                            <el-checkbox-group v-model="checkedLists" @change="handleCheckedListsChange">-->
+                    <!--                                <el-checkbox v-for="list in lists" :label="list" :key="list">{{list}}</el-checkbox>-->
+                    <!--                            </el-checkbox-group>-->
+                    <!--                        </div>-->
+                    <!--                    </el-submenu>-->
                 </el-submenu>
                 <el-submenu index="3">
                     <template slot="title">时间筛选</template>
@@ -203,66 +203,69 @@
                     </div>
                 </el-submenu>
             </el-menu>
-			<div class="searchBtn">
-				<el-button >设置完成</el-button>
-				<el-button @click="showSearchList">查询</el-button>
-			</div>
+            <div class="searchBtn">
+                <el-button @click="queryByDate([timeValue1, timeValue2])">查询</el-button>
+                <el-button @click="reset">重置</el-button>
+            </div>
         </div>
-		
+
         <div class="rightIcon">
-            <i class="el-icon-search" title="查询" @click="queryByDate([timeValue1, timeValue2])"></i>
-            <i class="el-icon-refresh-right" title="重置" @click="reset"></i>
+<!--            <i class="el-icon-search" title="查询" @click="queryByDate([timeValue1, timeValue2])"></i>-->
+<!--            <i class="el-icon-refresh-right" title="重置" @click="reset"></i>-->
             <i class="el-icon-shopping-cart-2" title="待下载" @click="showNotDownload"></i>
             <i class="el-icon-download" title="已下载" @click="showDownload"></i>
         </div>
-		<!-- 查询弹框 -->
-		<div class="downloadList" v-if="searchList">
-		    <i class="el-icon-close" title="关闭" @click="searchList=false"></i>
-		    <p class="title">查询结果</p>
-		    <div class="btns">
-		        <span>查询结果{{searchTotal1}}景，已选择{{searchTotal2}}景</span>
-		        <div class="btn">
-		            <el-button type="primary" size="mini">清空选择</el-button>
-		        </div>
-		    </div>
-		    <div class="tableMain">
-		        <el-table :data="unDownloadedData" border
-		                  :header-cell-style="{ 'text-align': 'center' }"
-		                  :cell-style="{ 'text-align': 'center' }"
-		                  @cell-mouse-enter="handleMouseEnter"
-		                  @cell-mouse-leave="handleMouseOut"
-		                  style="width: 100%;max-height:calc(100vh - 500px) ;overflow: auto;">
-		            <el-table-column type="selection"></el-table-column>
-		            <el-table-column prop="smallPic" label="缩略图">
-		                <template slot-scope="scope">
-		                    <el-image :src="imagesIP + '/' + scope.row.directory + '/' + scope.row.thumbUrl"
-		                              style="width:30px; height:30px;">
-		                    </el-image>
-		                    <i class="iconfont icon-yanjing" :class="changeColor" @click="changeMode($store.state.viewer, scope.row)"></i>
-		                </template>
-		            </el-table-column>
-		            <el-table-column prop="satellite" sortable label="卫星"></el-table-column>
-		            <el-table-column prop="sensorID" sortable label="传感器"></el-table-column>
-		            <el-table-column prop="resolution" sortable label="分辨率"></el-table-column>
-		            <el-table-column prop="receiveTime" sortable label="采集时间"></el-table-column>
-		            <el-table-column prop="cloudPercent" sortable label="云量"></el-table-column>
-		            <el-table-column fixed="right" label="操作">
-		                <template slot-scope="scope">
-		                    <el-button type="text" size="small" @click="notDownloadDetail(scope.row)">详情</el-button>
-		                    <el-button type="text" size="small" >下载</el-button>
-		                </template>
-		            </el-table-column>
-		        </el-table>
-		        <div style="text-align: center;margin-top: 10px;">
-		            <el-pagination background small layout="prev, pager, next" :total="1000">
-		            </el-pagination>
-		        </div>
-		    </div>
-		    <div class="footerIcon">
-				<i class="icon el-icon-shopping-cart-2 gouwuche" title="加入待下载"></i>
-			</div>
-		</div>
-		
+        <!-- 查询弹框 -->
+        <div class="downloadList" v-if="searchList">
+            <i class="el-icon-close" title="关闭" @click="closeSearchList"></i>
+            <p class="title">查询结果</p>
+            <div class="btns">
+                <span>查询结果{{unDownloadedData.length}}景，已选择{{selectedData.length}}景</span>
+                <div class="btn">
+                    <el-button type="primary" size="mini" @click="">清空选择</el-button>
+                </div>
+            </div>
+            <div class="tableMain">
+                <el-table :data="unDownloadedData" border
+                          :header-cell-style="{ 'text-align': 'center' }"
+                          :cell-style="{ 'text-align': 'center' }"
+                          @cell-mouse-enter="handleMouseEnter"
+                          @cell-mouse-leave="handleMouseOut"
+                          @selection-change="handleSelectionChange"
+                          :row-key="handleRowKey"
+                          style="width: 100%;max-height:calc(100vh - 500px) ;overflow: auto;">
+                    <el-table-column type="selection"></el-table-column>
+                    <el-table-column prop="smallPic" label="缩略图">
+                        <template slot-scope="scope">
+                            <el-image :src="imagesIP + '/' + scope.row.directory + '/' + scope.row.thumbUrl"
+                                      style="width:30px; height:30px;">
+                            </el-image>
+                            <i class="iconfont icon-yanjing" :class="scope.row['changeColor']"
+                               @click="changeMode($store.state.viewer, scope.row)"></i>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="satellite" sortable label="卫星"></el-table-column>
+                    <el-table-column prop="sensorID" sortable label="传感器"></el-table-column>
+                    <el-table-column prop="resolution" sortable label="分辨率"></el-table-column>
+                    <el-table-column prop="receiveTime" sortable label="采集时间"></el-table-column>
+                    <el-table-column prop="cloudPercent" sortable label="云量"></el-table-column>
+                    <el-table-column fixed="right" label="操作">
+                        <template slot-scope="scope">
+                            <el-button type="text" size="small" @click="notDownloadDetail(scope.row)">详情</el-button>
+                            <el-button type="text" size="small">下载</el-button>
+                        </template>
+                    </el-table-column>
+                </el-table>
+                <div style="text-align: center;margin-top: 10px;">
+                    <el-pagination background small layout="prev, pager, next" :total="1000">
+                    </el-pagination>
+                </div>
+            </div>
+            <div class="footerIcon">
+                <i class="icon el-icon-shopping-cart-2 gouwuche" title="加入待下载"></i>
+            </div>
+        </div>
+
         <!-- 未下载弹框 -->
         <div class="downloadList" v-if="notDownload">
             <i class="el-icon-close" title="关闭" @click="closeUnDownload"></i>
@@ -280,6 +283,8 @@
                           :cell-style="{ 'text-align': 'center' }"
                           @cell-mouse-enter="handleMouseEnter"
                           @cell-mouse-leave="handleMouseOut"
+                          @selection-change="handleSelectionChange"
+                          :row-key="handleRowKey"
                           style="width: 100%;max-height:calc(100vh - 500px) ;overflow: auto;">
                     <el-table-column type="selection"></el-table-column>
                     <el-table-column prop="smallPic" label="缩略图">
@@ -287,7 +292,8 @@
                             <el-image :src="imagesIP + '/' + scope.row.directory + '/' + scope.row.thumbUrl"
                                       style="width:30px; height:30px;">
                             </el-image>
-                            <i class="iconfont icon-yanjing" :class="changeColor" @click="changeMode($store.state.viewer, scope.row)"></i>
+                            <i class="iconfont icon-yanjing" :class="scope.row['changeColor']"
+                               @click="changeMode($store.state.viewer, scope.row)"></i>
                         </template>
                     </el-table-column>
                     <el-table-column prop="satellite" sortable label="卫星"></el-table-column>
@@ -351,7 +357,8 @@
                             <el-image :src="scope.row.smallPic" :preview-src-list="scope.row.srcList"
                                       style="width:30px; height:30px;">
                             </el-image>
-                            <i class="iconfont icon-yanjing" :class="changeColor" @click="changeMode($store.state.viewer, scope.row)"></i>
+                            <i class="iconfont icon-yanjing" :class="scope.row['changeColor']"
+                               @click="changeMode($store.state.viewer, scope.row)"></i>
                         </template>
                     </el-table-column>
                     <el-table-column prop="satellite" sortable label="卫星"></el-table-column>
@@ -397,7 +404,9 @@
         <!-- 未下载、已下载详情弹框 -->
         <el-dialog title="详情" :visible.sync="dialogDataDetail" append-to-body>
             <el-descriptions :column="2" border v-model="detailData" class="dialogDetail">
-                <el-descriptions-item :prop="item.property" :label="item.name" v-for="item in detailData">{{ item.value }}</el-descriptions-item>
+                <el-descriptions-item :prop="item.property" :label="item.name" v-for="item in detailData">
+                    {{ item.value }}
+                </el-descriptions-item>
             </el-descriptions>
             <div class="btnRight">
                 <el-button size="small" @click="closeDetail">关闭</el-button>
@@ -411,7 +420,7 @@
     import loader from "../api/utils/loader";
     import config from "../api/utils/config";
     import drawer from "../api/utils/drawer";
-	import dataContent, {GF_header, ZY_header, GF3_header, other_header} from '../components/dataManage/dataContent';
+    import dataContent, {GF_header, ZY_header, GF3_header, other_header} from '../components/dataManage/dataContent';
     import common from "../api/utils/common";
     import entity from "../api/utils/entity";
 
@@ -419,8 +428,8 @@
     export default {
         data() {
             return {
-				searchTotal1:'10',
-				searchTotal2:'20',
+                searchTotal1: '10',
+                searchTotal2: '20',
                 formLabelWidth: '60px',
                 activeName1: '1',
                 activeName2: '1',
@@ -516,8 +525,8 @@
                     {property: 'ScenePath', name: '景Path'},
                     {property: 'SceneRow', name: '景Row'},
                 ],
-                searchList:false,
-				notDownload: false,
+                searchList: false,
+                notDownload: false,
                 download: false,
                 activeIndex2: '1',
                 total: '12',
@@ -528,10 +537,12 @@
                 },
                 changeColor: 'icon-gray',
                 unDownloadedData: [],
+                selectedData: [],
                 downloadedData: [],
                 imagesIP: config.imagesIP,
                 clazz: 'optical_satellite',
-                shapeDic: {}
+                shapeDic: {},
+                currentObjId: '',
             }
         },
         methods: {
@@ -566,42 +577,29 @@
                 }
             },
 
-            queryByDate(dates){
+            queryByDate(dates) {
+                const Cesium = HXWEarth;
                 const _ = this;
                 loader.load({class: _.clazz}, function (data) {
+                    //filter time
                     _.unDownloadedData = data.filter(function (object) {
-                        if(object['receiveTime'] !== null && object['receiveTime'] !== 'NULL'){
+                        if (object['receiveTime'] !== null && object['receiveTime'] !== 'NULL') {
                             let date = new Date(object['receiveTime']);
                             return common.ifInterval(dates, date);
                         }
                         return false;
                     });
-                    if(_.clazz === 'radar_satellite'){
+                    if (_.clazz === 'radar_satellite') {
                         _.unDownloadedData = data;
                     }
-                    _.showNotDownload();
-                })
-            },
+                    //filter space
+                    let positions = _.shapeDic[_.currentObjId];
+                    if(common.defined(positions)){
+                        let lonLat0 = entity.cartesianToLonLat(positions[0]);
+                        let lonLat1 = entity.cartesianToLonLat(positions[1]);
+                        let rectA = new Cesium.Rectangle(lonLat0[0], lonLat1[1], lonLat1[0], lonLat0[1]);
 
-            reset(){
-                this.clazz = 'optical_satellite';
-                this.timeValue1 = '';
-                this.timeValue2 = '';
-            },
-
-            drawEntity(geometryType){
-                const Cesium = HXWEarth;
-                const _ = this;
-                let callback = function (positions) {
-                    let objId = geometryType + new Date().getTime();
-                    _.shapeDic[objId] = positions;
-                    // entity.showRectangle('drawGeometry', objId, positions);
-                    let lonLat0 = entity.cartesianToLonLat(positions[0]);
-                    let lonLat1 = entity.cartesianToLonLat(positions[1]);
-                    let rectA = new Cesium.Rectangle(lonLat0[0], lonLat1[1], lonLat1[0], lonLat0[1]);
-                    // let rectA = [lonLat0[0], lonLat1[1], lonLat1[0], lonLat0[1]];
-                    loader.load({ class:_.clazz }, function (data) {
-                        _.unDownloadedData = data.filter(function (object) {
+                        _.unDownloadedData = _.unDownloadedData.filter(function (object) {
                             let topLeftLon = parseFloat(object.topLeftLongitude);
                             let bottomRightLat = parseFloat(object.bottomRightLatitude);
                             let bottomRightLon = parseFloat(object.bottomRightLongitude);
@@ -613,12 +611,57 @@
                             // let rectB = [topLeftLon, bottomRightLat, bottomRightLon, topLeftLat];
                             // let intersection = entity.checkIntersection(rectA, rectB);
                             let intersection = entity.intersection(rectA, rectB);
-                            if(common.defined(intersection)){
+                            if (common.defined(intersection)) {
                                 return true;
                             }
                         })
-                        _.showNotDownload();
-                    })
+                    }
+
+                    _.unDownloadedData.forEach(function (object) {
+                        _.$set(object, 'changeColor', 'icon-blue');
+                    });
+
+                    _.showSearchList();
+                })
+            },
+
+            reset() {
+                this.clazz = 'optical_satellite';
+                this.timeValue1 = '';
+                this.timeValue2 = '';
+            },
+
+            drawEntity(geometryType) {
+                const Cesium = HXWEarth;
+                const _ = this;
+                let callback = function (positions) {
+                    let objId = geometryType + new Date().getTime();
+                    _.shapeDic[objId] = positions;
+                    _.currentObjId = objId;
+                    entity.showRectangle('drawGeometry', objId, positions);
+                    // let lonLat0 = entity.cartesianToLonLat(positions[0]);
+                    // let lonLat1 = entity.cartesianToLonLat(positions[1]);
+                    // let rectA = new Cesium.Rectangle(lonLat0[0], lonLat1[1], lonLat1[0], lonLat0[1]);
+                    // // let rectA = [lonLat0[0], lonLat1[1], lonLat1[0], lonLat0[1]];
+                    // loader.load({class: _.clazz}, function (data) {
+                    //     _.unDownloadedData = data.filter(function (object) {
+                    //         let topLeftLon = parseFloat(object.topLeftLongitude);
+                    //         let bottomRightLat = parseFloat(object.bottomRightLatitude);
+                    //         let bottomRightLon = parseFloat(object.bottomRightLongitude);
+                    //         let topLeftLat = parseFloat(object.topLeftLatitude);
+                    //         if (isNaN(topLeftLon) || isNaN(bottomRightLat) || isNaN(bottomRightLon) || isNaN(topLeftLat)) {
+                    //             return false;
+                    //         }
+                    //         let rectB = new Cesium.Rectangle(topLeftLon, bottomRightLat, bottomRightLon, topLeftLat);
+                    //         // let rectB = [topLeftLon, bottomRightLat, bottomRightLon, topLeftLat];
+                    //         // let intersection = entity.checkIntersection(rectA, rectB);
+                    //         let intersection = entity.intersection(rectA, rectB);
+                    //         if (common.defined(intersection)) {
+                    //             return true;
+                    //         }
+                    //     })
+                    //     _.showSearchList();
+                    // })
                 };
                 entity.draw(geometryType, callback);
             },
@@ -632,31 +675,44 @@
                 this.checkAll = checkedCount === this.lists.length;
                 this.isIndeterminate = checkedCount > 0 && checkedCount < this.lists.length;
             },
-            handleMouseEnter(row, column, cell, event){
+            handleMouseEnter(row, column, cell, event) {
                 const Cesium = HXWEarth;
                 const viewer = this.$store.state.viewer;
                 let entity = drawer.findEntityByObjId(viewer, row.id);
                 entity.rectangle.outlineColor.setValue(Cesium.Color.RED);
             },
-            handleMouseOut(row, column, cell, event){
+            handleMouseOut(row, column, cell, event) {
                 const Cesium = HXWEarth;
                 const viewer = this.$store.state.viewer;
                 let entity = drawer.findEntityByObjId(viewer, row.id);
                 entity.rectangle.outlineColor.setValue(Cesium.Color.BLUE);
             },
-			changeMode(viewer, row){
-				let entity = drawer.findEntityByObjId(viewer, row.id);
-				entity.rectangle.fill.setValue(!entity.rectangle.fill.getValue());
-			},
+            handleSelectionChange(val) {
+                this.selectedData = val
+            },
+            handleRowKey(row){
+                return row.id
+            },
+            changeMode(viewer, row) {
+                let entity = drawer.findEntityByObjId(viewer, row.id);
+                entity.rectangle.fill.setValue(!entity.rectangle.fill.getValue());
+
+                if(entity.rectangle.fill.getValue()){
+                    this.$set(row, 'changeColor', 'icon-blue');
+                } else {
+                    this.$set(row, 'changeColor', 'icon-gray');
+                }
+            },
             showNotDownload() {
                 const _ = this;
-                this.notDownload = true
+                this.notDownload = true;
                 if (this.download = true) {
-                    this.download = false
+                    this.download = false;
                 }
+
                 function drawRectangle(array) {
                     for (let object of array) {
-                        if(_.clazz === 'optical_satellite'){
+                        if (_.clazz === 'optical_satellite') {
                             object['satellite'] = object['satelliteID'];
                             object['resolution'] = object['imageGSD'];
                         } else {
@@ -677,18 +733,55 @@
                         drawer.rectangle(_.$store.state.viewer, object.id, imageUrl, positions);
                     }
                 }
-                if(!common.arrayIsEmpty(_.unDownloadedData)){
+
+                if (!common.arrayIsEmpty(_.unDownloadedData)) {
+                    drawer.clearEntityByLayerId('drawGeometry');
                     drawer.clearEntityByLayerId('rectangle');
                     drawRectangle(_.unDownloadedData);
                 }
             },
-            closeUnDownload(){
+            closeSearchList(){
+                this.searchList = false;
+                drawer.clearEntityByLayerId('rectangle');
+            },
+            closeUnDownload() {
                 this.notDownload = false;
                 drawer.clearEntityByLayerId('rectangle');
             },
-			showSearchList(){
-				this.searchList = true
-			},
+            showSearchList() {
+                const _ = this;
+                this.searchList = true;
+
+                function drawRectangle(array) {
+                    for (let object of array) {
+                        if (_.clazz === 'optical_satellite') {
+                            object['satellite'] = object['satelliteID'];
+                            object['resolution'] = object['imageGSD'];
+                        } else {
+                            object['resolution'] = object['nominalResolution'];
+                        }
+                        let topLeftLon = parseFloat(object.topLeftLongitude);
+                        let bottomRightLat = parseFloat(object.bottomRightLatitude);
+                        let bottomRightLon = parseFloat(object.bottomRightLongitude);
+                        let topLeftLat = parseFloat(object.topLeftLatitude);
+                        if (isNaN(topLeftLon) || isNaN(bottomRightLat) || isNaN(bottomRightLon) || isNaN(topLeftLat)) {
+                            continue;
+                        }
+                        // if(object.imageUrl === null){
+                        //     continue;
+                        // }
+                        let imageUrl = _.imagesIP + '/' + object.directory + '/' + object.imageUrl;
+                        let positions = [topLeftLon, bottomRightLat, bottomRightLon, topLeftLat];
+                        drawer.rectangle(_.$store.state.viewer, object.id, imageUrl, positions);
+                    }
+                }
+
+                if (!common.arrayIsEmpty(_.unDownloadedData)) {
+                    drawer.clearEntityByLayerId('drawGeometry');
+                    drawer.clearEntityByLayerId('rectangle');
+                    drawRectangle(_.unDownloadedData);
+                }
+            },
             showDownload() {
                 this.download = true
                 if (this.notDownload = true) {
@@ -696,25 +789,25 @@
                 }
             },
             handleSelect(key, keyPath) {
-                if(key === '2-1-1'){
+                if (key === '2-1-1') {
                     this.clazz = 'optical_satellite';
                 }
-                if(key === '2-1-2'){
+                if (key === '2-1-2') {
                     this.clazz = 'radar_satellite';
                 }
             },
             notDownloadDetail(row) {
                 this.detailData = [];
-                for(let object of GF_header.data){
-                	object.value = row[object['property']];
-                	this.detailData.push(object);
-				}
-				this.dialogDataDetail = true;
+                for (let object of GF_header.data) {
+                    object.value = row[object['property']];
+                    this.detailData.push(object);
+                }
+                this.dialogDataDetail = true;
             },
-			closeDetail(){
-            	this.detailData = []
-				this.dialogDataDetail = false;
-			},
+            closeDetail() {
+                this.detailData = []
+                this.dialogDataDetail = false;
+            },
             notDownloadDelete() {
                 this.$confirm('是否删除?', '提示', {
                     confirmButtonText: '确定',
@@ -762,12 +855,14 @@
         top: 60px;
         left: 0px;
     }
-	.searchBtn{
-		position: absolute;
-		top:10px;
-		width:200px;
-		left:420px;
-	}
+
+    .searchBtn {
+        position: absolute;
+        top: 10px;
+        width: 200px;
+        left: 420px;
+    }
+
     .huizhi {
         display: flex;
 
@@ -884,14 +979,16 @@
             }
         }
     }
-	.footerIcon{
-		position: absolute;
-		bottom: 20px;
-		padding-left: 20px;
-		padding-right: 20px;
-		width: 100%;
-		text-align: right;
-	}
+
+    .footerIcon {
+        position: absolute;
+        bottom: 20px;
+        padding-left: 20px;
+        padding-right: 20px;
+        width: 100%;
+        text-align: right;
+    }
+
     .el-table .cell::v-deep {
         position: relative;
     }
@@ -914,10 +1011,11 @@
     i.icon-blue {
         color: #409eff;
     }
-	.gouwuche{
-		font-size:20px;
-		// font-weight: bold;
-		color:#fff;
-		cursor: pointer;
-	}
+
+    .gouwuche {
+        font-size: 20px;
+        // font-weight: bold;
+        color: #fff;
+        cursor: pointer;
+    }
 </style>

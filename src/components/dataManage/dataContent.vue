@@ -148,8 +148,20 @@
 						_.clazz = 'optical_satellite'
 					}
 					loader.load({class: _.clazz}, function (data) {
-						_.tableData = data
-					})
+					    if(['GF'].includes(_.$route.query.data)){
+                            _.tableData = data.filter(function (object) {
+                                return (object['satelliteID'] + '').includes('GF');
+                            });
+                        }
+					    if(['ZY'].includes(_.$route.query.data)){
+                            _.tableData = data.filter(function (object) {
+                                return (object['satelliteID'] + '').includes('ZY');
+                            });
+                        }
+                        if(['GF3'].includes(_.$route.query.data)){
+                            _.tableData = data;
+                        }
+                    })
                 })
             },
 
