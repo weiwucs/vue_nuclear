@@ -59,6 +59,13 @@ common.fixN =  function (number, precision) {
   return Math.floor(number * unit) / unit;
 }
 
+common.isNotEmptyStr = function (string) {
+  if(common.defined(string) && typeof string == 'string' && string.length > 0){
+    return true;
+  }
+  return false;
+}
+
 /**
  * object(defined)-group(& and |)-other(~)
  * @returns {string}

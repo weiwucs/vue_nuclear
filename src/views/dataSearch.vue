@@ -45,8 +45,8 @@
                     </el-form-item>
                   </el-form>
                   <div class="juzhong">
-                    <el-button type="primary" size="mini">确定</el-button>
-                    <el-button size="mini">清空</el-button>
+                    <el-button type="primary" size="mini" @click="queryByRegion">确定</el-button>
+                    <el-button size="mini" @click="clearAllEntity">清空</el-button>
                   </div>
                 </el-tab-pane>
                 <el-tab-pane label="国外" name="2">
@@ -58,8 +58,8 @@
                     </el-form-item>
                   </el-form>
                   <div class="juzhong">
-                    <el-button type="primary" size="mini">确定</el-button>
-                    <el-button size="mini">清空</el-button>
+                    <el-button type="primary" size="mini" @click="queryByWorld">确定</el-button>
+                    <el-button size="mini" @click="clearAllEntity">清空</el-button>
                   </div>
                 </el-tab-pane>
               </el-tabs>
@@ -579,6 +579,97 @@ export default {
       }
     },
 
+    clearAllEntity(){
+      window.viewer.entities.removeAll();
+    },
+
+    async queryByRegion(){
+      const _ = this;
+      let provinceURL = "./static/data/province.geojson";
+      let countyURL = "./static/data/county.geojson";
+      let cityURL = "./static/data/city.geojson";
+      _.clearAllEntity();
+      let regionEntityCollection = [];
+      if(common.isNotEmptyStr(_.selectProvince)){
+        if(common.isNotEmptyStr(_.selectCity)){
+          if(common.isNotEmptyStr(_.selectArea)){
+            let countyGeoData = Cesium.GeoJsonDataSource.load(countyURL, {});
+            await countyGeoData.then(function (dataSource){
+              let entities = dataSource.entities.values;
+              for(let i = 0; i < entities.length; i++){
+                let entity = entities[i];
+                let code = entity.properties.县代码.getValue()
+                if(_.selectArea === code + ''){
+                  regionEntityCollection.push(entity);
+                  window.viewer.entities.add(entity);
+                }
+              }
+            })
+          } else {
+            let cityGeoData = Cesium.GeoJsonDataSource.load(cityURL, {});
+            await cityGeoData.then(function (dataSource){
+              let entities = dataSource.entities.values;
+              for(let i = 0; i < entities.length; i++){
+                let entity = entities[i];
+                let code = entity.properties.市代码.getValue()
+                if(_.selectCity === code + ''){
+                  regionEntityCollection.push(entity);
+                  window.viewer.entities.add(entity);
+                }
+              }
+            })
+          }
+        } else {
+          let provinceGeoData = Cesium.GeoJsonDataSource.load(provinceURL, {});
+          await provinceGeoData.then(function (dataSource){
+            let entities = dataSource.entities.values;
+            for(let i = 0; i < entities.length; i++){
+              let entity = entities[i];
+              let code = entity.properties.省代码.getValue()
+              if(_.selectProvince === code + ''){
+                regionEntityCollection.push(entity);
+                window.viewer.entities.add(entity);
+              }
+            }
+          })
+        }
+      }
+      let regionSet = new Set();
+      loader.load({class: _.clazz}, function (data) {
+        regionEntityCollection.forEach(function (entity) {
+          data.forEach(function (object) {
+            let rectB = _.createRectUseObject(object);
+            if(cesium2turf.polygonIntersect(rectB, entity.polygon)){
+              regionSet.add(object);
+            }
+          })
+        })
+        _.unDownloadedData = [...regionSet];
+        _.showSearchList();
+      })
+    },
+
+    async queryByWorld(){
+      const _ = this;
+      let worldURL = "./static/data/world.geojson";
+      let regionEntityCollection = [];
+      if(common.isNotEmptyStr(_.searchForeign)){
+        let worldGeoData = Cesium.GeoJsonDataSource.load(worldURL, {});
+        await worldGeoData.then(function (dataSource){
+          let entities = dataSource.entities.values;
+          console.log(entities.length);
+          for(let i = 0; i < entities.length; i++){
+            let entity = entities[i];
+            console.log(entity);
+            // let name = entity.properties.Chi_name.getValue()
+            // if(_.searchForeign === name){
+            //   regionEntityCollection.push(entity);
+            //   window.viewer.entities.add(entity);
+            // }
+          }
+        })
+      }
+    },
 
     queryByDate(data, dates) {
       //filter time
@@ -594,17 +685,21 @@ export default {
       }
     },
 
+    createRectUseObject(object){
+      let topLeftLon = parseFloat(object.topLeftLongitude);
+      let bottomRightLat = parseFloat(object.bottomRightLatitude);
+      let bottomRightLon = parseFloat(object.bottomRightLongitude);
+      let topLeftLat = parseFloat(object.topLeftLatitude);
+      if (isNaN(topLeftLon) || isNaN(bottomRightLat) || isNaN(bottomRightLon) || isNaN(topLeftLat)) {
+        return false;
+      }
+      return new Cesium.Rectangle(topLeftLon, bottomRightLat, bottomRightLon, topLeftLat);
+    },
+
     queryByRect(data, rectA){
       const _ = this;
       _.unDownloadedData = data.filter(function (object) {
-        let topLeftLon = parseFloat(object.topLeftLongitude);
-        let bottomRightLat = parseFloat(object.bottomRightLatitude);
-        let bottomRightLon = parseFloat(object.bottomRightLongitude);
-        let topLeftLat = parseFloat(object.topLeftLatitude);
-        if (isNaN(topLeftLon) || isNaN(bottomRightLat) || isNaN(bottomRightLon) || isNaN(topLeftLat)) {
-          return false;
-        }
-        let rectB = new Cesium.Rectangle(topLeftLon, bottomRightLat, bottomRightLon, topLeftLat);
+        let rectB = _.createRectUseObject(object);
         // let rectB = [topLeftLon, bottomRightLat, bottomRightLon, topLeftLat];
         // let intersection = entity.checkIntersection(rectA, rectB);
         let intersection = entity.intersection(rectA, rectB);
@@ -642,14 +737,7 @@ export default {
     queryByPoint(data, position){
       const _ = this;
       _.unDownloadedData = data.filter(function (object) {
-        let topLeftLon = parseFloat(object.topLeftLongitude);
-        let bottomRightLat = parseFloat(object.bottomRightLatitude);
-        let bottomRightLon = parseFloat(object.bottomRightLongitude);
-        let topLeftLat = parseFloat(object.topLeftLatitude);
-        if (isNaN(topLeftLon) || isNaN(bottomRightLat) || isNaN(bottomRightLon) || isNaN(topLeftLat)) {
-          return false;
-        }
-        let rectB = new Cesium.Rectangle(topLeftLon, bottomRightLat, bottomRightLon, topLeftLat);
+        let rectB = _.createRectUseObject(object);
         // console.log(rectB, entity.cartesianToLonLat(position)[0], entity.cartesianToLonLat(position)[1]);
         return cesium2turf.booleanContains(position, rectB);
       })
@@ -658,14 +746,7 @@ export default {
     queryByPolygon(data, polygon){
       const _ = this;
       _.unDownloadedData = data.filter(function (object) {
-        let topLeftLon = parseFloat(object.topLeftLongitude);
-        let bottomRightLat = parseFloat(object.bottomRightLatitude);
-        let bottomRightLon = parseFloat(object.bottomRightLongitude);
-        let topLeftLat = parseFloat(object.topLeftLatitude);
-        if (isNaN(topLeftLon) || isNaN(bottomRightLat) || isNaN(bottomRightLon) || isNaN(topLeftLat)) {
-          return false;
-        }
-        let rectB = new Cesium.Rectangle(topLeftLon, bottomRightLat, bottomRightLon, topLeftLat);
+        let rectB = _.createRectUseObject(object);
         // let rectB = [topLeftLon, bottomRightLat, bottomRightLon, topLeftLat];
         // let intersection = entity.checkIntersection(rectA, rectB);
         return cesium2turf.polygonIntersect(rectB, polygon);
@@ -675,14 +756,7 @@ export default {
     queryByPolyline(data, polyline){
       const _ = this;
       _.unDownloadedData = data.filter(function (object) {
-        let topLeftLon = parseFloat(object.topLeftLongitude);
-        let bottomRightLat = parseFloat(object.bottomRightLatitude);
-        let bottomRightLon = parseFloat(object.bottomRightLongitude);
-        let topLeftLat = parseFloat(object.topLeftLatitude);
-        if (isNaN(topLeftLon) || isNaN(bottomRightLat) || isNaN(bottomRightLon) || isNaN(topLeftLat)) {
-          return false;
-        }
-        let rectB = new Cesium.Rectangle(topLeftLon, bottomRightLat, bottomRightLon, topLeftLat);
+        let rectB = _.createRectUseObject(object);
         // let rectB = [topLeftLon, bottomRightLat, bottomRightLon, topLeftLat];
         // let intersection = entity.checkIntersection(rectA, rectB);
         return cesium2turf.polylineIntersect(rectB, polyline);
@@ -866,11 +940,13 @@ export default {
     },
     closeSearchList() {
       this.searchList = false;
+      this.clearAllEntity();
       drawer.clearEntityByLayerId('rectangle');
       drawer.clearEntityByLayerId('drawGeometry');
     },
     closeUnDownload() {
       this.notDownload = false;
+      this.clearAllEntity();
       drawer.clearEntityByLayerId('rectangle');
       drawer.clearEntityByLayerId('drawGeometry');
     },
