@@ -25,6 +25,9 @@
 <script>
     import rightMenu from '../components/rightMenu.vue'
     import topMenu from '../components/topMenu.vue'
+
+    const Cesium = HXWEarth;
+
     export default {
         components: { rightMenu,topMenu},
         data() {
@@ -54,13 +57,11 @@
         },
         methods: {
             initialize() {
-                const Cesium = HXWEarth
                 const viewer = new Cesium.HexiViewer('cesiumContainer', {
                     shouldAnimate: true,
                     timeline: true,
                 })
-                this.viewer = viewer
-                this.$store.state.viewer = viewer
+                window.viewer = viewer
 
                 viewer.scene.debugShowFramesPerSecond = false
                 viewer.scene.globe.depthTestAgainstTerrain = false
@@ -74,8 +75,7 @@
                 this.navigation()
             },
             zoomIn() {
-                const Cesium = HXWEarth
-                const viewer = this.viewer
+                const viewer = window.viewer
                 let cameraPos = viewer.camera.position
                 let ellipsoid = viewer.scene.globe.ellipsoid
                 let cartographic = ellipsoid.cartesianToCartographic(cameraPos)
@@ -88,8 +88,7 @@
                 })
             },
             zoomOut() {
-                const Cesium = HXWEarth
-                const viewer = this.viewer
+                const viewer = window.viewer
                 let cameraPos = viewer.camera.position
                 let ellipsoid = viewer.scene.globe.ellipsoid
                 let cartographic = ellipsoid.cartesianToCartographic(cameraPos)
@@ -102,7 +101,7 @@
                 })
             },
             convertDim(flag) {
-                const viewer = this.viewer
+                const viewer = window.viewer
                 if (flag) {
                     viewer.scene.morphTo2D(0)
                 } else {
@@ -110,15 +109,13 @@
                 }
             },
             flyToHome() {
-                const Cesium = HXWEarth
-                const viewer = this.viewer
+                const viewer = window.viewer
                 viewer.camera.setView({
                     destination: Cesium.Cartesian3.fromDegrees(114.295314, 13.03, 20000000.0),
                 })
             },
             showLongLatHeight() {
-                const Cesium = HXWEarth
-                const viewer = this.viewer
+                const viewer = window.viewer
                 let _this = this
                 let ellipsoid = viewer.scene.globe.ellipsoid
                 let handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas)
@@ -143,8 +140,7 @@
                 }, Cesium.ScreenSpaceEventType.MOUSE_MOVE)
             },
             navigation() {
-                const Cesium = HXWEarth
-                const viewer = this.viewer
+                const viewer = window.viewer
                 let distances = [
                     1,
                     2,

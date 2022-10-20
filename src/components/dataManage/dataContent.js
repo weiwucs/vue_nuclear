@@ -149,7 +149,7 @@ export const ZY_header = {
 export const GF3_header = {
     title: '高分三号',
     data: [
-        {property:'satelliteID',name:'卫星ID',value:''},
+        {property:'satellite',name:'卫星ID',value:''},
         {property:'sensorID',name:'传感器ID',value:''},
         {property:'imagingMode',name:'成像模式',value:''},
         {property:'orbitID',name:'轨道圈号',value:''},
@@ -172,6 +172,7 @@ export const GF3_header = {
         {property:'centerTime',name:'中心时间',value:''},
     ]
 }
+
 export const other_header = {
     title: '其他数据',
     data: [

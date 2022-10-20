@@ -1,6 +1,6 @@
 
 const server = {
-    host: 'http://47.104.172.28', port: '8090', endpointUrl: '/nuclear3', endpointApiUrl: '/nuclear3',
+    host: 'http://localhost', port: '8080', endpointUrl: '/nuclear', endpointApiUrl: '/nuclear',
     url(uri){
         return this.host + ':' + this.port + this.endpointApiUrl + uri;
     }

@@ -1,5 +1,5 @@
 import common from "./common";
-import store from "../../store";
+import {win} from "leaflet/src/core/Browser";
 
 const earth = HXWEarth
 
@@ -16,30 +16,28 @@ const drawer = {
     },
 
     clearEntityByLayerId(layerId){
-        const viewer = store.state['viewer'];
-        let entities = viewer.entities.values
+        let entities = window.viewer.entities.values
         if (entities === null || entities.length < 1) {
             return
         }
         for (let i = 0; i < entities.length; i++) {
             let entity = entities[i]
             if (entity.layerId === layerId) {
-                viewer.entities.remove(entity)
+                window.viewer.entities.remove(entity)
                 i--
             }
         }
     },
 
     clearEntityById(layerId, objId) {
-        const viewer = store.state['viewer'];
-        let entities = viewer.entities.values
+        let entities = window.viewer.entities.values
         if (entities === null || entities.length < 1) {
             return
         }
         for (let i = 0; i < entities.length; i++) {
             let entity = entities[i]
             if (entity.layerId === layerId && entity.objectId === objId) {
-                viewer.entities.remove(entity)
+                window.viewer.entities.remove(entity)
                 i--
             }
         }

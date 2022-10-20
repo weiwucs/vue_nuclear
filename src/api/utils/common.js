@@ -50,6 +50,15 @@ common.download = function (options) {
   window.location.href = options.url;
 };
 
+common.fixN =  function (number, precision) {
+  let unit = 1;
+  for (let i = 0; i < precision; i++) {
+    unit *= 10;
+  }
+
+  return Math.floor(number * unit) / unit;
+}
+
 /**
  * object(defined)-group(& and |)-other(~)
  * @returns {string}

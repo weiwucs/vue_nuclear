@@ -30,12 +30,7 @@ export default new Vuex.Store({
         server_url: '',
         userApiPrefix: '/v1/user/',
 
-        viewer: undefined,
-
-        server: {
-            ip: 'http://192.168.1.135/',
-            port: '8080'
-        },
+        viewer: undefined
     },
     getters: {
         userApiBaseUrl: state => {
