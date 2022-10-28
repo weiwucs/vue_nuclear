@@ -168,14 +168,12 @@ const entity = {
 
     createRectByCenter(center, width, height){
         //x -> east; y -> up, z -> south
-        console.log(center, width, height);
         let L2W = earth.Transforms.localFrameToFixedFrameGenerator('east', 'up')(center);
         let LT = this.computedPosition(L2W, -width/2, 0, -height/2);
         let RB = this.computedPosition(L2W, width/2, 0, height/2);
-        console.log(LT, RB);
         let leftTop = this.cartesianToLonLat(LT);
         let rightBottom = this.cartesianToLonLat(RB);
-        return new earth.Rectangle(leftTop[0], rightBottom[1], rightBottom[0], leftTop[1]);
+        return new earth.Rectangle.fromDegrees(leftTop[0], rightBottom[1], rightBottom[0], leftTop[1]);
     }
 
 }

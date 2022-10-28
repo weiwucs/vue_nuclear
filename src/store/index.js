@@ -13,7 +13,7 @@ const debug = process.env.NODE_ENV !== 'production'
 
 export default new Vuex.Store({
     state: {
-        serverIP: 'http://192.168.1.113:8080/nuclear',
+        serverIP: 'http://192.168.1.134:8080/nuclear',
         currentAppVersion: "1.3.3",
         debugOption: {
             showDeiveInfo: true

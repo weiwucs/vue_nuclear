@@ -30,11 +30,11 @@ export default {
     },
 
     rectangleToTurfPolygon(rectangle) {
-        let positions = [[rectangle.west, rectangle.north],
-            [rectangle.east, rectangle.north],
-            [rectangle.east, rectangle.south],
-            [rectangle.west, rectangle.south],
-            [rectangle.west, rectangle.north]];
+        let positions = [[earth.Math.toDegrees(rectangle.west), earth.Math.toDegrees(rectangle.north)],
+            [earth.Math.toDegrees(rectangle.east), earth.Math.toDegrees(rectangle.north)],
+            [earth.Math.toDegrees(rectangle.east), earth.Math.toDegrees(rectangle.south)],
+            [earth.Math.toDegrees(rectangle.west), earth.Math.toDegrees(rectangle.south)],
+            [earth.Math.toDegrees(rectangle.west), earth.Math.toDegrees(rectangle.north)]];
         return turf.polygon([positions], {name: 'rectangle'});
     },
 

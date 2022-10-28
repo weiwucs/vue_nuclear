@@ -43,6 +43,21 @@ const drawer = {
         }
     },
 
+    drawRectangle(rect){
+        let rectangle = window.viewer.entities.add({
+            layerId: 'DrawGeometry',
+            rectangle: {
+                coordinates: rect,
+                height: 0,
+                fill: false,
+                outline: true,
+                outlineColor: earth.Color.GREEN,
+                outlineWidth: 100,
+            },
+        });
+        window.viewer.flyTo(rectangle);
+    },
+
     rectangle(viewer, objectId, imageUrl, positions){
         let material = new earth.ImageMaterialProperty({ image: imageUrl })
         let rect = earth.Rectangle.fromDegrees(positions[0], positions[1], positions[2], positions[3])

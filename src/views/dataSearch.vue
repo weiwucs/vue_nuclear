@@ -141,14 +141,20 @@
           <el-submenu index="1-4">
             <template slot="title">导入范围</template>
             <div class="timeSearch">
-              <el-upload class="upload-demo" action="#" multiple>
+              <el-upload class="upload-demo"
+                         accept=".zip,.shp,.dbf"
+                         :auto-upload="true"
+                         ref="file"
+                         :file-list="fileList"
+                         :http-request="importFile"
+                         action="#" multiple>
                 选择路径：
                 <el-button size="small" type="primary">上传文件</el-button>
                 <p style="margin-bottom: 0;line-height: 20px;">支持.zip文件(包括.dbf、.shp、.prj三类文件)</p>
               </el-upload>
               <div style="text-align: right;margin-top: 10px;">
-                <el-button type="primary" size="mini">重置</el-button>
-                <el-button type="primary" size="mini">确定</el-button>
+                <el-button type="primary" size="mini" @click="resetFile">重置</el-button>
+                <el-button type="primary" size="mini" @click="handleImport">确定</el-button>
               </div>
             </div>
           </el-submenu>
@@ -164,22 +170,12 @@
             <template slot="title">卫星/传感器</template>
             <div class="timeSearch">
               <el-tree
+                  ref="satelliteTree"
                   :data="satelliteData"
                   show-checkbox
                   node-key="id"
                   :props="defaultProps">
               </el-tree>
-            </div>
-          </el-submenu>
-          <el-submenu index="2-3">
-            <template slot="title">级别</template>
-            <div class="timeSearch">
-              <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll"
-                           @change="handleCheckAllChange">全选
-              </el-checkbox>
-              <el-checkbox-group v-model="checkedLists" @change="handleCheckedListsChange">
-                <el-checkbox v-for="list in lists" :label="list" :key="list">{{ list }}</el-checkbox>
-              </el-checkbox-group>
             </div>
           </el-submenu>
         </el-submenu>
@@ -424,6 +420,8 @@ import dataContent, {GF_header, ZY_header, GF3_header, other_header} from '../co
 import common from "../api/utils/common";
 import entity from "../api/utils/entity";
 import cesium2turf from "@/api/utils/cesium2turf";
+import network from "@/api/utils/network";
+import { open as shapeOpen, read as shapeRead } from 'shapefile';
 
 const Options = ['level1', 'level2', 'level3', 'level4'];
 const Cesium = HXWEarth;
@@ -462,41 +460,7 @@ export default {
       checkedLists: [],
       lists: Options,
       isIndeterminate: true,
-      satelliteData: [{
-        id: 1,
-        label: '高分系列',
-        children: [{
-          id: 1 - 1,
-          label: '高分3号',
-          children: [{
-            id: 1 - 1 - 1,
-            label: 'SL'
-          }, {
-            id: 1 - 1 - 2,
-            label: 'UFS'
-          }, {
-            id: 1 - 1 - 3,
-            label: 'FSI'
-          }]
-        }]
-      }, {
-        id: 2,
-        label: '资源系列',
-        children: [{
-          id: 2 - 1,
-          label: '资源1号',
-          children: [{
-            id: 2 - 1 - 1,
-            label: 'ZY1-1'
-          }, {
-            id: 2 - 1 - 2,
-            label: 'ZY1-2'
-          }, {
-            id: 2 - 1 - 3,
-            label: 'ZY1-3'
-          }]
-        }]
-      }],
+      satelliteData: [],
       defaultProps: {
         children: 'children',
         label: 'label'
@@ -546,7 +510,9 @@ export default {
 
       shapeDic: {},
       currentObjId: '',
-      geometryType: ''
+      geometryType: '',
+
+      fileList: []
     }
   },
   methods: {
@@ -581,6 +547,7 @@ export default {
 
     clearAllEntity(){
       window.viewer.entities.removeAll();
+      window.viewer.dataSources.removeAll();
     },
 
     async queryByRegion(){
@@ -602,6 +569,7 @@ export default {
                 if(_.selectArea === code + ''){
                   regionEntityCollection.push(entity);
                   window.viewer.entities.add(entity);
+                  window.viewer.flyTo(entity);
                 }
               }
             })
@@ -615,6 +583,7 @@ export default {
                 if(_.selectCity === code + ''){
                   regionEntityCollection.push(entity);
                   window.viewer.entities.add(entity);
+                  window.viewer.flyTo(entity);
                 }
               }
             })
@@ -628,7 +597,9 @@ export default {
               let code = entity.properties.省代码.getValue()
               if(_.selectProvince === code + ''){
                 regionEntityCollection.push(entity);
+                console.log(entity);
                 window.viewer.entities.add(entity);
+                window.viewer.flyTo(entity);
               }
             }
           })
@@ -639,8 +610,10 @@ export default {
         regionEntityCollection.forEach(function (entity) {
           data.forEach(function (object) {
             let rectB = _.createRectUseObject(object);
-            if(cesium2turf.polygonIntersect(rectB, entity.polygon)){
-              regionSet.add(object);
+            if(rectB !== null){
+              if(cesium2turf.polygonIntersect(rectB, entity.polygon)){
+                regionSet.add(object);
+              }
             }
           })
         })
@@ -649,7 +622,7 @@ export default {
       })
     },
 
-    async queryByWorld(){
+    async queryByWorld_(){
       const _ = this;
       let worldURL = "./static/data/world.geojson";
       let regionEntityCollection = [];
@@ -657,10 +630,8 @@ export default {
         let worldGeoData = Cesium.GeoJsonDataSource.load(worldURL, {});
         await worldGeoData.then(function (dataSource){
           let entities = dataSource.entities.values;
-          console.log(entities.length);
           for(let i = 0; i < entities.length; i++){
             let entity = entities[i];
-            console.log(entity);
             // let name = entity.properties.Chi_name.getValue()
             // if(_.searchForeign === name){
             //   regionEntityCollection.push(entity);
@@ -669,6 +640,47 @@ export default {
           }
         })
       }
+    },
+
+    queryByWorld(){
+      const _ = this;
+      _.clearAllEntity();
+
+      let object = common.getObjectFromArray(config.classRouteMapper, 'class', 'world_boundary');
+      let url = object.url + '/' + _.searchForeign;
+      network.getAsync(url).then(function (response) {
+        let geoJson = Cesium.GeoJsonDataSource.load(response.data, {
+          stroke: Cesium.Color.fromCssColorString('#00ffe1'),
+          fill: Cesium.Color.WHEAT.withAlpha(0),
+          strokeWidth: 10,
+          clampToGround: true,
+        });
+        geoJson.then((dataSource) => {
+          let entities = dataSource.entities.values;
+          for(let i = 0; i < entities.length; i++){
+            let entity = entities[i];
+            entity.polygon.height = 0;
+          }
+          window.viewer.dataSources.add(dataSource);
+
+          let regionSet = new Set();
+          loader.load({class: _.clazz}, function (data) {
+            entities.forEach(function (entity) {
+              data.forEach(function (object) {
+                let rectB = _.createRectUseObject(object);
+                if(rectB !== null){
+                  if(cesium2turf.polygonIntersect(rectB, entity.polygon)){
+                    regionSet.add(object);
+                  }
+                }
+              })
+            })
+            _.unDownloadedData = [...regionSet];
+            _.showSearchList();
+          })
+
+        })
+      })
     },
 
     queryByDate(data, dates) {
@@ -691,9 +703,9 @@ export default {
       let bottomRightLon = parseFloat(object.bottomRightLongitude);
       let topLeftLat = parseFloat(object.topLeftLatitude);
       if (isNaN(topLeftLon) || isNaN(bottomRightLat) || isNaN(bottomRightLon) || isNaN(topLeftLat)) {
-        return false;
+        return null;
       }
-      return new Cesium.Rectangle(topLeftLon, bottomRightLat, bottomRightLon, topLeftLat);
+      return new Cesium.Rectangle.fromDegrees(topLeftLon, bottomRightLat, bottomRightLon, topLeftLat);
     },
 
     queryByRect(data, rectA){
@@ -702,19 +714,22 @@ export default {
         let rectB = _.createRectUseObject(object);
         // let rectB = [topLeftLon, bottomRightLat, bottomRightLon, topLeftLat];
         // let intersection = entity.checkIntersection(rectA, rectB);
-        let intersection = entity.intersection(rectA, rectB);
-        if (common.defined(intersection)) {
-          return true;
+        if(rectB !== null){
+          let intersection = entity.intersection(rectA, rectB);
+          if (common.defined(intersection)) {
+            return true;
+          }
         }
       })
     },
 
     queryByLonLat(){
       const _ = this;
-      let rectA = new Cesium.Rectangle(parseFloat(_.lonLatForm.leftTopLon),
+      let rectA = new Cesium.Rectangle.fromDegrees(parseFloat(_.lonLatForm.leftTopLon),
           parseFloat(_.lonLatForm.rightBottomLat),
           parseFloat(_.lonLatForm.rightBottomLon),
           parseFloat(_.lonLatForm.leftTopLat));
+      drawer.drawRectangle(rectA);
       loader.load({class: _.clazz}, function (data) {
         _.queryByRect(data, rectA);
         _.showSearchList();
@@ -727,7 +742,7 @@ export default {
       let rectA = entity.createRectByCenter(center,
           parseFloat(_.lonLatCenterForm.width) * 1000,
           parseFloat(_.lonLatCenterForm.height) * 1000);
-      console.log(rectA);
+      drawer.drawRectangle(rectA);
       loader.load({class: _.clazz}, function (data) {
         _.queryByRect(data, rectA);
         _.showSearchList();
@@ -739,7 +754,9 @@ export default {
       _.unDownloadedData = data.filter(function (object) {
         let rectB = _.createRectUseObject(object);
         // console.log(rectB, entity.cartesianToLonLat(position)[0], entity.cartesianToLonLat(position)[1]);
-        return cesium2turf.booleanContains(position, rectB);
+        if(rectB !== null){
+          return cesium2turf.booleanContains(position, rectB);
+        }
       })
     },
 
@@ -749,7 +766,9 @@ export default {
         let rectB = _.createRectUseObject(object);
         // let rectB = [topLeftLon, bottomRightLat, bottomRightLon, topLeftLat];
         // let intersection = entity.checkIntersection(rectA, rectB);
-        return cesium2turf.polygonIntersect(rectB, polygon);
+        if(rectB !== null){
+          return cesium2turf.polygonIntersect(rectB, polygon);
+        }
       })
     },
 
@@ -759,7 +778,9 @@ export default {
         let rectB = _.createRectUseObject(object);
         // let rectB = [topLeftLon, bottomRightLat, bottomRightLon, topLeftLat];
         // let intersection = entity.checkIntersection(rectA, rectB);
-        return cesium2turf.polylineIntersect(rectB, polyline);
+        if(rectB !== null){
+          return cesium2turf.polylineIntersect(rectB, polyline);
+        }
       })
     },
 
@@ -770,8 +791,7 @@ export default {
         if (common.defined(positions)) {
           let lonLat0 = entity.cartesianToLonLat(positions[0]);
           let lonLat1 = entity.cartesianToLonLat(positions[1]);
-          let rectA = new Cesium.Rectangle(lonLat0[0], lonLat1[1], lonLat1[0], lonLat0[1]);
-
+          let rectA = new Cesium.Rectangle.fromDegrees(lonLat0[0], lonLat1[1], lonLat1[0], lonLat0[1]);
           _.queryByRect(data, rectA);
         }
       } else if(_.geometryType === 'Polygon'){
@@ -799,19 +819,57 @@ export default {
       }
     },
 
+    queryBySateAndSensor(data){
+      const _ = this;
+      let nodes = this.$refs.satelliteTree.getCheckedNodes();
+      console.log(nodes);
+      let selectedSates = [];
+      function contains(object){
+        for (let one of selectedSates){
+          if(one['satellite'] === object['satelliteID'] &&
+          one['sensor'] === object['sensorID']){
+            return true;
+          }
+        }
+      }
+      if(common.defined(nodes) && nodes.length > 0){
+        nodes.forEach(function (object){
+          if(common.defined(object['children'])){
+            selectedSates = selectedSates.concat(object['children']);
+          } else {
+            selectedSates.push(object);
+          }
+        })
+      }
+      _.unDownloadedData = data.filter(function (object) {
+        return contains(object);
+      })
+    },
+
     query(){
       const _ = this;
       loader.load({class: _.clazz}, function (data) {
+        if(_.clazz === 'radar_satellite'){
+          data.forEach(function (object) {
+            object['satelliteID'] = object['satellite'];
+          })
+        }
         //filter time
-        _.unDownloadedData = data
-        _.queryByDate(_.unDownloadedData, [_.timeValue1, _.timeValue2])
+        _.unDownloadedData = data;
+        _.queryByDate(_.unDownloadedData, [_.timeValue1, _.timeValue2]);
+
         //filter space
         _.queryBySpace(_.unDownloadedData);
+
+        //filter satellite and sensor
+        _.queryBySateAndSensor(_.unDownloadedData);
         _.showSearchList();
       })
     },
 
     reset() {
+      this.clearAllEntity();
+
       this.clazz = 'optical_satellite';
       this.timeValue1 = '';
       this.timeValue2 = '';
@@ -822,8 +880,7 @@ export default {
 
     drawEntity(geometryType) {
       const _ = this;
-      let callback = function () {
-      };
+      let callback = function () {};
       if (geometryType === 'Rectangle') {
         callback = function (positions) {
           let objId = geometryType + common.uuid().split('-')[0];
@@ -866,6 +923,92 @@ export default {
         };
       }
       entity.draw(geometryType, callback);
+    },
+
+    resetFile(){
+      this.fileList = [];
+    },
+
+    importFile(input) {
+      this.fileList.push(input.file);
+    },
+
+    handleImport(){
+      if(!common.arrayIsEmpty(this.fileList)){
+        this.parseShapefile(this.fileList);
+      }
+    },
+
+    parseShapefile(files){
+      const _ = this;
+      let regionSet = new Set();
+      const shpFile = files.find(f => f.name.endsWith('.shp'));
+      const dbfFile = files.find(f => f.name.endsWith('.dbf'));
+      const promises = [shpFile, dbfFile].map(i => this.readInputFile(i));
+      Promise.all(promises).then(([shp, dbf]) => {
+        return shapeOpen(shp, dbf);
+      }).then(source => source.read()
+          .then(async function log(result) {
+            if(result.done){
+              _.unDownloadedData = [...regionSet];
+              _.showSearchList();
+              return;
+            }
+            let geoJson = Cesium.GeoJsonDataSource.load(result.value, {
+              stroke: Cesium.Color.fromCssColorString('#00ffe1'),
+              fill: Cesium.Color.WHEAT.withAlpha(0),
+              strokeWidth: 10,
+              clampToGround: true,
+            });
+            geoJson.then((dataSource) => {
+              let entities = dataSource.entities.values;
+              for(let i = 0; i < entities.length; i++){
+                let entity = entities[i];
+                entity.polygon.height = 0;
+              }
+              window.viewer.dataSources.add(dataSource);
+
+              loader.load({class: _.clazz}, function (data) {
+                entities.forEach(function (entity) {
+                  data.forEach(function (object) {
+                    let rectB = _.createRectUseObject(object);
+                    if(rectB !== null){
+                      if(cesium2turf.polygonIntersect(rectB, entity.polygon)){
+                        regionSet.add(object);
+                      }
+                    }
+                  })
+                })
+              })
+            })
+            return await source.read().then(log);
+          })).catch(error => console.error(error.stack))
+    },
+
+    readInputFile(file, type = 'ArrayBuffer') {
+      return new Promise(function (resolve, reject) {
+        const reader = new FileReader();
+        switch (type) {
+          case 'ArrayBuffer':
+            reader.readAsArrayBuffer(file);
+            break;
+          case 'Text':
+            reader.readAsText(file);
+            break;
+          case 'BinaryString':
+            reader.readAsBinaryString(file);
+            break;
+          case 'DataURL':
+            reader.readAsDataURL(file);
+            break;
+        }
+        reader.onload = function () {
+          resolve(this.result);
+        }
+        reader.onerror = function () {
+          reject(this);
+        }
+      })
     },
 
     handleCheckAllChange(val) {
@@ -933,7 +1076,7 @@ export default {
       }
 
       if (!common.arrayIsEmpty(_.unDownloadedData)) {
-        drawer.clearEntityByLayerId('drawGeometry');
+        // drawer.clearEntityByLayerId('drawGeometry');
         drawer.clearEntityByLayerId('rectangle');
         drawRectangle(_.unDownloadedData);
       }
@@ -979,7 +1122,7 @@ export default {
       }
 
       if (!common.arrayIsEmpty(_.unDownloadedData)) {
-        drawer.clearEntityByLayerId('drawGeometry');
+        // drawer.clearEntityByLayerId('drawGeometry');
         drawer.clearEntityByLayerId('rectangle');
         _.unDownloadedData.forEach(function (object) {
           _.$set(object, 'changeColor', 'icon-blue');
@@ -993,12 +1136,75 @@ export default {
         this.notDownload = false
       }
     },
+    makeMenus(data, label){
+      let gfs = data.filter(function (object) {
+        return common.defined(object['satelliteID']) &&
+            object['satelliteID'].startsWith(label);
+      })
+      let gfMap = new Map();
+      gfs.forEach(function (object) {
+        if(gfMap.has(object['satelliteID'])) {
+          gfMap.get(object['satelliteID']).push(object);
+        } else {
+          gfMap.set(object['satelliteID'], [object]);
+        }
+      })
+      let menus = [];
+      for(let [key, value] of gfMap) {
+        let menu = {
+          label: key,
+          children: []
+        }
+        let tmSet = new Set();// duplicate removal
+        value.forEach(function (object){
+          tmSet.add(object['sensorID']);
+        })
+        let arr = [...tmSet];
+        let sensors = arr.map(function (label){
+          return { label : label, satellite: key, sensor: label };
+        })
+        menu.children = sensors;
+        menus.push(menu);
+      }
+      return menus;
+    },
+    makeSatelliteData(){
+      const _ = this;
+      _.satelliteData = [];
+      if(this.clazz === 'optical_satellite'){
+        loader.load({ class : _.clazz }, function (data){
+          let gfMenus = _.makeMenus(data, 'GF');
+          let zyMenus = _.makeMenus(data, 'ZY');
+          _.satelliteData = _.satelliteData.concat([{
+            label: '高分系列',
+            children: gfMenus
+          },{
+            label: '资源系列',
+            children: zyMenus
+          }])
+        })
+      } else if(this.clazz === 'radar_satellite'){
+        loader.load({ class : _.clazz }, function (data){
+          data.forEach(function (object) {
+            object['satelliteID'] = object['satellite'];
+          })
+          let gfMenus = _.makeMenus(data, 'GF');
+          _.satelliteData = _.satelliteData.concat([{
+            label: '高分系列',
+            children: gfMenus
+          }])
+        })
+      }
+    },
+
     handleSelect(key, keyPath) {
       if (key === '2-1-1') {
         this.clazz = 'optical_satellite';
+        this.makeSatelliteData();
       }
       if (key === '2-1-2') {
         this.clazz = 'radar_satellite';
+        this.makeSatelliteData();
       }
     },
     notDownloadDetail(row) {

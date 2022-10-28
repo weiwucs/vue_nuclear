@@ -43,6 +43,16 @@ common.contains = function (array, value) {
   return false;
 };
 
+common.unique = function (array, uniId) {
+  if (!this.defined(array) || !Array.isArray(array)) {
+    return false;
+  }
+  const result = new Map();
+  return array.filter(function (object) {
+    return !result.has(object[uniId]) && result.set(object[uniId], 1);
+  })
+};
+
 common.download = function (options) {
   if (!this.defined(options) || !this.defined(options.url)) {
     throw new Error("options.url is required");
